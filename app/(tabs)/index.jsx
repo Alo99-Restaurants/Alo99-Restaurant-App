@@ -1,13 +1,24 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
-import { Link } from 'expo-router';
+import { Link, Stack } from 'expo-router';
+import HomeHeader from '../../components/HomeHeader';
 
 const Page = () => {
   return (
     <View>
-      <Text>Page Home</Text>
-      <Link href={'/(modals)/login'}>Login</Link>
-      <Link href={'/(modals)/booking'}>Booking</Link>
+      <Stack.Screen options={{ header: () => <HomeHeader /> }} />
+      <View className='bg-orange-200 h-24 flex flex-row items-center justify-center'>
+        <Link
+          className='text-red-600 font-roboto-light text-2xl mx-2'
+          href={'/(modals)/login'}>
+          Login
+        </Link>
+        <Link
+          className='text-red-600 font-roboto-light text-2xl mx-2'
+          href={'/(modals)/booking'}>
+          Booking
+        </Link>
+      </View>
     </View>
   );
 };

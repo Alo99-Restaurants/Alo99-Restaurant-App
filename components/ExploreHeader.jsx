@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 
-const Page = () => {
+const ExploreHeader = () => {
   return (
     <View>
-      <Text className='text-red-600 bg-slate-500'>Login Modal</Text>
+      <Text>ExploreHeader</Text>
     </View>
   );
 };
 
-export default Page;
+export default ExploreHeader;

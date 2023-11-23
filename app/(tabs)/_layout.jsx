@@ -13,7 +13,11 @@ const Layout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Color.primary
+        tabBarActiveTintColor: Color.primary,
+        tabBarInactiveTintColor: Color.grey,
+        tabBarStyle: {
+          backgroundColor: Color.colorDark1
+        }
       }}>
       <Tabs.Screen
         name='index'
