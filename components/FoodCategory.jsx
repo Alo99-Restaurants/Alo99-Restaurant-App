@@ -3,7 +3,6 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const FoodCategory = ({ classStyle, label, img }) => {
-  console.log('FoodCategory img', img);
   return (
     <TouchableOpacity onPress={() => console.log('press FoodCategory')}>
       <View

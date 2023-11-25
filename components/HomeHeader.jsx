@@ -41,8 +41,9 @@ const HomeHeader = () => {
           Categories
         </Text>
         <ScrollView horizontal>
-          {iconCategories.map((category) => (
+          {iconCategories.map((category, index) => (
             <FoodCategory
+              key={index}
               classStyle={'mr-2'}
               label={category.title}
               img={category.img}
