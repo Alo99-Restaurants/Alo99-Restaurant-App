@@ -148,7 +148,7 @@ const DetailsMenu = () => {
         <TouchableHighlight
           style={{ borderRadius: 6 }}
           underlayColor={'#fff'}
-          onPress={() => console.log('TouchableHighlight')}>
+          onPress={() => console.log('Book Table')}>
           <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
             <Text className=' font-roboto-black text-md text-center text-white'>
               Book Table
