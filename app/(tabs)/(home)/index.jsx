@@ -1,15 +1,15 @@
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useHeaderHeight } from '@react-navigation/elements';
 import { Stack } from 'expo-router';
 import React, { useEffect } from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import HomeHeader from '../../../components/HomeHeader';
 import RestaurantsList from '../../../components/RestaurantsList';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useDispatch } from 'react-redux';
 import {
-  setNavigationBottomHeight,
-  setHeaderHeight
+  setHeaderHeight,
+  setNavigationBottomHeight
 } from '../../../redux/appSlice';
-import { useHeaderHeight } from '@react-navigation/elements';
 
 const Page = () => {
   const dispatch = useDispatch();
@@ -25,9 +25,11 @@ const Page = () => {
   }, [setHeaderHeight]);
 
   return (
-    <View className='bg-colorDark1'>
+    <View className='bg-colorDark1 flex-[1]'>
       <Stack.Screen options={{ header: () => <HomeHeader /> }} />
-      <RestaurantsList />
+      <View className='flex-[1]'>
+        <RestaurantsList />
+      </View>
     </View>
   );
 };

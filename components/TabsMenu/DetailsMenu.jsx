@@ -5,26 +5,17 @@ import {
   MaterialCommunityIcons
 } from '@expo/vector-icons';
 import React from 'react';
-import { Dimensions, Text, View } from 'react-native';
-import Color from '../../constants/Color';
+import { Text, View } from 'react-native';
 import {
   TouchableHighlight,
   TouchableOpacity
 } from 'react-native-gesture-handler';
-
-const windowHeight = Dimensions.get('window').height;
+import Color from '../../constants/Color';
 
 const DetailsMenu = () => {
-  // console.log('windowHeight', windowHeight);
-
   return (
     <>
-      <View
-        className='px-2 h-full'
-        onLayout={(event) => {
-          const { height } = event.nativeEvent.layout;
-          console.log('height of menu detail', height);
-        }}>
+      <View className='px-2 h-full'>
         <View className='flex flex-row justify-between items-center py-2'>
           <Text className='font-roboto-medium text-lg text-center text-white '>
             Alo99 Restaurant 1

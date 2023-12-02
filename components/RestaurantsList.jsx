@@ -1,15 +1,16 @@
-import { View, Text, Image, FlatList } from 'react-native';
-import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
-import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { useLinkTo } from '@react-navigation/native';
 import { Link } from 'expo-router';
+import React from 'react';
+import { FlatList, Image, Pressable, Text, View } from 'react-native';
+import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 const RestaurantCard = ({ data }) => {
+  const linkTo = useLinkTo();
   return (
-    <Link href={`(tabs)/(home)/restaurants/${data}`}>
-      <TouchableOpacity onPress={() => console.log('press RestaurantsList')}>
+    <Link href={`/(tabs)/(home)/restaurants/${data}`} asChild>
+      <Pressable>
         <Animated.View
           className='my-1 bg-colorDark2 border-none rounded-lg shadow'
           entering={FadeInRight}
@@ -28,7 +29,7 @@ const RestaurantCard = ({ data }) => {
             </Text>
           </View>
         </Animated.View>
-      </TouchableOpacity>
+      </Pressable>
     </Link>
   );
 };

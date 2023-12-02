@@ -1,9 +1,7 @@
-import { View, Text, Image, Dimensions } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { Dimensions, Image, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import TabMenu from '../../../../components/TabsMenu';
-import DetailsMenu from '../../../../components/TabsMenu/DetailsMenu';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -52,7 +50,6 @@ const RestaurantPage = () => {
     widthView: windowWidth,
     heightView: windowWidth / 2
   });
-  console.log('sizeCarousel', sizeCarousel);
   return (
     <View className='bg-colorDark1 h-full flex-[1]'>
       <View
@@ -86,12 +83,7 @@ const RestaurantPage = () => {
           </Text>
         </View>
       </View>
-      <View
-        className='flex-[2]'
-        onLayout={(event) => {
-          const { height } = event.nativeEvent.layout;
-          console.log('height of menu', height);
-        }}>
+      <View className='flex-[2]'>
         <TabMenu menu={menu} />
       </View>
     </View>
