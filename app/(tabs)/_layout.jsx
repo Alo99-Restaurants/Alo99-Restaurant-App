@@ -6,7 +6,6 @@ import {
   Ionicons,
   FontAwesome
 } from '@expo/vector-icons';
-
 import Color from '../../constants/Color';
 
 const Layout = () => {
@@ -16,12 +15,14 @@ const Layout = () => {
         tabBarActiveTintColor: Color.primary,
         tabBarInactiveTintColor: Color.grey,
         tabBarStyle: {
-          backgroundColor: Color.colorDark1
+          backgroundColor: Color.colorDark1,
+          borderTopColor: Color.colorDark1
         }
       }}>
       <Tabs.Screen
-        name='index'
+        name='(home)'
         options={{
+          headerShown: false,
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Entypo name='home' color={color} size={size} />

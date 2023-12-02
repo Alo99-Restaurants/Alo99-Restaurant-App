@@ -40,11 +40,14 @@ const HomeHeader = () => {
         <Text className='font-roboto-regular text-base py-1 text-primary2'>
           Categories
         </Text>
-        <ScrollView horizontal>
+        <ScrollView
+          style={{ marginLeft: -4, marginRight: -4 }}
+          showsHorizontalScrollIndicator={false}
+          horizontal>
           {iconCategories.map((category, index) => (
             <FoodCategory
               key={index}
-              classStyle={'mr-2'}
+              classStyle={'mx-1'}
               label={category.title}
               img={category.img}
             />

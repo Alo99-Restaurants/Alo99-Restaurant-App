@@ -2,6 +2,8 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { NativeWindStyleSheet } from 'nativewind';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
 
 NativeWindStyleSheet.setOutput({
   default: 'native'
@@ -46,7 +48,11 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <Provider store={store}>
+      <RootLayoutNav />
+    </Provider>
+  );
 }
 
 /**
@@ -57,12 +63,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <Stack>
-      <Stack.Screen
-        name='(tabs)'
-        options={{
-          headerShown: false
-        }}
-      />
+      <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
       <Stack.Screen name='(modals)/login' options={{ presentation: 'modal' }} />
     </Stack>
   );
