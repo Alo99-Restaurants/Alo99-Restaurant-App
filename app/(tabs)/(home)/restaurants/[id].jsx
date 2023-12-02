@@ -73,8 +73,8 @@ const RestaurantPage = () => {
           }}
           style={{
             position: 'absolute',
-            top: windowWidth / 1.5 - 30,
-            left: windowWidth / 2,
+            top: sizeCarousel.heightView - 30,
+            left: sizeCarousel.widthView / 2,
             transform: [{ translateX: -widthView / 2 }]
           }}
           className='absolute'>

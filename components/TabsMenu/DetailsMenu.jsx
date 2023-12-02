@@ -20,7 +20,7 @@ const DetailsMenu = () => {
           <Text className='font-roboto-medium text-lg text-center text-white '>
             Alo99 Restaurant 1
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
             <View className='flex flex-row justify-between items-center'>
               <FontAwesome name='star' size={24} color={Color.primary} />
               <Text className='font-roboto-regular text-xs text-center text-white ml-2'>
@@ -42,7 +42,8 @@ const DetailsMenu = () => {
             </View>
           </View>
           <View className='flex-[1]'>
-            <TouchableOpacity>
+            <TouchableOpacity
+              hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
               <View className='flex flex-row justify-between items-center'>
                 <Text className='font-roboto-regular text-xs text-left text-white ml-2'>
                   Show on map
@@ -67,7 +68,8 @@ const DetailsMenu = () => {
             </View>
           </View>
           <View className='flex-[1]'>
-            <TouchableOpacity>
+            <TouchableOpacity
+              hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
               <View className='flex flex-row justify-between items-center'>
                 <Text className='font-roboto-regular text-xs text-left text-white ml-2'>
                   Call up
@@ -92,7 +94,8 @@ const DetailsMenu = () => {
             </View>
           </View>
           <View className='flex-[1]'>
-            <TouchableOpacity>
+            <TouchableOpacity
+              hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
               <View className='flex flex-row justify-between items-center'>
                 <Text className='font-roboto-regular text-xs text-left text-white ml-2'>
                   Show schedule
@@ -113,7 +116,8 @@ const DetailsMenu = () => {
             </View>
           </View>
           <View className='flex-[1]'>
-            <TouchableOpacity>
+            <TouchableOpacity
+              hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
               <View className='flex flex-row justify-between items-center'>
                 <Text className='font-roboto-regular text-xs text-left text-white ml-2'>
                   Open website
