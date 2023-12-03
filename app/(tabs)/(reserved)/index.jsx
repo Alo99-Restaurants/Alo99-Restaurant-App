@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native';
 import React from 'react';
+import ReservedList from '../../../components/ReservedScreen/ReservedList';
 
 const Reserved = () => {
   return (
-    <View>
-      <Text>Reserved</Text>
+    <View className='flex-[1]'>
+      <ReservedList/>
     </View>
   );
 };

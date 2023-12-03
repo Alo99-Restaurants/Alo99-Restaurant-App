@@ -39,12 +39,13 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name='reserved'
+        name='(reserved)'
         options={{
           tabBarLabel: 'Reserved',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='md-fast-food' size={size} color={color} />
-          )
+          ),
+          headerShown: false
         }}
       />
       <Tabs.Screen
