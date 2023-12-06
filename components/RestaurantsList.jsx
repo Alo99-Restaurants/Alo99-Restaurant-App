@@ -1,13 +1,18 @@
 import { Link } from 'expo-router';
-import React from 'react';
+import React, { memo } from 'react';
 import { FlatList, Image, Pressable, Text, View } from 'react-native';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-const RestaurantCard = ({ data }) => {
+const RestaurantCard = memo(({ data }) => {
   return (
-    <Link href={`/(tabs)/(home)/restaurants/${data}`} asChild>
+    <Link
+      href={{
+        pathname: '/(tabs)/(home)/restaurants/[id]',
+        params: { id: data }
+      }}
+      asChild>
       <Pressable>
         <Animated.View
           className='my-1 bg-colorDark2 border-none rounded-lg shadow'
@@ -30,7 +35,7 @@ const RestaurantCard = ({ data }) => {
       </Pressable>
     </Link>
   );
-};
+});
 
 const RestaurantsList = () => {
   return (

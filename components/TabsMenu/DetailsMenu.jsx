@@ -11,14 +11,17 @@ import {
   TouchableOpacity
 } from 'react-native-gesture-handler';
 import Color from '../../constants/Color';
+import { router } from 'expo-router';
+import { generateRandomString } from '../../helper';
 
-const DetailsMenu = () => {
+const DetailsMenu = ({ id }) => {
+  const randomMixedCaseString = generateRandomString(5);
   return (
     <>
       <View className='px-2 h-full'>
         <View className='flex flex-row justify-between items-center py-2'>
           <Text className='font-roboto-medium text-lg text-center text-white '>
-            Alo99 Restaurant 1
+            Alo99 Restaurant {id}
           </Text>
           <TouchableOpacity hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
             <View className='flex flex-row justify-between items-center'>
@@ -148,7 +151,11 @@ const DetailsMenu = () => {
         <TouchableHighlight
           style={{ borderRadius: 6 }}
           underlayColor={'#fff'}
-          onPress={() => console.log('Book Table')}>
+          onPress={() =>
+            router.push(
+              `/(tabs)/reserved?reservationId=${id}&random=${randomMixedCaseString}`
+            )
+          }>
           <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
             <Text className=' font-roboto-black text-md text-center text-white'>
               Book Table

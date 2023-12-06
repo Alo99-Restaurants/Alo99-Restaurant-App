@@ -1,19 +1,20 @@
-import { Stack } from 'expo-router';
+import { View, Text } from 'react-native';
 import React from 'react';
+import { Stack } from 'expo-router';
 import Color from '../../../constants/Color';
 
 const Layout = () => {
   return (
-    <Stack initialRouteName='index'>
-      <Stack.Screen name='index' />
+    <Stack>
       <Stack.Screen
-        name='restaurants/[id]'
+        name='index'
         options={{
-          headerTitle: 'Restaurant',
+          title: 'Reserved',
           headerTintColor: Color.white,
-          headerTransparent: true
+          headerStyle: { backgroundColor: Color.colorDark1 }
         }}
       />
+      <Stack.Screen name='reservation/[id]' />
     </Stack>
   );
 };

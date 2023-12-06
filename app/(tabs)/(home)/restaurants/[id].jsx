@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { Dimensions, Image, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import TabMenu from '../../../../components/TabsMenu';
+import {
+  useFocusEffect,
+  useGlobalSearchParams,
+  useLocalSearchParams
+} from 'expo-router';
+import DetailsMenu from '../../../../components/TabsMenu/DetailsMenu';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -44,12 +50,42 @@ const ImageCarouselItem = ({ index, item }) => {
 };
 
 const RestaurantPage = () => {
+  const { id } = useLocalSearchParams();
+  const globalSearchParams = useGlobalSearchParams();
+
+  const [menuActive, setMenuActive] = useState(0);
   const [indexCarousel, setIndexCarousel] = useState(0);
   const [widthView, setWidthView] = useState(0);
   const [sizeCarousel, setSizeCarousel] = useState({
     widthView: windowWidth,
     heightView: windowWidth / 2
   });
+
+  const handleChangeTabMenu = (newMenuActive) => {
+    setMenuActive(newMenuActive);
+  };
+
+  const renderMenu = () => {
+    switch (menuActive) {
+      case 0:
+        return <DetailsMenu id={id} />;
+      case 1:
+        return (
+          <View>
+            <Text className='h-full text-white'>Menu</Text>
+          </View>
+        );
+      case 2:
+        return (
+          <View>
+            <Text className='h-full text-white'>Review</Text>
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <View className='bg-colorDark1 h-full flex-[1]'>
       <View
@@ -84,7 +120,12 @@ const RestaurantPage = () => {
         </View>
       </View>
       <View className='flex-[2]'>
-        <TabMenu menu={menu} />
+        <TabMenu
+          itemClassName={'w-24'}
+          menu={menu}
+          onChange={handleChangeTabMenu}>
+          {renderMenu()}
+        </TabMenu>
       </View>
     </View>
   );
