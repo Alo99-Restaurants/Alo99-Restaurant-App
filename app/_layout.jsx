@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { NativeWindStyleSheet } from 'nativewind';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
+import { AuthProvider } from '../context/AuthContext';
 
 NativeWindStyleSheet.setOutput({
   default: 'native'
@@ -50,7 +51,9 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <RootLayoutNav />
+      <AuthProvider>
+        <RootLayoutNav />
+      </AuthProvider>
     </Provider>
   );
 }
