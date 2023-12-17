@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
 import { BASE_URL } from '../config';
-import { login as loginService } from '../services/auth.services';
+import { login as loginService, logout as logoutService } from '../services/auth.services';
 
 export const AuthContext = createContext();
 
@@ -36,33 +36,24 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setIsLoading(true);
     const userInfoResponse = await loginService({ email, password });
-    console.log('userInfoResponse', userInfoResponse);
     setUserInfo(userInfoResponse.user);
     AsyncStorage.setItem('userInfo', JSON.stringify(userInfoResponse.user));
     setIsLoading(false);
   };
 
-  const logout = () => {
+  const logout = async () => {
     setIsLoading(true);
 
-    axios
-      .post(
-        `${BASE_URL}/logout`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${userInfo.access_token}` },
-        },
-      )
-      .then(res => {
-        console.log(res.data);
-        AsyncStorage.removeItem('userInfo');
-        setUserInfo({});
-        setIsLoading(false);
-      })
-      .catch(e => {
-        console.log(`logout error ${e}`);
-        setIsLoading(false);
-      });
+    const isLogout = await logoutService();
+    if (isLogout) {
+      console.log('isLogout', isLogout);
+
+      AsyncStorage.removeItem('userInfo');
+      setUserInfo({});
+    } else {
+      console.log('logout failed');
+    }
+    setIsLoading(false);
   };
 
   const isLoggedIn = async () => {

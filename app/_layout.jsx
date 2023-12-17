@@ -1,10 +1,10 @@
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
-import { useEffect } from 'react';
+import { Redirect, Slot, SplashScreen, Stack } from 'expo-router';
+import { useContext, useEffect } from 'react';
 import { NativeWindStyleSheet } from 'nativewind';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
-import { AuthProvider } from '../context/AuthContext';
+import { AuthContext, AuthProvider } from '../context/AuthContext';
 
 NativeWindStyleSheet.setOutput({
   default: 'native'
@@ -52,7 +52,8 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <AuthProvider>
-        <RootLayoutNav />
+        <Slot />
+        {/* <RootLayoutNav /> */}
       </AuthProvider>
     </Provider>
   );
@@ -64,10 +65,16 @@ export default function RootLayout() {
  * @returns
  */
 function RootLayoutNav() {
+  const { isLoading, userInfo, splashLoading, register, login, logout } =
+    useContext(AuthContext);
+  if (!userInfo.token) {
+    // On web, static rendering will stop here as the user is not authenticated
+    // in the headless Node process that the pages are rendered in.
+    return <Redirect href='/sign-in' />;
+  }
   return (
     <Stack>
       <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-      <Stack.Screen name='(modals)/login' options={{ presentation: 'modal' }} />
     </Stack>
   );
 }

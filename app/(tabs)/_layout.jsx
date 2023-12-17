@@ -1,5 +1,5 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
+import React, { useContext } from 'react';
+import { Redirect, Tabs } from 'expo-router';
 import {
   Entypo,
   MaterialIcons,
@@ -7,8 +7,16 @@ import {
   FontAwesome
 } from '@expo/vector-icons';
 import Color from '../../constants/Color';
+import { AuthContext } from '../../context/AuthContext';
 
 const Layout = () => {
+  const { isLoading, userInfo, splashLoading, register, login, logout } =
+    useContext(AuthContext);
+  if (!userInfo.token) {
+    // On web, static rendering will stop here as the user is not authenticated
+    // in the headless Node process that the pages are rendered in.
+    return <Redirect href='/sign-in' />;
+  }
   return (
     <>
       <Tabs

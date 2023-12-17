@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import React from 'react';
 import AuthForm from '../../../components/AuthForm';
 
 const SignIn = () => {
   return (
-    <View className='flex-[1]  bg-colorDark1'>
+    <SafeAreaView className='flex-[1] flex flex-row items-center justify-center bg-colorDark1 pt-[25px]'>
       <AuthForm />
-    </View>
+    </SafeAreaView>
   );
 };
 
