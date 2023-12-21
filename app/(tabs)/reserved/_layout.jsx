@@ -14,7 +14,14 @@ const Layout = () => {
           headerStyle: { backgroundColor: Color.colorDark1 }
         }}
       />
-      <Stack.Screen name='reservation/[id]' />
+      <Stack.Screen
+        name='reservation/[id]'
+        options={{
+          title: 'Reservation',
+          headerTintColor: Color.white,
+          headerStyle: { backgroundColor: Color.colorDark1 }
+        }}
+      />
     </Stack>
   );
 };
