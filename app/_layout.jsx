@@ -64,17 +64,17 @@ export default function RootLayout() {
  * [Stack.Screen - options props](https://reactnavigation.org/docs/native-stack-navigator#options)
  * @returns
  */
-function RootLayoutNav() {
-  const { isLoading, userInfo, splashLoading, register, login, logout } =
-    useContext(AuthContext);
-  if (!userInfo.token) {
-    // On web, static rendering will stop here as the user is not authenticated
-    // in the headless Node process that the pages are rendered in.
-    return <Redirect href='/sign-in' />;
-  }
-  return (
-    <Stack>
-      <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-    </Stack>
-  );
-}
+// function RootLayoutNav() {
+//   const { isLoading, userInfo, splashLoading, register, login, logout } =
+//     useContext(AuthContext);
+//   if (!userInfo.token) {
+//     // On web, static rendering will stop here as the user is not authenticated
+//     // in the headless Node process that the pages are rendered in.
+//     return <Redirect href='/sign-in' />;
+//   }
+//   return (
+//     <Stack>
+//       <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+//     </Stack>
+//   );
+// }

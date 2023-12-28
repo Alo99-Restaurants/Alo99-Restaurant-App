@@ -18,7 +18,6 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (auth.userInfo.token) {
-      console.log('Login token------------------', auth.userInfo.token);
       router.replace('(tabs)/(home)');
     }
   });

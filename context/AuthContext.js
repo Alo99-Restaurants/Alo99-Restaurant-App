@@ -2,7 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
 import { BASE_URL } from '../config';
-import { login as loginService, logout as logoutService } from '../services/auth.services';
+import {
+  login as loginService,
+  logout as logoutService
+} from '../services/auth.services';
 
 export const AuthContext = createContext();
 
@@ -18,26 +21,34 @@ export const AuthProvider = ({ children }) => {
       .post(`${BASE_URL}/register`, {
         name,
         email,
-        password,
+        password
       })
-      .then(res => {
+      .then((res) => {
         let userInfo = res.data;
         setUserInfo(userInfo);
         AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
         setIsLoading(false);
-        console.log(userInfo);
       })
-      .catch(e => {
-        console.log(`register error ${e}`);
+      .catch((e) => {
         setIsLoading(false);
       });
   };
 
-  const login = async (email, password) => {
+  const login = async (username, password) => {
     setIsLoading(true);
-    const userInfoResponse = await loginService({ email, password });
-    setUserInfo(userInfoResponse.user);
-    AsyncStorage.setItem('userInfo', JSON.stringify(userInfoResponse.user));
+    const userInfoResponse = await loginService({ username, password });
+
+    const userInformation = {
+      id: userInfoResponse.data.userInfor.id,
+      name: userInfoResponse.data.userInfor.name,
+      customerId: userInfoResponse.data.userInfor.customerId,
+      role: userInfoResponse.data.userInfor.role,
+      isDeleted: userInfoResponse.data.userInfor.isDeleted,
+      token: userInfoResponse.data.jwtToken
+    };
+
+    setUserInfo(userInformation);
+    await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
     setIsLoading(false);
   };
 
@@ -86,7 +97,7 @@ export const AuthProvider = ({ children }) => {
         splashLoading,
         register,
         login,
-        logout,
+        logout
       }}>
       {children}
     </AuthContext.Provider>
