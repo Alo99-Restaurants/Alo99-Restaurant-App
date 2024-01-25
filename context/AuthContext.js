@@ -36,15 +36,15 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     setIsLoading(true);
-    const userInfoResponse = await loginService({ username, password });
+    const { data: userInfoResponse } = await loginService({ username, password });
 
     const userInformation = {
-      id: userInfoResponse.data.userInfor.id,
-      name: userInfoResponse.data.userInfor.name,
-      customerId: userInfoResponse.data.userInfor.customerId,
-      role: userInfoResponse.data.userInfor.role,
-      isDeleted: userInfoResponse.data.userInfor.isDeleted,
-      token: userInfoResponse.data.jwtToken
+      id: userInfoResponse?.data?.userInfor?.id,
+      name: userInfoResponse?.data?.userInfor?.name,
+      customerId: userInfoResponse?.data?.userInfor?.customerId,
+      role: userInfoResponse?.data?.userInfor?.role,
+      isDeleted: userInfoResponse?.data?.userInfor?.isDeleted,
+      token: userInfoResponse?.data?.jwtToken
     };
 
     setUserInfo(userInformation);

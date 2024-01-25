@@ -9,6 +9,7 @@ import Alo99Logo from '../assets/Alo99.png';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AuthForm = () => {
   const [email, setEmail] = useState('admin');
@@ -17,9 +18,17 @@ const AuthForm = () => {
   const auth = useContext(AuthContext);
 
   useEffect(() => {
-    if (auth.userInfo.token) {
-      router.replace('(tabs)/(home)');
-    }
+    const checkUserInfo = async () => {
+      try {
+        const userInfo = await AsyncStorage.getItem('userInfo');
+        if (auth.userInfo.token && userInfo) {
+          router.replace('(tabs)/(home)');
+        }
+      } catch (error) {
+        console.error('Error while checking user info:', error);
+      }
+    };
+    checkUserInfo();
   });
 
   const handleLogin = () => {

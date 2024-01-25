@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Dimensions, Image, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import TabMenu from '../../../../components/TabsMenu';
@@ -8,37 +8,9 @@ import {
   useLocalSearchParams
 } from 'expo-router';
 import DetailsMenu from '../../../../components/TabsMenu/DetailsMenu';
+import { useSelector } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
-
-const carouselItems = [
-  {
-    title: 'Item 1',
-    text: 'This is text area for Item 1',
-    uri: require('../../../../assets/images/restaurant1.jpeg')
-  },
-  {
-    title: 'Item 2',
-    text: 'This is text area for Item 2',
-    uri: require('../../../../assets/images/restaurant2.jpeg')
-  },
-  {
-    title: 'Item 3',
-    text: 'This is text area for Item 3',
-    uri: require('../../../../assets/images/restaurant3.jpeg')
-  },
-  {
-    title: 'Item 4',
-    text: 'This is text area for Item 4',
-    uri: require('../../../../assets/images/restaurant4.jpeg')
-  },
-  {
-    title: 'Item 5',
-    text: 'This is text area for Item 5',
-    uri: require('../../../../assets/images/restaurant1.jpeg')
-  }
-];
-
 const menu = ['Details', 'Menu', 'Review'];
 
 const ImageCarouselItem = ({ index, item }) => {
@@ -52,6 +24,15 @@ const ImageCarouselItem = ({ index, item }) => {
 const RestaurantPage = () => {
   const { id } = useLocalSearchParams();
   const globalSearchParams = useGlobalSearchParams();
+
+  const { storeBranches } = useSelector((state) => state.storeBranches);
+  const activeStoreBranch = useMemo(
+    () => storeBranches.find((store) => store.id === id),
+    [id]
+  );
+  const carouselItems = activeStoreBranch?.restaurantImages.map((item) => {
+    return { title: item.id, uri: { uri: item.url } };
+  });
 
   const [menuActive, setMenuActive] = useState(0);
   const [indexCarousel, setIndexCarousel] = useState(0);
@@ -68,7 +49,7 @@ const RestaurantPage = () => {
   const renderMenu = () => {
     switch (menuActive) {
       case 0:
-        return <DetailsMenu id={id} />;
+        return <DetailsMenu activeStoreBranch={activeStoreBranch} />;
       case 1:
         return (
           <View>

@@ -28,12 +28,8 @@ export async function login(payload) {
   try {
     const response = await baseAPI.post('/api/User/login', payload);
     return response;
-
-    // const response = await myPromiseFunction();
-    // return response.data;
   } catch (error) {
     console.log('response error', error);
-
     return error;
   }
 }

@@ -12,6 +12,7 @@ import { AuthContext } from '../../context/AuthContext';
 const Layout = () => {
   const { isLoading, userInfo, splashLoading, register, login, logout } =
     useContext(AuthContext);
+
   if (!userInfo.token) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.

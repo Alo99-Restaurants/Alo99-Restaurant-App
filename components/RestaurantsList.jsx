@@ -1,16 +1,21 @@
 import { Link } from 'expo-router';
 import React, { memo } from 'react';
-import { FlatList, Image, Pressable, Text, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  Pressable,
+  RefreshControl,
+  Text,
+  View
+} from 'react-native';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 
-const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-const RestaurantCard = memo(({ data }) => {
+const RestaurantCard = memo(({ restaurant }) => {
   return (
     <Link
       href={{
         pathname: '/(tabs)/(home)/restaurants/[id]',
-        params: { id: data }
+        params: { id: restaurant.id }
       }}
       asChild>
       <Pressable>
@@ -20,15 +25,16 @@ const RestaurantCard = memo(({ data }) => {
           exiting={FadeOutLeft}>
           <Image
             className='rounded-t-lg w-full h-40'
-            source={require('../assets/images/restaurant1.jpeg')}
+            source={{ uri: restaurant?.restaurantImages[0]?.url ?? '' }}
           />
-
           <View className='p-5'>
             <Text className='mb-2 text-base font-bold tracking-tight text-primary2'>
-              Noteworthy technology acquisitions {data}
+              {restaurant.name}
             </Text>
-            <Text className='mb-3 text-xs font-normal text-primary2'>
-              Here are the biggest enterprise technology acquisitions of 2021.
+            <Text
+              className='mb-3 text-xs font-normal text-primary2'
+              numberOfLines={4}>
+              {restaurant.greetings}
             </Text>
           </View>
         </Animated.View>
@@ -37,18 +43,21 @@ const RestaurantCard = memo(({ data }) => {
   );
 });
 
-const RestaurantsList = () => {
+const RestaurantsList = ({ isLoading, storeBranches, fetchCallback }) => {
   return (
     <View className='px-2 bg-colorDark1 rounded-md h-full'>
       <Text className='font-roboto-regular text-base py-1 text-primary2'>
         Restaurants
       </Text>
       <FlatList
-        data={data}
+        data={storeBranches}
         initialNumToRender={4}
-        renderItem={({ item }) => <RestaurantCard data={item} />}
+        renderItem={({ item }) => <RestaurantCard restaurant={item} />}
         keyExtractor={(_, index) => index}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={fetchCallback} />
+        }
       />
     </View>
   );

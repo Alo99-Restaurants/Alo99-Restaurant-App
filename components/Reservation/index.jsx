@@ -30,7 +30,8 @@ const menuStep = [
   }
 ];
 
-const Reservation = () => {
+const Reservation = ({ data }) => {
+  console.log('data', data.restaurantFloors);
   const [bookingStep, setBookingStep] = useState('Day');
 
   const renderMenu = () => {
@@ -42,7 +43,7 @@ const Reservation = () => {
       case 2:
         return null;
       case 'Table':
-        return <TableBooking />;
+        return <TableBooking restaurantFloors={data?.restaurantFloors} />;
       default:
         return null;
     }
