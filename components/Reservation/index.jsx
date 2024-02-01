@@ -31,7 +31,6 @@ const menuStep = [
 ];
 
 const Reservation = ({ data }) => {
-  console.log('data', data.restaurantFloors);
   const [bookingStep, setBookingStep] = useState('Day');
 
   const renderMenu = () => {
