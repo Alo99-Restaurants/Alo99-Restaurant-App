@@ -73,7 +73,9 @@ const TableBooking = ({ restaurantFloors }) => {
           top: newPositionY,
           left: newPositionX
         }}>
-        <Text>{type}</Text>
+        <View className='relative w-full h-full flex justify-center items-center'>
+          <Text className='text-white font-roboto-black text-base'>{type}</Text>
+        </View>
       </View>
     );
   };

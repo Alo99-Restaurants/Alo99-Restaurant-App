@@ -7,7 +7,6 @@ export async function getFloorTablesService(id_floor) {
     return response;
   } catch (error) {
     console.error('Get Floor Tables Service Error', error);
-    throw error.message;
   }
 }
 
@@ -17,6 +16,5 @@ export async function getFloorTableDetailService(id_floor) {
     return response;
   } catch (error) {
     console.error('Get Floor Table Detail Service Error', error);
-    throw error.message;
   }
 }

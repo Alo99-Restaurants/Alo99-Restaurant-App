@@ -1,52 +1,40 @@
+import moment from 'moment';
 import React, { useState, Fragment, useCallback, useMemo, useRef } from 'react';
 import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity
+  StyleSheet
 } from 'react-native';
 import { Calendar, CalendarUtils } from 'react-native-calendars';
 
-const INITIAL_DATE = '2022-07-06';
-
-const CalendarScreen = () => {
-  const [selected, setSelected] = useState(INITIAL_DATE);
-
-  const getDate = (count) => {
-    const date = new Date(INITIAL_DATE);
-    const newDate = date.setDate(date.getDate() + count);
-    return CalendarUtils.getCalendarDateString(newDate);
-  };
+const CalendarScreen = ({day, onChange}) => {
+  const currentDate = moment().format('YYYY-MM-DD');
+  // const [selected, setSelected] = useState(currentDate);
 
   const onDayPress = useCallback((day) => {
-    setSelected(day.dateString);
+    onChange(day.dateString);
   }, []);
 
   const marked = useMemo(() => {
     return {
-      [getDate(-1)]: {
-        dotColor: 'red',
-        marked: true
-      },
-      [selected]: {
+      [currentDate]: { textColor: 'green' },
+      [day]: {
         selected: true,
         disableTouchEvent: true,
-        selectedColor: 'orange',
-        selectedTextColor: 'red'
+        selectedColor: '#F7BE20',
+        selectedTextColor: 'white'
       }
     };
-  }, [selected]);
+  }, [day]);
 
   const renderCalendarWithSelectableDate = () => {
     return (
       <Fragment>
         <Calendar
           enableSwipeMonths
-          current={INITIAL_DATE}
+          current={currentDate}
           style={styles.calendar}
           onDayPress={onDayPress}
           markedDates={marked}
+          minDate={currentDate}
         />
       </Fragment>
     );

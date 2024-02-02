@@ -12,11 +12,14 @@ import {
 } from 'react-native-gesture-handler';
 import Color from '../../constants/Color';
 import { router } from 'expo-router';
-import { generateRandomString } from '../../helper';
+import { formatTime, generateRandomString } from '../../helper';
 import { useSelector } from 'react-redux';
 
 const DetailsMenu = ({ activeStoreBranch }) => {
   const randomMixedCaseString = generateRandomString(5);
+  // Format time for title
+  const formattedOpenHours = formatTime(activeStoreBranch.openHours);
+  const formattedCloseHours = formatTime(activeStoreBranch.closeHours);
   return (
     <>
       <View className='px-2 h-full'>
@@ -93,7 +96,7 @@ const DetailsMenu = ({ activeStoreBranch }) => {
                 color='white'
               />
               <Text className='text-left font-roboto-regular text-sm text-white ml-2 text-ellipsis overflow-hidden'>
-                {`${activeStoreBranch.openHours} - ${activeStoreBranch.closeHours}`}
+                {`${formattedOpenHours} - ${formattedCloseHours}`}
               </Text>
             </View>
           </View>
@@ -137,7 +140,7 @@ const DetailsMenu = ({ activeStoreBranch }) => {
           {activeStoreBranch.greetings}
         </Text>
       </View>
-      <View className='absolute px-2 bottom-2 left-0 w-full'>
+      <View className='absolute px-2 bottom-5 left-0 w-full'>
         <TouchableHighlight
           style={{ borderRadius: 6 }}
           underlayColor={'#fff'}

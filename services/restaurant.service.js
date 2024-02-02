@@ -6,7 +6,6 @@ export async function getRestaurantService() {
     return response;
   } catch (error) {
     console.error('Get Restaurant Service Error', error);
-    throw error.message;
   }
 }
 
@@ -16,7 +15,6 @@ export async function getRestaurantByIdService(id) {
     return response;
   } catch (error) {
     console.error('Get Restaurant Service Error', error);
-    throw error.message;
   }
 }
 
@@ -29,7 +27,6 @@ export async function updateRestaurantService(id, payload) {
     throw new Error(`Invalid ID: ${id}`);
   } catch (error) {
     console.error('Update Restaurant Service Error', error);
-    throw error.message;
   }
 }
 
@@ -42,7 +39,6 @@ export async function deleteRestaurantService(id) {
     throw new Error(`Invalid ID: ${id}`);
   } catch (error) {
     console.error('Delete Restaurant Service Error', error);
-    throw error.message;
   }
 }
 
@@ -55,11 +51,14 @@ export async function getRestaurantImageByIdService(id) {
     return response;
   } catch (error) {
     console.error('Get Restaurant Image Service Error', error);
-    throw error.message;
   }
 }
 
-export async function postRestaurantImageByIdService(id, imgURL, description = '') {
+export async function postRestaurantImageByIdService(
+  id,
+  imgURL,
+  description = ''
+) {
   try {
     if (!imgURL || !id) {
       return false;
@@ -83,7 +82,6 @@ export async function postRestaurantImageByIdService(id, imgURL, description = '
     return response;
   } catch (error) {
     console.error('Post Restaurant Image Service Error', error);
-    throw error.message;
   }
 }
 
@@ -93,7 +91,6 @@ export async function deleteRestaurantImageByIdService(id) {
     return response;
   } catch (error) {
     console.error('Delete Restaurant Image Service Error', error);
-    throw error.message;
   }
 }
 
@@ -106,7 +103,6 @@ export async function getRestaurantFloorsService(id) {
     return response;
   } catch (error) {
     console.error('Get Restaurant Floors Service Error', error);
-    throw error.message;
   }
 }
 
@@ -116,42 +112,32 @@ export async function postRestaurantFloorsService(payload) {
     return response;
   } catch (error) {
     console.error('Post Restaurant Floors Service Error', error);
-    throw error.message;
   }
 }
 
 export async function getRestaurantFloorByIdService(id) {
   try {
-    const response = await baseAPI.get(
-      `/api/RestaurantFloor/${id}`
-    );
+    const response = await baseAPI.get(`/api/RestaurantFloor/${id}`);
     return response;
   } catch (error) {
     console.error('Get Restaurant Floor Detail Service Error', error);
-    throw error.message;
   }
 }
 
 export async function updateRestaurantFloorByIdService(id, payload) {
   try {
-    const response = await baseAPI.put(
-      `/api/RestaurantFloor/${id}`, payload
-    );
+    const response = await baseAPI.put(`/api/RestaurantFloor/${id}`, payload);
     return response;
   } catch (error) {
     console.error('Update Restaurant Floor Detail Service Error', error);
-    throw error.message;
   }
 }
 
 export async function deleteRestaurantFloorByIdService(id) {
   try {
-    const response = await baseAPI.delete(
-      `/api/RestaurantFloor/${id}`
-    );
+    const response = await baseAPI.delete(`/api/RestaurantFloor/${id}`);
     return response;
   } catch (error) {
     console.error('Delete Restaurant Floor Detail Service Error', error);
-    throw error.message;
   }
 }
