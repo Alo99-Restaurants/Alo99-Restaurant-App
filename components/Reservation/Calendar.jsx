@@ -7,7 +7,6 @@ import { Calendar, CalendarUtils } from 'react-native-calendars';
 
 const CalendarScreen = ({day, onChange}) => {
   const currentDate = moment().format('YYYY-MM-DD');
-  // const [selected, setSelected] = useState(currentDate);
 
   const onDayPress = useCallback((day) => {
     onChange(day.dateString);

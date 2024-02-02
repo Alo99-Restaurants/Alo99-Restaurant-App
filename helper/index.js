@@ -32,20 +32,16 @@ export const generateTimeSlots = (openHours, closeHours, interval = 30) => {
   closeTime.setHours(closeHour, closeMinute, 0);
 
   // Generate time slots
-  while (currentTime < closeTime) {
+  while (currentTime.getHours() < closeTime.getHours()) {
     const hours = currentTime.getHours();
     const minutes = currentTime.getMinutes();
+
     times.push(
       `${hours.toString().padStart(2, '0')}:${minutes
         .toString()
         .padStart(2, '0')}`
     );
     currentTime.setMinutes(currentTime.getMinutes() + interval); // Increment by interval minutes
-
-    // Check if the next time slot equals the close time, break the loop to ensure closeHours is not included
-    if (currentTime >= closeTime) {
-      break;
-    }
   }
 
   return times;

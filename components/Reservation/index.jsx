@@ -55,27 +55,37 @@ const Reservation = ({ data }) => {
     });
   }, []);
 
-  const renderMenu = () => (
-    <>
-      <View style={{ display: currentStep === 0 ? 'flex' : 'none' }}>
-        <CalendarScreen day={day} onChange={setDay} />
-      </View>
-      <View style={{ display: currentStep === 1 ? 'flex' : 'none' }}>
-        <TimeSelect
-          time={time}
-          onChange={setTime}
-          openHours={data.openHours}
-          closeHours={data.closeHours}
-        />
-      </View>
-      <View style={{ display: currentStep === 2 ? 'flex' : 'none' }}>
-        {/* Add your component for the third step */}
-      </View>
-      <View style={{ display: currentStep === 3 ? 'flex' : 'none' }}>
-        <TableBooking restaurantFloors={data?.restaurantFloors} />
-      </View>
-    </>
-  );
+  const renderMenu = useMemo(() => {
+    console.log('render');
+    return (
+      <>
+        <View style={{ display: currentStep === 0 ? 'flex' : 'none' }}>
+          <CalendarScreen day={day} onChange={setDay} />
+        </View>
+        <View style={{ display: currentStep === 1 ? 'flex' : 'none' }}>
+          <TimeSelect
+            time={time}
+            onChange={setTime}
+            openHours={data.openHours}
+            closeHours={data.closeHours}
+          />
+        </View>
+        <View style={{ display: currentStep === 2 ? 'flex' : 'none' }}>
+          {/* Add your component for the third step */}
+        </View>
+        <View style={{ display: currentStep === 3 ? 'flex' : 'none' }}>
+          <TableBooking restaurantFloors={data?.restaurantFloors} />
+        </View>
+      </>
+    );
+  }, [
+    currentStep,
+    day,
+    time,
+    data.openHours,
+    data.closeHours,
+    data.restaurantFloors
+  ]);
 
   const handleNext = () => {
     if (currentStep < menuStep.length - 1) {
@@ -115,6 +125,7 @@ const Reservation = ({ data }) => {
     () => currentStep === menuStep.length - 1,
     [currentStep, menuStep.length]
   );
+  console.log('------------------');
 
   return (
     <View className='flex-[1]'>
@@ -138,7 +149,7 @@ const Reservation = ({ data }) => {
         ))}
       </View>
       <View className='flex-[8.5] reservation-detail px-2 mt-2'>
-        {renderMenu()}
+        {renderMenu}
       </View>
       <View className='absolute px-2 bottom-5 left-0 w-full'>
         {isLastStep ? (
