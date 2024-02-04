@@ -31,7 +31,7 @@ export const tableLayoutSlice = createSlice({
     clearState: () => {
       return initialState;
     },
-    setStoreBranches: (state, action) => {
+    setLayout: (state, action) => {
       state.layout = action.payload;
     }
   },

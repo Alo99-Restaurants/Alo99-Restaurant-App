@@ -56,7 +56,6 @@ const Layout = () => {
               <Ionicons name='md-fast-food' size={size} color={color} />
             ),
             headerShown: false
-            // href: '/(tabs)/reserved'
           }}
         />
         <Tabs.Screen
@@ -65,7 +64,8 @@ const Layout = () => {
             tabBarLabel: 'Profile',
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name='user' size={size} color={color} />
-            )
+            ),
+            headerShown: false
           }}
         />
       </Tabs>

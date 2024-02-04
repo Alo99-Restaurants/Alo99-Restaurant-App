@@ -25,7 +25,7 @@ const AuthForm = () => {
           router.replace('(tabs)/(home)');
         }
       } catch (error) {
-        console.error('Error while checking user info:', error);
+        console.log('Error while checking user info:', error);
       }
     };
     checkUserInfo();

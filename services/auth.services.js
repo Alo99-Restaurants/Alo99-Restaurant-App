@@ -5,7 +5,7 @@ export async function login(payload) {
     const response = await baseAPI.post('/api/User/login', payload);
     return response;
   } catch (error) {
-    console.log('response error', error);
+    console.log('Login error', error);
     return error;
   }
 }

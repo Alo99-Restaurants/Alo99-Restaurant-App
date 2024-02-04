@@ -5,7 +5,7 @@ export async function getRestaurantService() {
     const response = await baseAPI.get('/api/Restaurant');
     return response;
   } catch (error) {
-    console.error('Get Restaurant Service Error', error);
+    console.log('Get Restaurant Service Error', error);
   }
 }
 
@@ -14,7 +14,7 @@ export async function getRestaurantByIdService(id) {
     const response = await baseAPI.get(`/api/Restaurant/${id}`);
     return response;
   } catch (error) {
-    console.error('Get Restaurant Service Error', error);
+    console.log('Get Restaurant By Id Service Error', error);
   }
 }
 
@@ -26,7 +26,7 @@ export async function updateRestaurantService(id, payload) {
     }
     throw new Error(`Invalid ID: ${id}`);
   } catch (error) {
-    console.error('Update Restaurant Service Error', error);
+    console.log('Update Restaurant Service Error', error);
   }
 }
 
@@ -38,7 +38,7 @@ export async function deleteRestaurantService(id) {
     }
     throw new Error(`Invalid ID: ${id}`);
   } catch (error) {
-    console.error('Delete Restaurant Service Error', error);
+    console.log('Delete Restaurant Service Error', error);
   }
 }
 
@@ -50,7 +50,7 @@ export async function getRestaurantImageByIdService(id) {
     );
     return response;
   } catch (error) {
-    console.error('Get Restaurant Image Service Error', error);
+    console.log('Get Restaurant Image Service Error', error);
   }
 }
 
@@ -81,7 +81,7 @@ export async function postRestaurantImageByIdService(
     const response = await baseAPI.post(`/api/RestaurantImage`, payload);
     return response;
   } catch (error) {
-    console.error('Post Restaurant Image Service Error', error);
+    console.log('Post Restaurant Image Service Error', error);
   }
 }
 
@@ -90,7 +90,7 @@ export async function deleteRestaurantImageByIdService(id) {
     const response = await baseAPI.delete(`/api/RestaurantImage/${id}`);
     return response;
   } catch (error) {
-    console.error('Delete Restaurant Image Service Error', error);
+    console.log('Delete Restaurant Image Service Error', error);
   }
 }
 
@@ -102,7 +102,7 @@ export async function getRestaurantFloorsService(id) {
     );
     return response;
   } catch (error) {
-    console.error('Get Restaurant Floors Service Error', error);
+    console.log('Get Restaurant Floors Service Error', error);
   }
 }
 
@@ -111,7 +111,7 @@ export async function postRestaurantFloorsService(payload) {
     const response = await baseAPI.post('/api/RestaurantFloor', payload);
     return response;
   } catch (error) {
-    console.error('Post Restaurant Floors Service Error', error);
+    console.log('Post Restaurant Floors Service Error', error);
   }
 }
 
@@ -120,7 +120,7 @@ export async function getRestaurantFloorByIdService(id) {
     const response = await baseAPI.get(`/api/RestaurantFloor/${id}`);
     return response;
   } catch (error) {
-    console.error('Get Restaurant Floor Detail Service Error', error);
+    console.log('Get Restaurant Floor Detail Service Error', error);
   }
 }
 
@@ -129,7 +129,7 @@ export async function updateRestaurantFloorByIdService(id, payload) {
     const response = await baseAPI.put(`/api/RestaurantFloor/${id}`, payload);
     return response;
   } catch (error) {
-    console.error('Update Restaurant Floor Detail Service Error', error);
+    console.log('Update Restaurant Floor Detail Service Error', error);
   }
 }
 
@@ -138,6 +138,6 @@ export async function deleteRestaurantFloorByIdService(id) {
     const response = await baseAPI.delete(`/api/RestaurantFloor/${id}`);
     return response;
   } catch (error) {
-    console.error('Delete Restaurant Floor Detail Service Error', error);
+    console.log('Delete Restaurant Floor Detail Service Error', error);
   }
 }

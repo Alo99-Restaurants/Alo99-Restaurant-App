@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import {
   AntDesign,
   Fontisto,
@@ -12,6 +12,7 @@ import TableBooking from './TableBooking';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import moment from 'moment';
 import TimeSelect from './TimeSelect';
+import Guests from './Guests';
 
 const menuStep = [
   {
@@ -37,11 +38,14 @@ const Reservation = ({ data }) => {
   const [historyStep, setHistoryStep] = useState([0]);
   const [dataBooking, setDataBooking] = useState([]);
 
-  console.log('dataBooking', dataBooking);
+  useEffect(() => {
+    console.log('dataBooking', dataBooking);
+  }, [dataBooking]);
 
   // State of each step
   const [day, setDay] = useState(moment().format('YYYY-MM-DD'));
   const [time, setTime] = useState();
+  const [guests, setGuests] = useState({ adults: 0, children: 0 });
 
   const updateDataBooking = useCallback((step, data) => {
     setDataBooking((prevDataBooking) => {
@@ -56,32 +60,41 @@ const Reservation = ({ data }) => {
   }, []);
 
   const renderMenu = useMemo(() => {
-    console.log('render');
-    return (
-      <>
-        <View style={{ display: currentStep === 0 ? 'flex' : 'none' }}>
-          <CalendarScreen day={day} onChange={setDay} />
-        </View>
-        <View style={{ display: currentStep === 1 ? 'flex' : 'none' }}>
+    let component;
+    switch (currentStep) {
+      case 0:
+        component = <CalendarScreen day={day} onChange={setDay} />;
+        break;
+      case 1:
+        component = (
           <TimeSelect
             time={time}
             onChange={setTime}
             openHours={data.openHours}
             closeHours={data.closeHours}
           />
-        </View>
-        <View style={{ display: currentStep === 2 ? 'flex' : 'none' }}>
-          {/* Add your component for the third step */}
-        </View>
-        <View style={{ display: currentStep === 3 ? 'flex' : 'none' }}>
-          <TableBooking restaurantFloors={data?.restaurantFloors} />
-        </View>
+        );
+        break;
+      case 2:
+        // Add your component for the third step
+        component = <Guests guests={guests} onChange={setGuests} />; // Placeholder for the third step component
+        break;
+      case 3:
+        component = <TableBooking restaurantFloors={data?.restaurantFloors} />;
+        break;
+      default:
+        component = null;
+    }
+    return (
+      <>
+        <View>{component}</View>
       </>
     );
   }, [
     currentStep,
     day,
     time,
+    guests,
     data.openHours,
     data.closeHours,
     data.restaurantFloors
@@ -100,6 +113,7 @@ const Reservation = ({ data }) => {
         // Save data of the current step
         if (prevCurrentStep == 0) updateDataBooking(prevCurrentStep, day);
         if (prevCurrentStep == 1) updateDataBooking(prevCurrentStep, time);
+        if (prevCurrentStep == 2) updateDataBooking(prevCurrentStep, guests);
 
         return newStep;
       });
@@ -115,11 +129,16 @@ const Reservation = ({ data }) => {
 
   useEffect(() => {
     console.log('time');
-
     if (time) {
       updateDataBooking(currentStep, time);
     }
   }, [time]);
+
+  useEffect(() => {
+    if (guests.adults + guests.children !== 0) {
+      updateDataBooking(currentStep, guests);
+    }
+  }, [guests]);
 
   const isLastStep = useMemo(
     () => currentStep === menuStep.length - 1,
@@ -148,9 +167,9 @@ const Reservation = ({ data }) => {
           />
         ))}
       </View>
-      <View className='flex-[8.5] reservation-detail px-2 mt-2'>
+      <ScrollView className='flex-[8.5] mb-16 reservation-detail px-2 mt-2'>
         {renderMenu}
-      </View>
+      </ScrollView>
       <View className='absolute px-2 bottom-5 left-0 w-full'>
         {isLastStep ? (
           <TouchableHighlight

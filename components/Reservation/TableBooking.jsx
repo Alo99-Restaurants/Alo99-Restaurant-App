@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Color from '../../constants/Color';
 import data from './mockdata/data';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFloorTables } from '../../redux/tableLayoutSlice';
+import { clearState, fetchFloorTables } from '../../redux/tableLayoutSlice';
 
 const windowWidth = Dimensions.get('window').width - 16;
 const scale = windowWidth / data.width;
@@ -15,6 +15,7 @@ const TableBooking = ({ restaurantFloors }) => {
   const [menuActive, setMenuActive] = useState(
     restaurantFloors[restaurantFloors.length - 1].id
   );
+
   const menu = restaurantFloors.map((floor) => {
     return {
       value: floor.id,
@@ -41,6 +42,13 @@ const TableBooking = ({ restaurantFloors }) => {
       tableName: table.tableName
     };
   });
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearState());
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(fetchFloorTables(menuActive));

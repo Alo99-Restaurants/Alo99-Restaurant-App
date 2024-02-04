@@ -146,7 +146,7 @@ const DetailsMenu = ({ activeStoreBranch }) => {
           underlayColor={'#fff'}
           onPress={() =>
             router.push(
-              `/(tabs)/reserved?reservationId=${activeStoreBranch.id}&random=${randomMixedCaseString}`
+              `/(tabs)/reserved?storeId=${activeStoreBranch.id}&random=${randomMixedCaseString}`
             )
           }>
           <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
