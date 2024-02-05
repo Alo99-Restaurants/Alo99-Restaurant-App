@@ -1,7 +1,10 @@
 import { View, Text, SafeAreaView } from 'react-native';
 import React, { useContext } from 'react';
-import { Link, Stack } from 'expo-router';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { router } from 'expo-router';
+import {
+  TouchableHighlight,
+  TouchableOpacity
+} from 'react-native-gesture-handler';
 import { AuthContext } from '../../../context/AuthContext';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
@@ -20,10 +23,13 @@ const Profile = () => {
             <Text className='text-white text-2xl'>
               {userInfo.name ? userInfo.name[0] : 'U'}
             </Text>
-            <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className='rounded-2xl absolute bottom-0 -right-3 bg-opacity-50'>
-              <Link className='text-primary1 py-1 px-2 text-xs' href='/profile/edit'>
-                Edit
-              </Link>
+            <View className='absolute bottom-0 -right-3'>
+              <TouchableHighlight
+                style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                className='w-full h-full rounded-2xl'
+                onPress={() => router.push('/profile/edit')}>
+                <Text className='text-primary1 py-1 px-2 text-xs'>Edit</Text>
+              </TouchableHighlight>
             </View>
           </View>
         </View>
@@ -52,8 +58,6 @@ const Profile = () => {
         </View>
         <View className='w-full'>
           <TouchableHighlight
-            style={{ borderRadius: 6 }}
-            underlayColor={'#fff'}
             onPress={handleLogout}>
             <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center mx-2'>
               <Text className=' font-roboto-black text-md text-center text-white'>
@@ -68,3 +72,4 @@ const Profile = () => {
 };
 
 export default Profile;
+

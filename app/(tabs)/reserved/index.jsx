@@ -42,7 +42,7 @@ const Reserved = () => {
 
   return (
     <View className='flex-[1] bg-colorDark1'>
-      <View className='h-10 flex justify-center rounded-xl mx-2 px-2 border border-primary1 text-white'>
+      <View className='h-10 flex justify-center rounded-md mx-2 px-2 border border-primary1 text-white'>
         <RNPickerSelect
           style={{
             inputIOS: { color: 'white' },
