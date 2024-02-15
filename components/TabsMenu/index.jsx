@@ -19,7 +19,7 @@ const TabMenu = ({ menu, onChange, className, itemClassName, children }) => {
               className={`me-2 border-b-4 ${
                 menuActive === index ? 'border-primary1' : 'border-colorDark1'
               } ${itemClassName}`}>
-              <Text className='inline-block px-6 py-3 font-roboto-bold text-center text-white rounded-t-lg active'>
+              <Text className='inline-block px-4 py-3 font-roboto-bold text-center text-white rounded-t-lg active'>
                 {menuItem}
               </Text>
             </View>

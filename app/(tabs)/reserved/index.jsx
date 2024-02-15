@@ -50,7 +50,7 @@ const Reserved = () => {
           }}
           placeholder={{
             label: 'Please choose a restaurant...',
-            value: null
+            value: ''
           }}
           onValueChange={(value) => setActiveStoreBranchId(value)}
           items={restaurantOptions}

@@ -9,9 +9,10 @@ import {
 } from 'expo-router';
 import DetailsMenu from '../../../../components/TabsMenu/DetailsMenu';
 import { useSelector } from 'react-redux';
+import Menu from '../../../../components/Menu';
 
 const windowWidth = Dimensions.get('window').width;
-const menu = ['Details', 'Menu', 'Review'];
+const menu = ['Details', 'Menu', 'Reviews'];
 
 const ImageCarouselItem = ({ index, item }) => {
   return (
@@ -51,11 +52,7 @@ const RestaurantPage = () => {
       case 0:
         return <DetailsMenu activeStoreBranch={activeStoreBranch} />;
       case 1:
-        return (
-          <View>
-            <Text className='h-full text-white'>Menu</Text>
-          </View>
-        );
+        return <Menu activeStoreBranch={activeStoreBranch} />;
       case 2:
         return (
           <View>
@@ -102,7 +99,7 @@ const RestaurantPage = () => {
       </View>
       <View className='flex-[2]'>
         <TabMenu
-          itemClassName={'w-24'}
+          itemClassName={'w-28'}
           menu={menu}
           onChange={handleChangeTabMenu}>
           {renderMenu()}
