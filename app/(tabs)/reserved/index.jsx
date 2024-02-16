@@ -2,7 +2,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import Modal from '../../../components/Modal';
 import ReservedList from '../../../components/ReservedScreen/ReservedList';
 import TabMenu from '../../../components/TabsMenu';
 import { useDispatch, useSelector } from 'react-redux';

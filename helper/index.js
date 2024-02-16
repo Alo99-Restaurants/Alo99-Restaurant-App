@@ -54,3 +54,11 @@ export const formatTime = (time) =>
     .split(':')
     .map((unit) => unit.padStart(2, '0'))
     .join(':');
+
+export const convertPrice = (price) => {
+  if (!price) return '0 vnd'
+  return price
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    .concat(' vnd');
+};
