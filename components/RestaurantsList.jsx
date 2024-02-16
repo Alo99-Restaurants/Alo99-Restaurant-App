@@ -56,7 +56,12 @@ const RestaurantsList = ({ isLoading, storeBranches, fetchCallback }) => {
         keyExtractor={(_, index) => index}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={fetchCallback} />
+          <RefreshControl
+            color='white'
+            tintColor={'white'}
+            refreshing={isLoading}
+            onRefresh={fetchCallback}
+          />
         }
       />
     </View>

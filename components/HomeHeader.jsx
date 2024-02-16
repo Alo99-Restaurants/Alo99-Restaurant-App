@@ -1,12 +1,28 @@
 import { View, Text, SafeAreaView } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import Color from '../constants/Color';
 import FoodCategory from './FoodCategory';
 import { iconCategories } from '../assets/data/iconCategories';
+import { getMenuCategory } from '../services/category.service';
 
 const HomeHeader = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getMenuCategory();
+        const categories = response?.data?.items;
+        if(categories){
+          setCategories(categories);
+        }
+      } catch (error) {}
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <SafeAreaView className='pt-[25px] bg-colorDark1'>
       <View className='header px-2'>
@@ -44,12 +60,19 @@ const HomeHeader = () => {
           style={{ marginLeft: -4, marginRight: -4 }}
           showsHorizontalScrollIndicator={false}
           horizontal>
-          {iconCategories.map((category, index) => (
+          <FoodCategory
+            key={0}
+            classStyle={'mx-1'}
+            label={iconCategories[0].title}
+            img={iconCategories[0].img}
+          />
+          {categories.map((category, index) => (
             <FoodCategory
               key={index}
               classStyle={'mx-1'}
-              label={category.title}
-              img={category.img}
+              id={category.id}
+              label={category.name}
+              uri={category.iconUrl}
             />
           ))}
         </ScrollView>

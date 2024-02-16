@@ -48,20 +48,27 @@ const RestaurantPage = () => {
   };
 
   const renderMenu = () => {
-    switch (menuActive) {
-      case 0:
-        return <DetailsMenu activeStoreBranch={activeStoreBranch} />;
-      case 1:
-        return <Menu activeStoreBranch={activeStoreBranch} />;
-      case 2:
-        return (
+    return (
+      <View className='flex-[1]'>
+        <View
+          className='flex-[1]'
+          style={{ display: menuActive === 0 ? 'flex' : 'none' }}>
+          <DetailsMenu activeStoreBranch={activeStoreBranch} />
+        </View>
+        <View
+          className='flex-[1]'
+          style={{ display: menuActive === 1 ? 'flex' : 'none' }}>
+          <Menu activeStoreBranch={activeStoreBranch} />
+        </View>
+        <View
+          className='flex-[1]'
+          style={{ display: menuActive === 2 ? 'flex' : 'none' }}>
           <View>
             <Text className='h-full text-white'>Review</Text>
           </View>
-        );
-      default:
-        return null;
-    }
+        </View>
+      </View>
+    );
   };
 
   return (

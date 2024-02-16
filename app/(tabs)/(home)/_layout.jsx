@@ -14,6 +14,14 @@ const Layout = () => {
           headerTransparent: true
         }}
       />
+      <Stack.Screen
+        name='menu/[id]'
+        options={{
+          headerTitle: 'Menu',
+          headerTintColor: Color.white,
+          headerTransparent: true
+        }}
+      />
     </Stack>
   );
 };

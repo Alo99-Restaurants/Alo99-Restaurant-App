@@ -19,9 +19,9 @@ const ReservedItem = () => {
           <TouchableHighlight
             style={{ borderRadius: 6 }}
             underlayColor={'#fff'}>
-            <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
+            <View className=' border border-primary1 h-10 rounded-md flex justify-center items-center'>
               <Text className='font-roboto-black text-md text-center text-white'>
-                Edit
+                Edit / Order
               </Text>
             </View>
           </TouchableHighlight>
@@ -54,7 +54,7 @@ const ReservedItem = () => {
           </Text>
         </View>
         <TouchableHighlight style={{ borderRadius: 6 }} underlayColor={'#fff'}>
-          <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
+          <View className='border border-primary1 h-10 rounded-md flex justify-center items-center'>
             <Text className='font-roboto-black text-md text-center text-white'>
               Cancel
             </Text>
