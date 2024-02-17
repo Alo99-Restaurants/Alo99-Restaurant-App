@@ -4,7 +4,7 @@
     "slug": "Alo99-Restaurant",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "alo99",
+    "scheme": "Alo99Restaurant",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {

@@ -5,9 +5,9 @@ import {
   TouchableHighlight,
   TouchableOpacity
 } from 'react-native-gesture-handler';
-import Alo99Logo from '../assets/Alo99.png';
+import Alo99Logo from '../../assets/Alo99.png';
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
