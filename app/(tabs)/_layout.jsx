@@ -40,12 +40,13 @@ const Layout = () => {
           }}
         />
         <Tabs.Screen
-          name='explore'
+          name='map'
           options={{
-            tabBarLabel: 'Explore',
+            tabBarLabel: 'Map',
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name='explore' color={color} size={size} />
-            )
+            ),
+            headerShown: false
           }}
         />
         <Tabs.Screen

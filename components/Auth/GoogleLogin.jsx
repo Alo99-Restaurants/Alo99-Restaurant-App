@@ -10,31 +10,35 @@ const GoogleLogin = () => {
     const [token, setToken] = useState('');
     const [userInfo, setUserInfo] = useState(null);
 
+    // selectAccount: true,
+    // shouldAutoExchangeCode: false
+
     const [request, response, promptAsync] = Google.useAuthRequest({
       androidClientId: '',
       iosClientId:
         '668304086077-g0fbj59svjg0gi2ldi6p26207i20tg7n.apps.googleusercontent.com',
       webClientId:
-        '668304086077-843hetfqhf9u60fcr5ddlk06uss37qvb.apps.googleusercontent.com',
-      selectAccount: true,
-      shouldAutoExchangeCode: false
+        '668304086077-843hetfqhf9u60fcr5ddlk06uss37qvb.apps.googleusercontent.com'
     });
 
     useEffect(() => {
       handleEffect();
     }, [response, token]);
-
+    // console.log('token', response?.authentication?.accessToken);
     async function handleEffect() {
       const user = await getLocalUser();
-      console.log('user', user);
       if (!user) {
         if (response?.type === 'success') {
-          // setToken(response.authentication.accessToken);
+          console.log(
+            'Get response form GG Auth success',
+            response.authentication
+          );
+          setToken(response.authentication.accessToken);
           getUserInfo(response.authentication.accessToken);
         }
       } else {
         setUserInfo(user);
-        console.log('loaded locally');
+        console.log('Loaded user form locally:', user);
       }
     }
 
@@ -55,6 +59,7 @@ const GoogleLogin = () => {
         );
 
         const user = await response.json();
+        console.log('User: ', user);
         await AsyncStorage.setItem('@user', JSON.stringify(user));
         setUserInfo(user);
       } catch (error) {
