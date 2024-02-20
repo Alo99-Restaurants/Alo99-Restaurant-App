@@ -1,15 +1,18 @@
 import { View, Text, SafeAreaView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import Color from '../constants/Color';
 import FoodCategory from './FoodCategory';
 import { iconCategories } from '../assets/data/iconCategories';
 import { getMenuCategory } from '../services/category.service';
+import { AuthContext } from '../context/AuthContext';
+
 
 const HomeHeader = () => {
+  const auth = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
-
+  console.log('auth', auth.userInfo.name);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -27,7 +30,7 @@ const HomeHeader = () => {
     <SafeAreaView className='pt-[25px] bg-colorDark1'>
       <View className='header px-2'>
         <Text className='font-roboto-bold text-xl py-1 text-primary2'>
-          Hello, Ky Phan!
+          Hello, {auth.userInfo.name}!
         </Text>
         <Text className='font-roboto-regular text-base py-1 text-primary2'>
           Let's reserved a table for you

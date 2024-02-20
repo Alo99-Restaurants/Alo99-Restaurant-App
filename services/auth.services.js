@@ -10,6 +10,17 @@ export async function login(payload) {
   }
 }
 
+export async function loginWithGG(googleAccessToken) {
+  try {
+    const response = await baseAPI.get(
+      `/api/User/google-auth-token?accessToken=${googleAccessToken}`);
+    return response;
+  } catch (error) {
+    console.log('Login error', error);
+    return error;
+  }
+}
+
 export async function logout(payload) {
   try {
     return new Promise((resolve, reject) => {

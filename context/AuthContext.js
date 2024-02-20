@@ -52,6 +52,25 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   };
 
+  const loginWithGG = async (userInfoResponse) => {
+    setIsLoading(true);
+
+    const userInformation = {
+      id: userInfoResponse?.userInfor?.id,
+      id: userInfoResponse?.userInfor?.id,
+      name: userInfoResponse?.userInfor?.name,
+      customerId: userInfoResponse?.userInfor?.customerId,
+      role: userInfoResponse?.userInfor?.role,
+      isDeleted: userInfoResponse?.userInfor?.isDeleted,
+      token: userInfoResponse?.jwtToken
+    };
+    console.log('loginWithGG', userInformation);
+
+    setUserInfo(userInformation);
+    await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
+    setIsLoading(false);
+  };
+
   const logout = async () => {
     setIsLoading(true);
 
@@ -97,6 +116,7 @@ export const AuthProvider = ({ children }) => {
         splashLoading,
         register,
         login,
+        loginWithGG,
         logout
       }}>
       {children}

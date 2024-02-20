@@ -1,75 +1,48 @@
-import { View, Text, Button, Pressable, Image } from 'react-native'
-import React, { useEffect, useState } from 'react';
+import { View, Text, Button, Pressable, Image } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { loginWithGG } from '../../services/auth.services';
+import { AuthContext } from '../../context/AuthContext';
 
 WebBrowser.maybeCompleteAuthSession();
 
 const GoogleLogin = () => {
-    const [token, setToken] = useState('');
-    const [userInfo, setUserInfo] = useState(null);
+  const auth = useContext(AuthContext);
 
-    // selectAccount: true,
-    // shouldAutoExchangeCode: false
+  // selectAccount: true,
+  // shouldAutoExchangeCode: false
 
-    const [request, response, promptAsync] = Google.useAuthRequest({
-      androidClientId: '',
-      iosClientId:
-        '668304086077-g0fbj59svjg0gi2ldi6p26207i20tg7n.apps.googleusercontent.com',
-      webClientId:
-        '668304086077-843hetfqhf9u60fcr5ddlk06uss37qvb.apps.googleusercontent.com'
-    });
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: '',
+    iosClientId:
+      '668304086077-g0fbj59svjg0gi2ldi6p26207i20tg7n.apps.googleusercontent.com',
+    webClientId:
+      '668304086077-843hetfqhf9u60fcr5ddlk06uss37qvb.apps.googleusercontent.com'
+  });
 
-    useEffect(() => {
-      handleEffect();
-    }, [response, token]);
-    // console.log('token', response?.authentication?.accessToken);
-    async function handleEffect() {
-      const user = await getLocalUser();
-      if (!user) {
-        if (response?.type === 'success') {
-          console.log(
-            'Get response form GG Auth success',
-            response.authentication
-          );
-          setToken(response.authentication.accessToken);
-          getUserInfo(response.authentication.accessToken);
-        }
-      } else {
-        setUserInfo(user);
-        console.log('Loaded user form locally:', user);
+  async function handleEffect(response) {
+    try {
+      const tokenGG = response?.authentication?.accessToken;
+      if (response?.type === 'success' && tokenGG) {
+        const responseGG = await loginWithGG(tokenGG);
+        const userInfoResponse = responseGG?.data?.data;
+        if (userInfoResponse) auth.loginWithGG(userInfoResponse);
       }
+    } catch (error) {
+      console.log('Error while checking user info with GG method:', error);
     }
+  }
 
-    const getLocalUser = async () => {
-      const data = await AsyncStorage.getItem('@user');
-      if (!data) return null;
-      return JSON.parse(data);
-    };
-
-    const getUserInfo = async (token) => {
-      if (!token) return;
-      try {
-        const response = await fetch(
-          'https://www.googleapis.com/userinfo/v2/me',
-          {
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        );
-
-        const user = await response.json();
-        console.log('User: ', user);
-        await AsyncStorage.setItem('@user', JSON.stringify(user));
-        setUserInfo(user);
-      } catch (error) {
-        // Add your own error handler here
-      }
-    };
+  useEffect(() => {
+    handleEffect(response);
+  }, [response]);
 
   return (
     <>
-      <Text className='w-full text-center text-white pb-4'>─────────── or ───────────</Text>
+      <Text className='w-full text-center text-white pb-4'>
+        ─────────── or ───────────
+      </Text>
       <Pressable onPress={() => promptAsync()}>
         <View className='bg-[#4285F4] rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 flex flex-row justify-center items-center mx-4'>
           <Image
@@ -86,6 +59,6 @@ const GoogleLogin = () => {
       </Pressable>
     </>
   );
-}
+};
 
-export default GoogleLogin
+export default GoogleLogin;

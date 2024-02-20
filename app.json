@@ -17,7 +17,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kyphans.Alo99Restaurant"
+      "bundleIdentifier": "com.kyphans.Alo99Restaurant",
+      "config": {
+        "googleMapsApiKey": "AIzaSyABXTtzt_Q54bZQNTDlgvwPbUIPIwGY49U"
+      }
     },
     "android": {
       "adaptiveIcon": {
