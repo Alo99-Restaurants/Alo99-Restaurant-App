@@ -1,4 +1,4 @@
-import { Dimensions, Text, View } from 'react-native';
+import { Dimensions, Pressable, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Color from '../../constants/Color';
@@ -9,12 +9,15 @@ import { clearState, fetchFloorTables } from '../../redux/tableLayoutSlice';
 const windowWidth = Dimensions.get('window').width - 16;
 const scale = windowWidth / data.width;
 
-const TableBooking = ({ restaurantFloors }) => {
+const TableBooking = ({ restaurantFloors, dataBooking }) => {
   const dispatch = useDispatch();
   const { layout } = useSelector((state) => state.layout);
   const [menuActive, setMenuActive] = useState(
     restaurantFloors[restaurantFloors.length - 1].id
   );
+  const [selectedBoxIds, setSelectedBoxIds] = useState([]);
+
+  console.log('selectedBoxIds', selectedBoxIds);
 
   const menu = restaurantFloors.map((floor) => {
     return {
@@ -43,11 +46,29 @@ const TableBooking = ({ restaurantFloors }) => {
     };
   });
 
+  const handleBoxSelection = (id, type) => {
+    const totalGuest =
+      Number(dataBooking[2]?.data?.adults ?? 0) +
+      Number(dataBooking[2]?.data?.children ?? 0);
+    console.log('total guest', totalGuest);
+
+    const newBox = { id, type };
+
+    let totalTypeSum = selectedBoxIds.reduce((acc, box) => acc + box.type, 0);
+
+    if (totalTypeSum <= totalGuest && totalGuest !== 0) {
+      if (selectedBoxIds.some((box) => box.id === id)) {
+        setSelectedBoxIds(selectedBoxIds.filter((box) => box.id !== id));
+      } else {
+        setSelectedBoxIds([...selectedBoxIds, newBox]);
+      }
+    }
+  };
 
   useEffect(() => {
     return () => {
       dispatch(clearState());
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -72,19 +93,27 @@ const TableBooking = ({ restaurantFloors }) => {
     };
 
     return (
-      <View
-        style={{
-          position: 'absolute',
-          width: w * scale,
-          height: h * scale,
-          backgroundColor: renderType(type),
-          top: newPositionY,
-          left: newPositionX
-        }}>
-        <View className='relative w-full h-full flex justify-center items-center'>
-          <Text className='text-white font-roboto-black text-base'>{type}</Text>
+      <Pressable onPress={() => handleBoxSelection(id, type)}>
+        <View
+          style={{
+            position: 'absolute',
+            width: w * scale,
+            height: h * scale,
+            backgroundColor: '#F7BE20',
+            borderColor: selectedBoxIds.some((box) => box.id === id)
+              ? 'red'
+              : 'transparent', // Styling based on selectedBoxIds
+            borderWidth: selectedBoxIds.some((box) => box.id === id) ? 4 : 0, // Border width based on selectedBoxIds
+            top: newPositionY,
+            left: newPositionX
+          }}>
+          <View className='relative w-full h-full flex justify-center items-center'>
+            <Text className='text-white font-roboto-black text-base'>
+              {type}
+            </Text>
+          </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
 

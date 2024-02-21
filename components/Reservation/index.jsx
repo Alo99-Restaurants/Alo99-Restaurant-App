@@ -80,7 +80,12 @@ const Reservation = ({ data }) => {
         component = <Guests guests={guests} onChange={setGuests} />; // Placeholder for the third step component
         break;
       case 3:
-        component = <TableBooking restaurantFloors={data?.restaurantFloors} />;
+        component = (
+          <TableBooking
+            dataBooking={dataBooking}
+            restaurantFloors={data?.restaurantFloors}
+          />
+        );
         break;
       default:
         component = null;

@@ -5,7 +5,7 @@ import { BASE_URL } from '../config';
 import {
   login as loginService,
   logout as logoutService
-} from '../services/auth.services';
+} from '../services/auth.service';
 
 export const AuthContext = createContext();
 

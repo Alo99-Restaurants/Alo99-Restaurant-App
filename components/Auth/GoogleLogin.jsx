@@ -2,7 +2,7 @@ import { View, Text, Button, Pressable, Image } from 'react-native';
 import React, { useEffect, useState, useContext } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import { loginWithGG } from '../../services/auth.services';
+import { loginWithGG } from '../../services/auth.service';
 import { AuthContext } from '../../context/AuthContext';
 
 WebBrowser.maybeCompleteAuthSession();

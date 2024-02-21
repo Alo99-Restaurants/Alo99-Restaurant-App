@@ -12,7 +12,7 @@ import { AuthContext } from '../context/AuthContext';
 const HomeHeader = () => {
   const auth = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
-  console.log('auth', auth.userInfo.name);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
