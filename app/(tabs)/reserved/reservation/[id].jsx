@@ -24,7 +24,10 @@ const ReservationPage = () => {
         <Text className='font-roboto-medium text-sm'>{`(open ${formattedOpenHours} - close ${formattedCloseHours})`}</Text>
       </Text>
       <View className='flex-[1]'>
-        <Reservation data={activeStoreBranch} />
+        <Reservation
+          restaurantName={activeStoreBranch.name}
+          data={activeStoreBranch}
+        />
       </View>
     </View>
   );

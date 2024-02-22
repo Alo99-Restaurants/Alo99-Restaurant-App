@@ -62,3 +62,17 @@ export const convertPrice = (price) => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     .concat(' vnd');
 };
+
+export const convertDateTime = (time, day) => {
+  // Convert variable time to time Date object
+  var hour = parseInt(time.substring(0, 2));
+  var minute = parseInt(time.substring(3, 5));
+  var date = new Date(day);
+  date.setHours(hour);
+  date.setMinutes(minute);
+
+  // Format the date and time as "yyyy-mm-ddTHH:MM:SS"
+  var formattedDateTime = date.toISOString().slice(0, 19);
+
+  return formattedDateTime;
+}

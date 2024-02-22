@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { formatTime, generateTimeSlots } from '../../helper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -41,6 +41,12 @@ function TimeSelect({ closeHours, openHours, time, onChange }) {
   const dinnerSlots = timeSlots.filter(
     (time) => parseInt(time.split(':')[0]) >= 17
   );
+
+  useEffect(()=>{
+    if (!time && breakfastSlots && breakfastSlots.length > 0) {
+      onChange(breakfastSlots[0]);
+    }
+  },[])
 
   return (
     <View className='px-2'>

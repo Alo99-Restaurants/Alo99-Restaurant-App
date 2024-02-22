@@ -1,29 +1,29 @@
 import React from 'react';
-import { Modal, View } from 'react-native';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { Modal, Pressable, Text, View } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import Color from '../constants/Color';
 
-const ModalComponent = ({ isOpen = false, onClose, children }) => {
+const ModalComponent = ({ isOpen = false, onClose, children, height = 600 }) => {
   return (
     <Modal
       animationType='slide'
       transparent={true}
       visible={isOpen}
       onRequestClose={onClose}>
-      <TouchableOpacity
-        className={'w-full h-full'}
-        activeOpacity={1}
-        onPressOut={onClose}>
-        <View className='h-[600px] absolute bottom-0 w-full bg-white rounded-2xl shadow-md'>
-          <TouchableWithoutFeedback>
-            <View className='w-full h-full rounded-2xl py-2 px-4'>
-              <View className='flex items-center mb-4'>
-                <View className='w-20 h-1 bg-gray-400 rounded-2xl' />
+      <View
+        style={{ height }}
+        className='absolute bottom-0 w-full bg-white rounded-2xl shadow-md'>
+        <View className='w-full h-full rounded-2xl py-2 px-4'>
+          <View className='flex items-end mb-2'>
+            <Pressable onPress={onClose}>
+              <View className='flex justify-center items-center w-8 h-8 bg-gray-200 rounded-3xl'>
+                <FontAwesome name='close' size={24} color={Color.colorDark2} />
               </View>
-              {children}
-            </View>
-          </TouchableWithoutFeedback>
+            </Pressable>
+          </View>
+          {children}
         </View>
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 };

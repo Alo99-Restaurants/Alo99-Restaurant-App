@@ -7,6 +7,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
+    "postinstall": "node postinstall.js",
     "build-dev-ios": "eas build --profile development-simulator --platform ios",
     "dev-client": "expo start --dev-client"
   },

@@ -9,15 +9,18 @@ import { clearState, fetchFloorTables } from '../../redux/tableLayoutSlice';
 const windowWidth = Dimensions.get('window').width - 16;
 const scale = windowWidth / data.width;
 
-const TableBooking = ({ restaurantFloors, dataBooking }) => {
+const TableBooking = ({
+  restaurantFloors,
+  dataBooking,
+  tableIds,
+  onChange
+}) => {
   const dispatch = useDispatch();
   const { layout } = useSelector((state) => state.layout);
   const [menuActive, setMenuActive] = useState(
     restaurantFloors[restaurantFloors.length - 1].id
   );
-  const [selectedBoxIds, setSelectedBoxIds] = useState([]);
-
-  console.log('selectedBoxIds', selectedBoxIds);
+  const [selectedTableIds, setSelectedTableIds] = useState(tableIds);
 
   const menu = restaurantFloors.map((floor) => {
     return {
@@ -46,22 +49,16 @@ const TableBooking = ({ restaurantFloors, dataBooking }) => {
     };
   });
 
-  const handleBoxSelection = (id, type) => {
-    const totalGuest =
-      Number(dataBooking[2]?.data?.adults ?? 0) +
-      Number(dataBooking[2]?.data?.children ?? 0);
-    console.log('total guest', totalGuest);
-
-    const newBox = { id, type };
-
-    let totalTypeSum = selectedBoxIds.reduce((acc, box) => acc + box.type, 0);
-
-    if (totalTypeSum <= totalGuest && totalGuest !== 0) {
-      if (selectedBoxIds.some((box) => box.id === id)) {
-        setSelectedBoxIds(selectedBoxIds.filter((box) => box.id !== id));
-      } else {
-        setSelectedBoxIds([...selectedBoxIds, newBox]);
-      }
+  const handleBoxSelection = (id) => {
+    // const totalGuest =
+    //   Number(dataBooking[2]?.data?.adults ?? 0) +
+    //   Number(dataBooking[2]?.data?.children ?? 0);
+    if (selectedTableIds.some((tableId) => tableId === id)) {
+      onChange(selectedTableIds.filter((tableId) => tableId !== id));
+      setSelectedTableIds(selectedTableIds.filter((tableId) => tableId !== id));
+    } else {
+      onChange([...selectedTableIds, id]);
+      setSelectedTableIds([...selectedTableIds, id]);
     }
   };
 
@@ -76,36 +73,22 @@ const TableBooking = ({ restaurantFloors, dataBooking }) => {
   }, [menuActive]);
 
   const Box = ({ w, h, x, y, scale, type, id }) => {
-    const newPositionX = x * scale;
-    const newPositionY = y * scale;
-
-    const renderType = (type) => {
-      switch (type) {
-        case 2:
-          return 'orange';
-        case 3:
-          return 'green';
-        case 4:
-          return 'blue';
-        default:
-          return 'red';
-      }
-    };
-
     return (
-      <Pressable onPress={() => handleBoxSelection(id, type)}>
+      <Pressable onPress={() => handleBoxSelection(id)}>
         <View
           style={{
             position: 'absolute',
             width: w * scale,
             height: h * scale,
             backgroundColor: '#F7BE20',
-            borderColor: selectedBoxIds.some((box) => box.id === id)
+            borderColor: selectedTableIds.some((tableId) => tableId === id)
               ? 'red'
-              : 'transparent', // Styling based on selectedBoxIds
-            borderWidth: selectedBoxIds.some((box) => box.id === id) ? 4 : 0, // Border width based on selectedBoxIds
-            top: newPositionY,
-            left: newPositionX
+              : 'transparent', // Styling based on selectedTableIds
+            borderWidth: selectedTableIds.some((tableId) => tableId === id)
+              ? 2
+              : 0,
+            top: y * scale,
+            left: x * scale
           }}>
           <View className='relative w-full h-full flex justify-center items-center'>
             <Text className='text-white font-roboto-black text-base'>
@@ -166,3 +149,4 @@ const TableBooking = ({ restaurantFloors, dataBooking }) => {
 };
 
 export default TableBooking;
+

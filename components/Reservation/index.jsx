@@ -13,6 +13,8 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import moment from 'moment';
 import TimeSelect from './TimeSelect';
 import Guests from './Guests';
+import ModalComponent from '../ModalComponent';
+import ConfirmBooking from './ConfirmBooking';
 
 const menuStep = [
   {
@@ -33,19 +35,23 @@ const menuStep = [
   }
 ];
 
-const Reservation = ({ data }) => {
+const Reservation = ({ data, restaurantName }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [currentStep, setCurrentStep] = useState(0);
   const [historyStep, setHistoryStep] = useState([0]);
   const [dataBooking, setDataBooking] = useState([]);
 
   useEffect(() => {
     console.log('dataBooking', dataBooking);
+    console.log('--------------------');
   }, [dataBooking]);
 
   // State of each step
   const [day, setDay] = useState(moment().format('YYYY-MM-DD'));
   const [time, setTime] = useState();
   const [guests, setGuests] = useState({ adults: 0, children: 0 });
+  const [selectedTableIds, setSelectedTableIds] = useState([]);
 
   const updateDataBooking = useCallback((step, data) => {
     setDataBooking((prevDataBooking) => {
@@ -83,6 +89,8 @@ const Reservation = ({ data }) => {
         component = (
           <TableBooking
             dataBooking={dataBooking}
+            tableIds={selectedTableIds}
+            onChange={setSelectedTableIds}
             restaurantFloors={data?.restaurantFloors}
           />
         );
@@ -105,35 +113,45 @@ const Reservation = ({ data }) => {
     data.restaurantFloors
   ]);
 
-  const handleNext = () => {
+  const handleClickNextButton = () => {
     if (currentStep < menuStep.length - 1) {
       setCurrentStep((prevCurrentStep) => {
         const newStep = prevCurrentStep + 1;
 
-        // Check if newStep already exists in historyStep
         if (!historyStep.includes(newStep)) {
           setHistoryStep((prevHistoryStep) => [...prevHistoryStep, newStep]);
         }
 
-        // Save data of the current step
-        if (prevCurrentStep == 0) updateDataBooking(prevCurrentStep, day);
-        if (prevCurrentStep == 1) updateDataBooking(prevCurrentStep, time);
-        if (prevCurrentStep == 2) updateDataBooking(prevCurrentStep, guests);
+        saveData(prevCurrentStep);
 
         return newStep;
       });
     }
   };
 
+  const handleReservationStepPress = (index) => {
+    console.log('currentStep', currentStep);
+    if (historyStep.includes(index) || currentStep + 1 === index) {
+      setHistoryStep((prevHistoryStep) => prevHistoryStep.concat(index));
+      setCurrentStep(index);
+      saveData(currentStep);
+    }
+  };
+
+  const saveData = (step) => {
+    if (step === 0) updateDataBooking(step, day);
+    if (step === 1) updateDataBooking(step, time);
+    if (step === 2) updateDataBooking(step, guests);
+    if (step === 3) updateDataBooking(step, selectedTableIds);
+  };
+
   useEffect(() => {
-    console.log('day');
     if (day) {
       updateDataBooking(currentStep, day);
     }
   }, [day]);
 
   useEffect(() => {
-    console.log('time');
     if (time) {
       updateDataBooking(currentStep, time);
     }
@@ -141,18 +159,36 @@ const Reservation = ({ data }) => {
 
   useEffect(() => {
     if (guests.adults + guests.children !== 0) {
-      updateDataBooking(currentStep, guests);
+      updateDataBooking(currentStep, selectedTableIds);
     }
   }, [guests]);
+
+  useEffect(() => {
+    if (selectedTableIds) {
+      updateDataBooking(currentStep, selectedTableIds);
+    }
+  }, [selectedTableIds]);
 
   const isLastStep = useMemo(
     () => currentStep === menuStep.length - 1,
     [currentStep, menuStep.length]
   );
-  console.log('------------------');
+
+  const handleConfirmBooking = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <View className='flex-[1]'>
+      <ModalComponent
+        height={350}
+        onClose={() => setIsModalOpen(false)}
+        isOpen={isModalOpen}>
+        <ConfirmBooking
+          restaurantName={restaurantName}
+          bookingData={dataBooking}
+        />
+      </ModalComponent>
       <View className='flex-[1.5] reservation-step flex flex-row justify-around mt-4'>
         {menuStep.map((menu, index) => (
           <ReservationStep
@@ -161,14 +197,7 @@ const Reservation = ({ data }) => {
             classNameLabel={'mt-1'}
             icon={menu.icon}
             label={menu.label}
-            onPress={() => {
-              if (historyStep.includes(index) || currentStep + 1 === index) {
-                setHistoryStep((prevHistoryStep) =>
-                  prevHistoryStep.concat(index)
-                );
-                setCurrentStep(index);
-              }
-            }}
+            onPress={() => handleReservationStepPress(index)}
           />
         ))}
       </View>
@@ -178,6 +207,7 @@ const Reservation = ({ data }) => {
       <View className='absolute px-2 bottom-5 left-0 w-full'>
         {isLastStep ? (
           <TouchableHighlight
+            onPress={handleConfirmBooking}
             style={{ borderRadius: 6 }}
             underlayColor={'#fff'}>
             <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
@@ -190,7 +220,7 @@ const Reservation = ({ data }) => {
           <TouchableHighlight
             style={{ borderRadius: 6 }}
             underlayColor={'#fff'}
-            onPress={handleNext}>
+            onPress={handleClickNextButton}>
             <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
               <Text className=' font-roboto-black text-md text-center text-white'>
                 Next
@@ -204,3 +234,4 @@ const Reservation = ({ data }) => {
 };
 
 export default Reservation;
+
