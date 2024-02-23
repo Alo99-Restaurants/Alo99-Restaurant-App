@@ -112,7 +112,8 @@ const Reservation = ({ data, restaurant }) => {
     guests,
     data.openHours,
     data.closeHours,
-    data.restaurantFloors
+    data.restaurantFloors,
+    selectedTableIds
   ]);
 
   const handleClickNextButton = () => {

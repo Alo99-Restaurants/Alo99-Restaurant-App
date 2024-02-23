@@ -18,6 +18,9 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
     Number(bookingData[2]?.data?.adults ?? 0) +
     Number(bookingData[2]?.data?.children ?? 0);
 
+  const isAbleToSubmitBooking =
+    bookingData[3]?.data.length > 1 && totalGuest > 0;
+
   const handleBooking = () => {
     const dateTime = convertDateTime(
       bookingData[1]?.data,
@@ -29,7 +32,8 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
       bookingDate: dateTime,
       numberOfPeople: totalGuest
     };
-    dispatch(createBooking(payload));
+    
+    if (isAbleToSubmitBooking) dispatch(createBooking(payload));
   };
 
   if (isAddNewBookingSuccess)
@@ -65,21 +69,34 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
         </View>
         <View className='flex-row'>
           <Ionicons name='people-sharp' size={24} color='black' />
-          <Text className='pl-3 font-roboto-medium text-lg text-left text-colorDark2'>
+          <Text
+            className={`pl-3 font-roboto-medium text-lg text-left ${
+              totalGuest > 0 ? ' text-colorDark2' : 'text-red-600 text-xl'
+            }`}>
             {totalGuest} people
           </Text>
         </View>
         <View className='flex-row'>
           <MaterialCommunityIcons name='table-chair' size={24} color='black' />
-          <Text className='pl-3 font-roboto-medium text-lg text-left text-colorDark2'>
-            {bookingData[3]?.data?.length ?? 0} tables
+          <Text
+            className={`pl-3 font-roboto-medium text-lg text-left ${
+              bookingData[3]?.data?.length > 0
+                ? ' text-colorDark2'
+                : 'text-red-600 text-xl'
+            }`}>
+            {bookingData[3]?.data?.length ?? 0}
+            {bookingData[3]?.data?.length > 1 ? ' tables' : ' table'}
           </Text>
         </View>
         <TouchableHighlight
+          disabled={!isAbleToSubmitBooking}
           onPress={handleBooking}
           style={{ borderRadius: 6, paddingTop: 10 }}
           underlayColor={'#fff'}>
-          <View className='bg-primary1 h-10 rounded-md flex justify-center items-center'>
+          <View
+            className={`${
+              isAbleToSubmitBooking ? 'bg-primary1' : 'bg-gray-300'
+            }  h-10 rounded-md flex justify-center items-center`}>
             <Text className='font-roboto-black text-lg text-center text-white'>
               Book
             </Text>

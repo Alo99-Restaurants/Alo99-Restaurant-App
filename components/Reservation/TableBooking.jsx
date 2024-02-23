@@ -23,7 +23,7 @@ const TableBooking = ({
   const [menuActive, setMenuActive] = useState(
     restaurantFloors[restaurantFloors.length - 1]?.id
   );
-  const [selectedTableIds, setSelectedTableIds] = useState(tableIds);
+
   const [allBookingsOnDay, setAllBookingsOnDay] = useState();
   const timeBookingSelected = dataBooking[1]?.data;
   const menu = restaurantFloors.map((floor) => {
@@ -56,14 +56,20 @@ const TableBooking = ({
     // const totalGuest =
     //   Number(dataBooking[2]?.data?.adults ?? 0) +
     //   Number(dataBooking[2]?.data?.children ?? 0);
-    if (selectedTableIds.some((tableId) => tableId === id)) {
-      onChange(selectedTableIds.filter((tableId) => tableId !== id));
-      setSelectedTableIds(selectedTableIds.filter((tableId) => tableId !== id));
+    if (tableIds.some((tableId) => tableId === id)) {
+      onChange(tableIds.filter((tableId) => tableId !== id));
+      // setSelectedTableIds(tableIds.filter((tableId) => tableId !== id));
     } else {
-      onChange([...selectedTableIds, id]);
-      setSelectedTableIds([...selectedTableIds, id]);
+      onChange([...tableIds, id]);
+      // setSelectedTableIds([...tableIds, id]);
     }
   };
+
+
+  useEffect(() => {
+    // Reset tables selected when change menu steps
+    onChange([]);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -139,14 +145,14 @@ const TableBooking = ({
             width: w * scale,
             height: h * scale,
             ...isBookedStyle,
-            borderColor: selectedTableIds.some((tableId) => tableId === id)
+            borderColor: tableIds.some((tableId) => tableId === id)
               ? 'red'
               : isBooked
               ? 'black'
-              : 'transparent', // Styling based on selectedTableIds
+              : 'transparent',
             borderWidth:
-              selectedTableIds.some((tableId) => tableId === id) || isBooked
-                ? 2
+              tableIds.some((tableId) => tableId === id) || isBooked
+                ? 3
                 : 0,
             top: y * scale,
             left: x * scale
