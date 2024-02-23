@@ -30,6 +30,12 @@ export const bookingSlice = createSlice({
   reducers: {
     clearState: () => {
       return initialState;
+    },
+    clearAddNewBookingStatus: (state, action) => {
+      return {
+        ...state,
+        isAddNewBookingSuccess: false
+      };
     }
   },
   extraReducers: (builder) => {
@@ -38,9 +44,8 @@ export const bookingSlice = createSlice({
     });
 
     builder.addCase(createBooking.fulfilled, (state, action) => {
-      console.log('action.payload', action.payload);
       state.isLoading = false;
-      state.isAddNewBookingSuccess= true;
+      state.isAddNewBookingSuccess = true;
       state.storeBranches = action.payload.data;
     });
 
@@ -51,5 +56,5 @@ export const bookingSlice = createSlice({
   }
 });
 
-export const { clearState } = bookingSlice.actions;
+export const { clearState, clearAddNewBookingStatus } = bookingSlice.actions;
 export default bookingSlice.reducer;

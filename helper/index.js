@@ -64,15 +64,32 @@ export const convertPrice = (price) => {
 };
 
 export const convertDateTime = (time, day) => {
-  // Convert variable time to time Date object
-  var hour = parseInt(time.substring(0, 2));
-  var minute = parseInt(time.substring(3, 5));
-  var date = new Date(day);
-  date.setHours(hour);
-  date.setMinutes(minute);
-
+  // Extract hours and minutes from the time string
+  const hour = parseInt(time.substring(0, 2));
+  const minute = parseInt(time.substring(3, 5));
+  // Create a Date object from the provided day
+  const date = new Date(day);
+  // Set the hours and minutes for the Date object
+  date.setUTCHours(hour);
+  date.setUTCMinutes(minute);
   // Format the date and time as "yyyy-mm-ddTHH:MM:SS"
-  var formattedDateTime = date.toISOString().slice(0, 19);
+  return date.toISOString().slice(0, 19);
+};
 
-  return formattedDateTime;
+export const extractTime = (dateTimeString) => {
+    // Create a new Date object from the provided date and time string
+    var dateTime = new Date(dateTimeString);
+    
+    // Get the hours and minutes from the Date object
+    var hours = dateTime.getHours();
+    var minutes = dateTime.getMinutes();
+
+    // Ensure that hours and minutes are always displayed as two digits
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+
+    // Concatenate hours and minutes to form the time string
+    var timeString = hours + ":" + minutes;
+    
+    return timeString;
 }

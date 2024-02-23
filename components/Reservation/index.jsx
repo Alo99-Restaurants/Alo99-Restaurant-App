@@ -15,6 +15,9 @@ import TimeSelect from './TimeSelect';
 import Guests from './Guests';
 import ModalComponent from '../ModalComponent';
 import ConfirmBooking from './ConfirmBooking';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearAddNewBookingStatus } from '../../redux/bookingSlice';
+import { router } from 'expo-router';
 
 const menuStep = [
   {
@@ -35,17 +38,15 @@ const menuStep = [
   }
 ];
 
-const Reservation = ({ data, restaurantName }) => {
+const Reservation = ({ data, restaurant }) => {
+  const dispatch = useDispatch();
+  const { isAddNewBookingSuccess } = useSelector(
+    (state) => state.booking
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [currentStep, setCurrentStep] = useState(0);
   const [historyStep, setHistoryStep] = useState([0]);
   const [dataBooking, setDataBooking] = useState([]);
-
-  useEffect(() => {
-    console.log('dataBooking', dataBooking);
-    console.log('--------------------');
-  }, [dataBooking]);
 
   // State of each step
   const [day, setDay] = useState(moment().format('YYYY-MM-DD'));
@@ -88,6 +89,7 @@ const Reservation = ({ data, restaurantName }) => {
       case 3:
         component = (
           <TableBooking
+            restaurant={restaurant}
             dataBooking={dataBooking}
             tableIds={selectedTableIds}
             onChange={setSelectedTableIds}
@@ -130,7 +132,6 @@ const Reservation = ({ data, restaurantName }) => {
   };
 
   const handleReservationStepPress = (index) => {
-    console.log('currentStep', currentStep);
     if (historyStep.includes(index) || currentStep + 1 === index) {
       setHistoryStep((prevHistoryStep) => prevHistoryStep.concat(index));
       setCurrentStep(index);
@@ -178,16 +179,19 @@ const Reservation = ({ data, restaurantName }) => {
     setIsModalOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (isAddNewBookingSuccess) router.back();
+    dispatch(clearAddNewBookingStatus());
+  };
+
   return (
     <View className='flex-[1]'>
       <ModalComponent
         height={350}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         isOpen={isModalOpen}>
-        <ConfirmBooking
-          restaurantName={restaurantName}
-          bookingData={dataBooking}
-        />
+        <ConfirmBooking restaurant={restaurant} bookingData={dataBooking} />
       </ModalComponent>
       <View className='flex-[1.5] reservation-step flex flex-row justify-around mt-4'>
         {menuStep.map((menu, index) => (
@@ -234,4 +238,3 @@ const Reservation = ({ data, restaurantName }) => {
 };
 
 export default Reservation;
-

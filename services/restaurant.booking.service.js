@@ -17,3 +17,12 @@ export async function createBookingService(payload) {
     console.log('Post Booking Service Error', error);
   }
 }
+
+export async function checkTablesBookingService(payload) {
+  try {
+    const response = await baseAPI.post('/api/Table/find', payload);
+    return response;
+  } catch (error) {
+    console.log('Get Table Booking Service Error', error);
+  }
+}

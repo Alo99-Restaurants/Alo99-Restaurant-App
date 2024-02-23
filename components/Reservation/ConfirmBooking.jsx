@@ -1,45 +1,51 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  AntDesign,
-  Fontisto,
-  Ionicons,
-  MaterialCommunityIcons
-} from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
-import { createBooking } from '../../redux/bookingSlice';
+  createBooking
+} from '../../redux/bookingSlice';
 import { convertDateTime } from '../../helper';
 
-const ConfirmBooking = ({ bookingData, restaurantName }) => {
+const ConfirmBooking = ({ bookingData, restaurant }) => {
   const dispatch = useDispatch();
+  const { isLoading, isAddNewBookingSuccess } = useSelector(
+    (state) => state.booking
+  );
 
   const totalGuest =
     Number(bookingData[2]?.data?.adults ?? 0) +
     Number(bookingData[2]?.data?.children ?? 0);
 
   const handleBooking = () => {
-    console.log('bookingData', bookingData);
-    const dateTime = convertDateTime(bookingData[1]?.data,bookingData[0]?.data);
+    const dateTime = convertDateTime(
+      bookingData[1]?.data,
+      bookingData[0]?.data
+    );
     const payload = {
       tableIds: bookingData[3]?.data,
       bookingStatusId: 'New',
       bookingDate: dateTime,
       numberOfPeople: totalGuest
     };
-        console.log('booking!!!!', payload);
-
-    try {
-      dispatch(createBooking(payload));
-    } catch (error) {
-      console.log('storeBranchesResponse error', error);
-    }
+    dispatch(createBooking(payload));
   };
+
+  if (isAddNewBookingSuccess)
+    return (
+      <View className='flex-[1] flex-row justify-between items-center pb-20'>
+        <Text className='flex-[1] pb-1 font-roboto-black text-2xl text-center text-colorDark2'>
+          Đặt bàn thành công!!
+        </Text>
+      </View>
+    );
+
   return (
     <View className='flex-row h-72 px-2 pt-2 pb-6 my-1'>
       <View className='flex-[1] justify-between pl-1'>
         <Text className='pb-1 font-roboto-black text-xl text-left text-colorDark2'>
-          {restaurantName}
+          {restaurant.name}
         </Text>
         <View className=' flex-row'>
           <Fontisto name='date' size={24} color='black' />

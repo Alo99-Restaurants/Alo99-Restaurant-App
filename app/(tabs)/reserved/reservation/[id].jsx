@@ -25,7 +25,7 @@ const ReservationPage = () => {
       </Text>
       <View className='flex-[1]'>
         <Reservation
-          restaurantName={activeStoreBranch.name}
+          restaurant={activeStoreBranch}
           data={activeStoreBranch}
         />
       </View>
