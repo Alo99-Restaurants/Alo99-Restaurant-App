@@ -5,7 +5,7 @@ import {
   MaterialCommunityIcons
 } from '@expo/vector-icons';
 import React, { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import {
   TouchableHighlight,
   TouchableOpacity
@@ -50,7 +50,12 @@ const DetailsMenu = ({ activeStoreBranch }) => {
           </View>
           <View className='flex-[1]'>
             <TouchableOpacity
-              hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
+              hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
+              onPress={() =>
+                router.push(
+                  `/(tabs)/map?restaurant=${activeStoreBranch.id}&random=${randomMixedCaseString}`
+                )
+              }>
               <View className='flex flex-row justify-between items-center'>
                 <Text className='font-roboto-regular text-xs text-left text-white ml-2'>
                   Show on map

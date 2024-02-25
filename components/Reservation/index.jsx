@@ -189,7 +189,6 @@ const Reservation = ({ data, restaurant }) => {
   return (
     <View className='flex-[1]'>
       <ModalComponent
-        height={350}
         onClose={handleCloseModal}
         isOpen={isModalOpen}>
         <ConfirmBooking restaurant={restaurant} bookingData={dataBooking} />

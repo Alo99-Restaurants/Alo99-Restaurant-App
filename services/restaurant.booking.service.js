@@ -1,8 +1,10 @@
+import { buildQueryString } from '../helper';
 import baseAPI from '../lib/axios/baseAPI';
 
-export async function getBookingService() {
+export async function getBookingService(payload) {
   try {
-    const response = await baseAPI.get('/api/Booking');
+    const queryString = buildQueryString(payload);
+    const response = await baseAPI.get(`/api/Booking/${queryString}`);
     return response;
   } catch (error) {
     console.log('Get Booking Service Error', error);

@@ -1,18 +1,26 @@
 import React from 'react';
-import { Modal, Pressable, Text, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Modal, Pressable, Text, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Color from '../constants/Color';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { LogBox } from 'react-native';
 
-const ModalComponent = ({ isOpen = false, onClose, children, height = 600 }) => {
+// Hide warning notifications on front-end
+LogBox.ignoreLogs([
+  /Warning: */
+]);
+
+const ModalComponent = ({ isOpen = false, onClose, children, height }) => {
   return (
     <Modal
       animationType='slide'
       transparent={true}
       visible={isOpen}
       onRequestClose={onClose}>
-      <View
+      <KeyboardAvoidingView
         style={{ height }}
-        className='absolute bottom-0 w-full bg-white rounded-2xl shadow-md'>
+        className='absolute bottom-0 w-full bg-white rounded-2xl shadow-md'
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View className='w-full h-full rounded-2xl py-2 px-4'>
           <View className='flex items-end mb-2'>
             <Pressable onPress={onClose}>
@@ -21,12 +29,17 @@ const ModalComponent = ({ isOpen = false, onClose, children, height = 600 }) => 
               </View>
             </Pressable>
           </View>
-          {children}
+          <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}
+            accessible={false}>
+            {children}
+          </TouchableWithoutFeedback>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
 
 export default ModalComponent;
+
 

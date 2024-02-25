@@ -25,6 +25,8 @@ const Reserved = () => {
     setMenuActive(newMenuActive);
   };
 
+  const bookingStatus = menuActive ? ['Completed', ' Cancelled'] : ['New', ' Confirm']
+
   const handleOnClickBookTable = () => {
     if (activeStoreBranchId) {
       dispatch(clearState());
@@ -33,6 +35,7 @@ const Reserved = () => {
   };
 
   useEffect(() => {
+    // Handle booking from Restaurant detail
     if (storeId) {
       dispatch(clearState());
       router.push(`/(tabs)/reserved/reservation/${storeId}`);
@@ -71,7 +74,10 @@ const Reserved = () => {
         itemClassName={'w-32'}
         menu={menu}
         onChange={handleChangeTabMenu}>
-        <ReservedList />
+        <ReservedList
+          restaurants={storeBranches}
+          bookingStatus={bookingStatus}
+        />
       </TabMenu>
     </View>
   );

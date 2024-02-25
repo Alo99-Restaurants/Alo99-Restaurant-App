@@ -76,11 +76,11 @@ const Menu = ({ categoryId }) => {
   return (
     <>
       <ModalComponent onClose={() => toggleModal({})} isOpen={isModalOpen}>
-        <View className='flex flex-[1] h-20 rounded-md'>
+        <View className='flex flex-[1] rounded-md'>
           <View className='flex-[3]'>
             <Image
               source={{ uri: menuSelected.menuUrl }}
-              className='w-full h-full rounded-md'
+              className='w-full h-80 rounded-md'
             />
           </View>
           <View className='flex py-2'>
@@ -92,7 +92,7 @@ const Menu = ({ categoryId }) => {
             </Text>
           </View>
           <View className='flex-[2]'>
-            <Text className='font-roboto-medium text-base text-left'>
+            <Text className='pb-8 font-roboto-medium text-base text-left'>
               {menuSelected.description}
             </Text>
           </View>

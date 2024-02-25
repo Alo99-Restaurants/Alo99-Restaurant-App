@@ -1,25 +1,31 @@
-import { View, Text } from 'react-native';
-import React from 'react';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  createBooking
-} from '../../redux/bookingSlice';
+  Fontisto,
+  Ionicons,
+  MaterialCommunityIcons,
+  FontAwesome
+} from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Text, TextInput, View } from 'react-native';
+import {
+  TouchableHighlight,
+} from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
 import { convertDateTime } from '../../helper';
+import { createBooking } from '../../redux/bookingSlice';
 
 const ConfirmBooking = ({ bookingData, restaurant }) => {
   const dispatch = useDispatch();
   const { isLoading, isAddNewBookingSuccess } = useSelector(
     (state) => state.booking
   );
+  const [notes, setNotes] = useState('');
 
   const totalGuest =
     Number(bookingData[2]?.data?.adults ?? 0) +
     Number(bookingData[2]?.data?.children ?? 0);
 
   const isAbleToSubmitBooking =
-    bookingData[3]?.data.length > 1 && totalGuest > 0;
+    bookingData[3]?.data.length > 0 && totalGuest > 0;
 
   const handleBooking = () => {
     const dateTime = convertDateTime(
@@ -27,18 +33,20 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
       bookingData[0]?.data
     );
     const payload = {
+      restaurantId: restaurant.id,
       tableIds: bookingData[3]?.data,
       bookingStatusId: 'New',
       bookingDate: dateTime,
-      numberOfPeople: totalGuest
+      numberOfPeople: totalGuest,
+      note: notes
     };
-    
+
     if (isAbleToSubmitBooking) dispatch(createBooking(payload));
   };
 
   if (isAddNewBookingSuccess)
     return (
-      <View className='flex-[1] flex-row justify-between items-center pb-20'>
+      <View className='flex-[1] h-[400px] flex-row justify-between items-center pb-20'>
         <Text className='flex-[1] pb-1 font-roboto-black text-2xl text-center text-colorDark2'>
           Đặt bàn thành công!!
         </Text>
@@ -46,7 +54,7 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
     );
 
   return (
-    <View className='flex-row h-72 px-2 pt-2 pb-6 my-1'>
+    <View className='flex-row h-[400px] px-2 pt-2 pb-6 my-1'>
       <View className='flex-[1] justify-between pl-1'>
         <Text className='pb-1 font-roboto-black text-xl text-left text-colorDark2'>
           {restaurant.name}
@@ -87,6 +95,17 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
             {bookingData[3]?.data?.length ?? 0}
             {bookingData[3]?.data?.length > 1 ? ' tables' : ' table'}
           </Text>
+        </View>
+        <View className='flex-row'>
+          <FontAwesome name='sticky-note' size={24} color='black' />
+          <View className style={{ flex: 1 }}>
+            <TextInput
+              placeholder='Add notes.....'
+              className='pl-3'
+              value={notes}
+              onChangeText={setNotes}
+            />
+          </View>
         </View>
         <TouchableHighlight
           disabled={!isAbleToSubmitBooking}

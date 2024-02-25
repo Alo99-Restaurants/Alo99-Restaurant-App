@@ -1,15 +1,63 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, RefreshControl, Pressable } from 'react-native';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import ReservedItem from './ReservedItem';
+import { AuthContext } from '../../context/AuthContext';
+import { getBookingService } from '../../services/restaurant.booking.service';
+import { useSelector } from 'react-redux';
+import ModalComponent from '../ModalComponent';
 
-const ReservedList = () => {
+const ReservedList = ({ bookingStatus, restaurants }) => {
+  const auth = useContext(AuthContext);
+  const { isAddNewBookingSuccess } = useSelector((state) => state.booking);
+  const [listBooking, setListBooking] = useState([]);
+  const [bookingSelected, setBookingSelected] = useState({});
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  console.log('bookingSelected', bookingSelected);
+
+  const fetchReservedList = async () => {
+    try {
+      const payload = {
+        UserId: auth?.userInfo?.id,
+        BookingStatus: bookingStatus
+      };
+      const response = await getBookingService(payload);
+      setListBooking(response.data.items ? response.data.items.reverse() : []);
+    } catch (error) {}
+  };
+
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+  };
+
+  useEffect(() => {
+    if (auth?.userInfo?.id) fetchReservedList();
+  }, [bookingStatus, isAddNewBookingSuccess]);
+
   return (
     <View className='flex-[1] bg-colorDark1'>
-      <ReservedItem />
-      <ReservedItem />
-      <ReservedItem />
+      <ModalComponent onClose={handleCloseModal} isOpen={isOpenModal}>
+        <View className='h-[600px] bg-white' />
+      </ModalComponent>
+      <FlatList
+        data={listBooking}
+        initialNumToRender={6}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => setIsOpenModal(true)}>
+            <ReservedItem data={item} restaurants={restaurants} />
+          </Pressable>
+        )}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            color='white'
+            tintColor={'white'}
+            onRefresh={fetchReservedList}
+          />
+        }
+      />
     </View>
   );
-}
+};
 
-export default ReservedList
+export default ReservedList;

@@ -93,3 +93,32 @@ export const extractTime = (dateTimeString) => {
     
     return timeString;
 }
+
+export const buildQueryString = (params) => {
+    let queryString = "?";
+    for (const [key, value] of Object.entries(params)) {
+        if (Array.isArray(value)) {
+            value.forEach(item => {
+                queryString += `${key}=${item}&`;
+            });
+        } else {
+            queryString += `${key}=${value}&`;
+        }
+    }
+    return queryString.slice(0, -1); // Remove the last '&' character
+}
+
+export const convertDateString = (dateString) => {
+  const dateObj = new Date(dateString);
+
+  // Get date in text format (e.g., "25 Feb 2024")
+  const options = { day: '2-digit', month: 'short', year: 'numeric' };
+  const formattedDate = dateObj.toLocaleDateString('en-US', options);
+
+  // Get time (e.g., "06:00")
+  const hours = dateObj.getHours().toString().padStart(2, '0');
+  const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+  const time = `${hours}:${minutes}`;
+
+  return [formattedDate, time];
+}
