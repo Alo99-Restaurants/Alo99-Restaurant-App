@@ -30,7 +30,7 @@ const Categories = ({ onChangeCategory }) => {
 
   return (
     <ScrollView
-      style={{ marginLeft: -4, marginRight: -4 }}
+      className='px-1'
       showsHorizontalScrollIndicator={false}
       horizontal>
       <CategoryItem

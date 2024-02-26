@@ -15,11 +15,11 @@ import { getRestaurantMenu } from '../../services/restaurant.menu.service';
 import ModalComponent from '../ModalComponent';
 import FoodItem from './FoodItem';
 
-const ListOfFood = ({ categoryId }) => {
+const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
   const [menu, setMenu] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [foodSelected, setFoodSelected] = useState({});
-
+  // const [dataOrder, setDataOrder] = useState({});
 
   // Fetch menu by category id or fetch all
   const fetchData = async () => {
@@ -35,7 +35,6 @@ const ListOfFood = ({ categoryId }) => {
       setMenu(menuData);
     } catch (error) {
       console.log('Error fetching menu data:', error);
-    } finally {
     }
   };
 
@@ -48,9 +47,32 @@ const ListOfFood = ({ categoryId }) => {
     setFoodSelected(item);
   };
 
+  const updateSelectedFoodItems = (id, name, quantity, price) => {
+    setDataOrder((prevItems) => {
+      const updatedItems = {
+        ...prevItems,
+        [id]: {
+          id,
+          name,
+          quantity: prevItems[id]
+            ? prevItems[id].quantity + quantity
+            : quantity,
+          price
+        }
+      };
+
+      if (updatedItems[id].quantity <= 0) {
+        delete updatedItems[id];
+      }
+
+      return updatedItems;
+    });
+  };
+
   useEffect(() => {
     handleRefresh();
   }, [categoryId]);
+
 
   return (
     <>
@@ -82,6 +104,12 @@ const ListOfFood = ({ categoryId }) => {
             data={item}
             key={item}
             onClickImg={() => toggleModal(item)}
+            updateSelectedFoodItems={updateSelectedFoodItems}
+            quantity={
+              dataOrder[item.id]
+                ? dataOrder[item.id].quantity
+                : 0
+            }
           />
         )}
         contentContainerStyle={{

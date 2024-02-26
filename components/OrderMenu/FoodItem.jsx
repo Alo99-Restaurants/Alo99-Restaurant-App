@@ -4,29 +4,29 @@ import { convertPrice } from '../../helper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const FoodItem = ({ data, onClickImg }) => {
-  const AmountCounter = ({ count, adjustAmount }) => (
+const FoodItem = ({ data, onClickImg, updateSelectedFoodItems, quantity }) => {
+  const AmountCounter = ({ quantity, adjustAmount }) => (
     <View>
       <View className='flex flex-row justify-center items-center'>
         <TouchableOpacity
-          className='bg-colorDark2 rounded-2xl'
+          className='bg-colorDark1 rounded-2xl'
           onPress={() => adjustAmount(data.id, -1)}>
-          <Text className='font-roboto-bold text-2xl text-white px-3'>-</Text>
+          <Text className='font-roboto-bold text-xl text-white px-3'>-</Text>
         </TouchableOpacity>
         <Text className='font-roboto-bold text-lg text-white px-2'>
-          {count}
+          {quantity}
         </Text>
         <TouchableOpacity
-          className='bg-colorDark2 rounded-2xl'
+          className='bg-colorDark1 rounded-2xl'
           onPress={() => adjustAmount(data.id, 1)}>
-          <Text className='font-roboto-bold text-2xl text-white px-3'>+</Text>
+          <Text className='font-roboto-bold text-xl text-white px-3'>+</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 
-  const adjustAmount = (id , amount) => {
-    console.log(id, amount);
+  const adjustAmount = (id, amount) => {
+    updateSelectedFoodItems(id, data.name, amount, data.price);
   };
 
   return (
@@ -49,8 +49,8 @@ const FoodItem = ({ data, onClickImg }) => {
           {convertPrice(data.price)}
         </Text>
       </View>
-      <View className='flex-[1] flex-row justify-center items-center'>
-        <AmountCounter count={0} adjustAmount={adjustAmount} />
+      <View className='flex-[1.2] flex-row justify-center items-center'>
+        <AmountCounter quantity={quantity} adjustAmount={adjustAmount} />
       </View>
     </View>
   );
