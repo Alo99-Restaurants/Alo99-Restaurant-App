@@ -7,8 +7,9 @@ import {
   FontAwesome
 } from '@expo/vector-icons';
 import { convertDateString } from '../../helper';
+import { router } from 'expo-router';
 
-const ReservedItem = ({ data, restaurants }) => {
+const ReservedItem = ({ data, restaurants, onCancelClick }) => {
   const getInfoRestaurant = (restaurantId) => {
     return restaurants.find((restaurant) => restaurant.id === restaurantId);
   };
@@ -19,7 +20,7 @@ const ReservedItem = ({ data, restaurants }) => {
       <View className='flex-row h-24'>
         <View className='flex-[1] pr-1'>
           <Image
-            source={require('../../assets/images/restaurant1.jpeg')}
+            source={{ uri: restaurantInfo?.restaurantImages[0]?.url }}
             className='w-full h-24'
           />
         </View>
@@ -59,7 +60,7 @@ const ReservedItem = ({ data, restaurants }) => {
             <View className='flex-[1]'>
               <TouchableHighlight
                 style={{ borderRadius: 6 }}
-                underlayColor={'#fff'}>
+                onPress={() => router.push(`/(tabs)/reserved/${data.id}`)}>
                 <View className='border border-primary1 h-10 rounded-md flex justify-center items-center'>
                   <Text className='font-roboto-black text-md text-center text-white'>
                     Edit / Order
@@ -71,7 +72,7 @@ const ReservedItem = ({ data, restaurants }) => {
             <View className='flex-[1]'>
               <TouchableHighlight
                 style={{ borderRadius: 6 }}
-                underlayColor={'#fff'}>
+                onPress={() => onCancelClick(true)}>
                 <View className='border border-primary1 h-10 rounded-md flex justify-center items-center'>
                   <Text className='font-roboto-black text-md text-center text-white'>
                     Cancel
@@ -87,4 +88,3 @@ const ReservedItem = ({ data, restaurants }) => {
 };
 
 export default ReservedItem;
-

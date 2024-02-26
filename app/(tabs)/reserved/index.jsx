@@ -18,7 +18,6 @@ const Reserved = () => {
     return { label: restaurant.name, value: restaurant.id };
   });
   const [menuActive, setMenuActive] = useState(0);
-  const [isOpenModal, setIsOpenModal] = useState(false);
   const dispatch = useDispatch();
 
   const handleChangeTabMenu = (newMenuActive) => {

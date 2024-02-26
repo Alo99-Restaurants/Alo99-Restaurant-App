@@ -28,3 +28,12 @@ export async function checkTablesBookingService(payload) {
     console.log('Get Table Booking Service Error', error);
   }
 }
+
+export async function getBookingDetailByIdService(id) {
+  try {
+    const response = await baseAPI.get(`/api/Booking/${id}`);
+    return response;
+  } catch (error) {
+    console.log('Get Booking Detail By Id Service Error', error);
+  }
+}

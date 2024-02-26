@@ -12,7 +12,6 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
   const [listBooking, setListBooking] = useState([]);
   const [bookingSelected, setBookingSelected] = useState({});
   const [isOpenModal, setIsOpenModal] = useState(false);
-  console.log('bookingSelected', bookingSelected);
 
   const fetchReservedList = async () => {
     try {
@@ -42,9 +41,7 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
         data={listBooking}
         initialNumToRender={6}
         renderItem={({ item }) => (
-          <Pressable onPress={() => setIsOpenModal(true)}>
-            <ReservedItem data={item} restaurants={restaurants} />
-          </Pressable>
+          <ReservedItem data={item} restaurants={restaurants} onCancelClick={setIsOpenModal}/>
         )}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}

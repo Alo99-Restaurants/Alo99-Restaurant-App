@@ -58,7 +58,7 @@ const RestaurantPage = () => {
         <View
           className='flex-[1]'
           style={{ display: menuActive === 1 ? 'flex' : 'none' }}>
-          <Menu activeStoreBranch={activeStoreBranch} />
+          <Menu />
         </View>
         <View
           className='flex-[1]'
