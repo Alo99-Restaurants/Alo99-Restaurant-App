@@ -8,9 +8,7 @@ import {
   View
 } from 'react-native';
 import Color from '../../constants/Color';
-import {
-  getMenuCategoryById
-} from '../../services/category.service';
+import { getMenuCategoryById } from '../../services/category.service';
 import { getRestaurantMenu } from '../../services/restaurant.menu.service';
 import ModalComponent from '../ModalComponent';
 import FoodItem from './FoodItem';
@@ -19,11 +17,12 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
   const [menu, setMenu] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [foodSelected, setFoodSelected] = useState({});
-  // const [dataOrder, setDataOrder] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fetch menu by category id or fetch all
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       let response;
       if (categoryId === 'all' || !categoryId) {
         response = await getRestaurantMenu();
@@ -35,6 +34,8 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
       setMenu(menuData);
     } catch (error) {
       console.log('Error fetching menu data:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -73,7 +74,6 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
     handleRefresh();
   }, [categoryId]);
 
-
   return (
     <>
       <ModalComponent onClose={() => toggleModal({})} isOpen={isModalOpen}>
@@ -105,11 +105,7 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
             key={item}
             onClickImg={() => toggleModal(item)}
             updateSelectedFoodItems={updateSelectedFoodItems}
-            quantity={
-              dataOrder[item.id]
-                ? dataOrder[item.id].quantity
-                : 0
-            }
+            quantity={dataOrder[item.id] ? dataOrder[item.id].quantity : 0}
           />
         )}
         contentContainerStyle={{
@@ -119,6 +115,7 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
         refreshControl={
           <RefreshControl
             color='white'
+            refreshing={isLoading}
             tintColor={'white'}
             onRefresh={handleRefresh}
           />
