@@ -33,6 +33,11 @@ const Profile = () => {
             </View>
           </View>
         </View>
+        <View className='flex flex-row justify-center'>
+          <Text className='text-white text-lg'>
+            {userInfo.name ? userInfo.name : 'User Guest'}
+          </Text>
+        </View>
         <View className='py-5'>
           <View className='flex-row justify-between items-center py-2 px-4'>
             <View className='flex-row items-center'>
@@ -57,8 +62,7 @@ const Profile = () => {
           </View>
         </View>
         <View className='w-full'>
-          <TouchableHighlight
-            onPress={handleLogout}>
+          <TouchableHighlight onPress={handleLogout}>
             <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center mx-2'>
               <Text className=' font-roboto-black text-md text-center text-white'>
                 Log-out

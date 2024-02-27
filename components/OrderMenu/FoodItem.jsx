@@ -26,7 +26,7 @@ const FoodItem = ({ data, onClickImg, updateSelectedFoodItems, quantity }) => {
   );
 
   const adjustAmount = (id, amount) => {
-    updateSelectedFoodItems(id, data.name, amount, data.price);
+    updateSelectedFoodItems(id, data.name, data.menuUrl, amount, data.price);
   };
 
   return (

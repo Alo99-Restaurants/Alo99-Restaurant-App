@@ -15,7 +15,7 @@ import { createBooking } from '../../redux/bookingSlice';
 
 const ConfirmBooking = ({ bookingData, restaurant }) => {
   const dispatch = useDispatch();
-  const { isLoading, isAddNewBookingSuccess } = useSelector(
+  const { isAddNewBookingSuccess } = useSelector(
     (state) => state.booking
   );
   const [notes, setNotes] = useState('');

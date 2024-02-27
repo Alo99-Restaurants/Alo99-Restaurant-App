@@ -37,3 +37,25 @@ export async function getBookingDetailByIdService(id) {
     console.log('Get Booking Detail By Id Service Error', error);
   }
 }
+
+export async function createBookingOrderService(payload) {
+  try {
+    const response = await baseAPI.post(
+      '/api/BookingMenu/CreatesOrUpdatesBookingMenu',
+      payload
+    );
+    return response;
+  } catch (error) {
+    console.log('Post Booking Order Service Error', error);
+  }
+}
+
+export async function getBookingMenuService(payload) {
+  try {
+    const queryString = buildQueryString(payload);
+    const response = await baseAPI.get(`/api/BookingMenu/${queryString}`);
+    return response;
+  } catch (error) {
+    console.log('Get Booking Menu Service Error', error);
+  }
+}

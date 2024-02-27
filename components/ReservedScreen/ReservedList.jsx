@@ -10,7 +10,6 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
   const auth = useContext(AuthContext);
   const { isAddNewBookingSuccess } = useSelector((state) => state.booking);
   const [listBooking, setListBooking] = useState([]);
-  const [bookingSelected, setBookingSelected] = useState({});
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

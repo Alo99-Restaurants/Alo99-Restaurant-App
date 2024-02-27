@@ -1,33 +1,58 @@
+import React, { useEffect, useState } from 'react';
+import { Image, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { router, useLocalSearchParams } from 'expo-router';
 import {
   Entypo,
   FontAwesome,
+  FontAwesome5,
   MaterialCommunityIcons
 } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
-import { getBookingDetailByIdService } from '../../../services/restaurant.booking.service';
+import {
+  getBookingDetailByIdService,
+  getBookingMenuService
+} from '../../../services/restaurant.booking.service';
 import { convertDateString, convertPrice } from '../../../helper';
-import { useSelector } from 'react-redux';
 import Categories from '../../../components/OrderMenu/Categories';
 import ListOfFood from '../../../components/OrderMenu/ListOfFood';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import ConfirmOrder from '../../../components/OrderMenu/ConfirmOrder';
 import ModalComponent from '../../../components/ModalComponent';
+import Color from '../../../constants/Color';
+import { clearAddNewBookingOrderStatus } from '../../../redux/bookingSlice';
+
+const convertDataAPIToObjectLocal = (array) => {
+  const result = {};
+  array.forEach((item) => {
+    const { id, menuId, restaurantMenu, quantity } = item;
+    result[menuId] = {
+      id: restaurantMenu.id,
+      idEdit: id,
+      menuUrl: restaurantMenu.menuUrl,
+      name: restaurantMenu.name,
+      price: restaurantMenu.price,
+      quantity: quantity
+    };
+  });
+  return result;
+};
 
 const Reserved = () => {
   const { id } = useLocalSearchParams();
+  const dispatch = useDispatch();
   const { storeBranches } = useSelector((state) => state.storeBranches);
   const [bookingDetail, setBookingDetail] = useState();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [categorySelected, setCategorySelected] = useState();
+  const [dataOrder, setDataOrder] = useState([]);
 
   const restaurantInfo = bookingDetail?.restaurant;
   const dateParsed = convertDateString(bookingDetail?.bookingDate);
   const restaurantSelected = storeBranches?.find(
     (res) => res.id === bookingDetail?.restaurant.id
   );
-  const [categorySelected, setCategorySelected] = useState();
-  const [dataOrder, setDataOrder] = useState([]);
+  const { isAddNewBookingOrderSuccess } = useSelector((state) => state.booking);
 
   useEffect(() => {
     const fetchBookingDetail = async (id) => {
@@ -36,13 +61,30 @@ const Reserved = () => {
         setBookingDetail(responseBookingDetail?.data?.data);
       } catch (error) {}
     };
+
+    const fetchBookingMenuById = async (id) => {
+      try {
+        const responseBookingMenuById = await getBookingMenuService({
+          BookingId: id
+        });
+        const menuOrdered = responseBookingMenuById.data.items;
+        if (menuOrdered.length > 0) {
+          const dataConverted = convertDataAPIToObjectLocal(menuOrdered);
+          setDataOrder(dataConverted);
+          setIsEdit(true);
+        }
+      } catch (error) {}
+    };
+
     if (id) {
       fetchBookingDetail(id);
+      fetchBookingMenuById(id);
     }
   }, [id]);
 
   const calculateTotal = () => {
-    if(!dataOrder || Object.keys(dataOrder).length === 0) return { totalQuantity: 0, totalPrice: 0 };
+    if (!dataOrder || Object.keys(dataOrder).length === 0)
+      return { totalQuantity: 0, totalPrice: 0 };
     let totalQuantity = Object.values(dataOrder).reduce(
       (acc, item) => acc + item.quantity,
       0
@@ -55,8 +97,14 @@ const Reserved = () => {
   };
   const calculatedData = calculateTotal();
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (isAddNewBookingOrderSuccess) router.back();
+    dispatch(clearAddNewBookingOrderStatus());
+  };
+
   if (!bookingDetail) return <></>;
-  console.log('dataOrder', dataOrder);
+
   return (
     <>
       <View className='flex-[1] bg-colorDark1'>
@@ -109,20 +157,36 @@ const Reserved = () => {
             />
           </View>
         </View>
-        <View className='flex-[1]'>
-          <View className='p-2 pt-4'>
-            <Text className='font-roboto-black text-base text-left text-white'>
-              {`Total Price: ${calculatedData.totalPrice} - Amount: ${calculatedData.totalQuantity}`}
+        <View className='flex-[1.2]'>
+          <View className='p-2 pt-4 flex flex-row justify-start items-center gap-2'>
+            <View className='relative flex items-center justify-center'>
+              <FontAwesome5
+                name='shopping-bag'
+                size={45}
+                color={Color.primary}
+              />
+              <Text className='absolute top-4 font-roboto-black text-lg text-white'>
+                {calculatedData.totalQuantity}
+              </Text>
+            </View>
+            <Text className='font-roboto-black text-base text-left text-white pt-4'>
+              {`Total Price: ${calculatedData.totalPrice}`}
             </Text>
           </View>
           <View className='absolute px-2 bottom-5 left-0 w-full'>
             <TouchableHighlight
+              disabled={Object.keys(dataOrder).length === 0} // disable if dataOrder empty
               style={{ borderRadius: 6 }}
               underlayColor={'#fff'}
               onPress={() => setIsModalOpen(true)}>
-              <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center'>
+              <View
+                className={`${
+                  Object.keys(dataOrder).length === 0
+                    ? 'bg-slate-800'
+                    : 'bg-primary1'
+                } h-10 rounded-md flex justify-center items-center`}>
                 <Text className=' font-roboto-black text-lg text-center text-white'>
-                  Pay
+                  Next
                 </Text>
               </View>
             </TouchableHighlight>
@@ -131,10 +195,13 @@ const Reserved = () => {
       </View>
 
       {/* Modal confirm Order */}
-      <ModalComponent
-        onClose={() => setIsModalOpen(false)}
-        isOpen={isModalOpen}>
-        <ConfirmOrder calculatedData={calculatedData} dataOrder={dataOrder} />
+      <ModalComponent onClose={handleCloseModal} isOpen={isModalOpen}>
+        <ConfirmOrder
+          isEdit={isEdit}
+          bookingId={id}
+          calculatedData={calculatedData}
+          dataOrder={dataOrder}
+        />
       </ModalComponent>
     </>
   );

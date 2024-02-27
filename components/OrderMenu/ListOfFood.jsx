@@ -48,13 +48,15 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
     setFoodSelected(item);
   };
 
-  const updateSelectedFoodItems = (id, name, quantity, price) => {
+  const updateSelectedFoodItems = (id, name, menuUrl, quantity, price) => {
     setDataOrder((prevItems) => {
       const updatedItems = {
         ...prevItems,
         [id]: {
           id,
+          idEdit: prevItems[id]?.idEdit,
           name,
+          menuUrl,
           quantity: prevItems[id]
             ? prevItems[id].quantity + quantity
             : quantity,
@@ -62,7 +64,7 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
         }
       };
 
-      if (updatedItems[id].quantity <= 0) {
+      if (updatedItems[id].quantity <= 0 && !updatedItems[id]?.idEdit) {
         delete updatedItems[id];
       }
 
