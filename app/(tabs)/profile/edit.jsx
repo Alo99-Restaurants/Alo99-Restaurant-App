@@ -1,6 +1,8 @@
 import { View, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { editCustomerInfoByIdService } from '../../../services/customer.service';
 
 const EditProfile = () => {
   const { userInfo } = useContext(AuthContext);
@@ -15,7 +17,19 @@ const EditProfile = () => {
     picture: customerData?.picture
   });
 
-  console.log('customerInfo', customerInfo);
+  const handleEditCustomerInfo = async () => {
+    try {
+      const response = await editCustomerInfoByIdService(
+        customerData.id,
+        customerInfo
+      );
+      console.log('response edit', response);
+
+      // Update new data to local storage and user info state
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -81,6 +95,15 @@ const EditProfile = () => {
               setCustomerInfo({ ...customerInfo, dateOfBirth: text })
             }
           />
+        </View>
+        <View className='w-full mt-2'>
+          <TouchableHighlight onPress={handleEditCustomerInfo}>
+            <View className=' bg-primary1 h-10 rounded-md flex justify-center items-center mx-2'>
+              <Text className=' font-roboto-black text-md text-center text-white'>
+                Edit Profile
+              </Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     </TouchableWithoutFeedback>

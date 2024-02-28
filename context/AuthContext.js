@@ -6,7 +6,7 @@ import {
   login as loginService,
   logout as logoutService
 } from '../services/auth.service';
-import { getCustomerInfoById } from '../services/customer.servce';
+import { getCustomerInfoByIdService } from '../services/customer.service';
 
 export const AuthContext = createContext();
 
@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
 
   const getCustomerInfo = async (customerId) => {
     setIsLoading(true);
-    const response = await getCustomerInfoById(customerId);
+    const response = await getCustomerInfoByIdService(customerId);
     const customerData = response?.data?.data;
     setIsLoading(false);
     return customerData;
