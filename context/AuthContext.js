@@ -6,6 +6,7 @@ import {
   login as loginService,
   logout as logoutService
 } from '../services/auth.service';
+import { getCustomerInfoById } from '../services/customer.servce';
 
 export const AuthContext = createContext();
 
@@ -36,12 +37,16 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     setIsLoading(true);
-    const { data: userInfoResponse } = await loginService({ username, password });
+    const { data: userInfoResponse } = await loginService({
+      username,
+      password
+    });
 
     const userInformation = {
       id: userInfoResponse?.data?.userInfor?.id,
       name: userInfoResponse?.data?.userInfor?.name,
       customerId: userInfoResponse?.data?.userInfor?.customerId,
+      customerInfo: null,
       role: userInfoResponse?.data?.userInfor?.role,
       isDeleted: userInfoResponse?.data?.userInfor?.isDeleted,
       token: userInfoResponse?.data?.jwtToken
@@ -49,26 +54,62 @@ export const AuthProvider = ({ children }) => {
 
     setUserInfo(userInformation);
     await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
+
+    // Get customer info and update
+    if (userInfoResponse?.data?.userInfor?.customerId) {
+      const customerData = await getCustomerInfo(
+        userInfoResponse?.data?.userInfor?.customerId
+      );
+
+      delete customerData.user;
+      userInformation.customerInfo = customerData;
+      
+      setUserInfo(userInformation);
+      await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
+      console.log('customerData: ', userInformation);
+    }
+
     setIsLoading(false);
   };
 
   const loginWithGG = async (userInfoResponse) => {
     setIsLoading(true);
-
     const userInformation = {
-      id: userInfoResponse?.userInfor?.id,
       id: userInfoResponse?.userInfor?.id,
       name: userInfoResponse?.userInfor?.name,
       customerId: userInfoResponse?.userInfor?.customerId,
+      customerInfo: null,
       role: userInfoResponse?.userInfor?.role,
       isDeleted: userInfoResponse?.userInfor?.isDeleted,
       token: userInfoResponse?.jwtToken
     };
-    console.log('loginWithGG', userInformation);
 
     setUserInfo(userInformation);
     await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
+
+    // Get customer info and update
+    if (userInfoResponse?.userInfor?.customerId) {
+      const customerData = await getCustomerInfo(
+        userInfoResponse?.userInfor?.customerId
+      );
+
+      delete customerData.user;
+      userInformation.customerInfo = customerData;
+ 
+      setUserInfo(userInformation);
+      await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
+      console.log('customerData GG: ', userInformation);
+    }
+
     setIsLoading(false);
+  };
+
+  const getCustomerInfo = async (customerId) => {
+    setIsLoading(true);
+    const response = await getCustomerInfoById(customerId);
+    const customerData = response?.data?.data;
+    setIsLoading(false);
+    return customerData;
   };
 
   const logout = async () => {

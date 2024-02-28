@@ -173,23 +173,43 @@ const Reserved = () => {
               {`Total Price: ${calculatedData.totalPrice}`}
             </Text>
           </View>
-          <View className='absolute px-2 bottom-5 left-0 w-full'>
-            <TouchableHighlight
-              disabled={Object.keys(dataOrder).length === 0} // disable if dataOrder empty
-              style={{ borderRadius: 6 }}
-              underlayColor={'#fff'}
-              onPress={() => setIsModalOpen(true)}>
-              <View
-                className={`${
-                  Object.keys(dataOrder).length === 0
-                    ? 'bg-slate-800'
-                    : 'bg-primary1'
-                } h-10 rounded-md flex justify-center items-center`}>
-                <Text className=' font-roboto-black text-lg text-center text-white'>
-                  Next
-                </Text>
-              </View>
-            </TouchableHighlight>
+          <View className='absolute px-2 bottom-5 left-0 w-full flex flex-row'>
+            <View className='flex-[1] pr-1'>
+              <TouchableHighlight
+                disabled={Object.keys(dataOrder).length === 0} // disable if dataOrder empty
+                style={{ borderRadius: 6 }}
+                underlayColor={'#fff'}
+                onPress={() => setIsModalOpen(true)}>
+                <View
+                  className={`${
+                    Object.keys(dataOrder).length === 0
+                      ? 'bg-slate-800'
+                      : 'bg-primary1'
+                  } h-10 rounded-md flex justify-center items-center flex-[1]`}>
+                  <Text className=' font-roboto-black text-lg text-center text-white'>
+                    Pay
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View className='flex-[1] pl-1'>
+              <TouchableHighlight
+                disabled={Object.keys(dataOrder).length === 0} // disable if dataOrder empty
+                style={{ borderRadius: 6 }}
+                underlayColor={'#fff'}
+                onPress={() => setIsModalOpen(true)}>
+                <View
+                  className={`${
+                    Object.keys(dataOrder).length === 0
+                      ? 'bg-slate-800'
+                      : 'bg-primary1'
+                  } h-10 rounded-md flex justify-center items-center flex-[1]`}>
+                  <Text className=' font-roboto-black text-lg text-center text-white'>
+                    Next
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
       </View>

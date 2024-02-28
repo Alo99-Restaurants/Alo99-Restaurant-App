@@ -9,11 +9,9 @@ import { AuthContext } from '../../../context/AuthContext';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
 const Profile = () => {
-  const { isLoading, userInfo, splashLoading, logout } =
-    useContext(AuthContext);
-  const handleLogout = () => {
-    logout();
-  };
+  const { isLoading, userInfo, logout } = useContext(AuthContext);
+  console.log('userInfo', userInfo);
+  const handleLogout = () => logout();
 
   return (
     <View className='flex-[1]'>
@@ -76,4 +74,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
