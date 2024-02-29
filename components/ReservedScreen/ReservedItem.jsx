@@ -54,9 +54,9 @@ const ReservedItem = ({ data, restaurants, onCancelClick }) => {
           </View>
         </View>
       </View>
-      {data.bookingStatusId !== 'Confirm' && (
-        <View className='mt-2'>
-          <View className='flex-row gap-3'>
+      <View className='mt-2'>
+        <View className='flex-row gap-3'>
+          {data.bookingStatusId === 'Confirm' && (
             <View className='flex-[1]'>
               <TouchableHighlight
                 style={{ borderRadius: 6 }}
@@ -68,7 +68,8 @@ const ReservedItem = ({ data, restaurants, onCancelClick }) => {
                 </View>
               </TouchableHighlight>
             </View>
-
+          )}
+          {data.bookingStatusId !== 'Cancelled' && (
             <View className='flex-[1]'>
               <TouchableHighlight
                 style={{ borderRadius: 6 }}
@@ -80,9 +81,9 @@ const ReservedItem = ({ data, restaurants, onCancelClick }) => {
                 </View>
               </TouchableHighlight>
             </View>
-          </View>
+          )}
         </View>
-      )}
+      </View>
     </View>
   );
 };
