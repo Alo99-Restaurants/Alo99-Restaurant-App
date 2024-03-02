@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
+  const [isUpdateUserInfo, setIsUpdateUserInfo] = useState(false); // New state for updating user info
 
   const register = (name, email, password) => {
     setIsLoading(true);
@@ -63,10 +64,9 @@ export const AuthProvider = ({ children }) => {
 
       delete customerData.user;
       userInformation.customerInfo = customerData;
-      
+
       setUserInfo(userInformation);
       await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
-      console.log('customerData: ', userInformation);
     }
 
     setIsLoading(false);
@@ -95,10 +95,9 @@ export const AuthProvider = ({ children }) => {
 
       delete customerData.user;
       userInformation.customerInfo = customerData;
- 
+
       setUserInfo(userInformation);
       await AsyncStorage.setItem('userInfo', JSON.stringify(userInformation));
-      console.log('customerData GG: ', userInformation);
     }
 
     setIsLoading(false);
@@ -117,8 +116,6 @@ export const AuthProvider = ({ children }) => {
 
     const isLogout = await logoutService();
     if (isLogout) {
-      console.log('isLogout', isLogout);
-
       AsyncStorage.removeItem('userInfo');
       setUserInfo({});
     } else {
@@ -130,7 +127,7 @@ export const AuthProvider = ({ children }) => {
   const isLoggedIn = async () => {
     try {
       setSplashLoading(true);
-
+      console.log('run isLoggedIn');
       let userInfo = await AsyncStorage.getItem('userInfo');
       userInfo = JSON.parse(userInfo);
 
@@ -145,9 +142,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUserInformation = (value) => {
+    setIsUpdateUserInfo(value);
+  };
+
   useEffect(() => {
     isLoggedIn();
   }, []);
+
+  useEffect(() => {
+    if (isUpdateUserInfo) {
+      isLoggedIn();
+      setIsUpdateUserInfo(false);
+    }
+  }, [isUpdateUserInfo]);
 
   return (
     <AuthContext.Provider
@@ -158,7 +166,8 @@ export const AuthProvider = ({ children }) => {
         register,
         login,
         loginWithGG,
-        logout
+        logout,
+        updateUserInformation // Exporting the function to update user information state
       }}>
       {children}
     </AuthContext.Provider>

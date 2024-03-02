@@ -1,5 +1,15 @@
 import baseAPI from '../lib/axios/baseAPI';
 
+export async function registerService(payload) {
+  try {
+    const response = await baseAPI.post('/api/User/register', payload);
+    return response;
+  } catch (error) {
+    console.log('Register Service error', error);
+    return error;
+  }
+}
+
 export async function login(payload) {
   try {
     const response = await baseAPI.post('/api/User/login', payload);

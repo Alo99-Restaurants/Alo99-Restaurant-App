@@ -78,7 +78,7 @@ const AuthForm = () => {
         <Text className='font-roboto-regular text-md text-white'>
           {`Don't have an account?  `}
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/(auth)/sign-up')}>
           <Text className='font-roboto-regular text-md text-center text-primary1'>
             Register
           </Text>

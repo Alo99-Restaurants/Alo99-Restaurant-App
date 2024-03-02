@@ -83,8 +83,7 @@ const Reservation = ({ data, restaurant }) => {
         );
         break;
       case 2:
-        // Add your component for the third step
-        component = <Guests guests={guests} onChange={setGuests} />; // Placeholder for the third step component
+        component = <Guests guests={guests} onChange={setGuests} />; 
         break;
       case 3:
         component = (

@@ -10,7 +10,7 @@ import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
 const Profile = () => {
   const { isLoading, userInfo, logout } = useContext(AuthContext);
-  console.log('userInfo', userInfo);
+  // console.log('userInfo', userInfo);
   const handleLogout = () => logout();
 
   return (
@@ -19,7 +19,7 @@ const Profile = () => {
         <View className='flex items-center justify-center mx-5 my-2'>
           <View className='h-20 w-20 bg-gray-400 rounded-full flex items-center justify-center'>
             <Text className='text-white text-2xl'>
-              {userInfo.name ? userInfo.name[0] : 'U'}
+              {userInfo.customerInfo ? userInfo.customerInfo?.name[0] : 'U'}
             </Text>
             <View className='absolute bottom-0 -right-3'>
               <TouchableHighlight
@@ -33,7 +33,9 @@ const Profile = () => {
         </View>
         <View className='flex flex-row justify-center'>
           <Text className='text-white text-lg'>
-            {userInfo.name ? userInfo.name : 'User Guest'}
+            {userInfo.customerInfo?.name
+              ? userInfo.customerInfo?.name
+              : 'User Guest'}
           </Text>
         </View>
         <View className='py-5'>

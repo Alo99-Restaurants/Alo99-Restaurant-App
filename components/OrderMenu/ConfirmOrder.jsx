@@ -10,6 +10,7 @@ const ConfirmOrder = ({ isEdit, dataOrder, calculatedData, bookingId }) => {
   const { isAddNewBookingOrderSuccess } = useSelector((state) => state.booking);
   const auth = useContext(AuthContext);
   const dispatch = useDispatch();
+  const isDisabledBooking = !auth.userInfo.customerInfo?.phoneNumber || !auth.userInfo.customerInfo?.email;
 
   const dataOrderToPayload = useCallback(() => {
     return Object.keys(dataOrder).map((key) => ({
@@ -51,9 +52,18 @@ const ConfirmOrder = ({ isEdit, dataOrder, calculatedData, bookingId }) => {
 
   return (
     <View className='pb-10'>
-      <View className='flex flex-row items-center gap-4 mb-4'>
-        <Text className='text-lg font-roboto-black'>{auth.userInfo.name}</Text>
-        <Text className='text-md font-roboto-italic'>Phone: 0989898978</Text>
+      <View className='flex mb-4'>
+        <Text className='text-lg font-roboto-black pb-2'>
+          {auth.userInfo.customerInfo?.name}
+        </Text>
+        <View className='flex-row flex-wrap'>
+          <Text className='text-md font-roboto-italic pr-5'>
+            Phone: {auth.userInfo.customerInfo?.phoneNumber}
+          </Text>
+          <Text className='text-md font-roboto-italic'>
+            Email: {auth.userInfo.customerInfo?.email}
+          </Text>
+        </View>
       </View>
       <Text className='text-lg font-roboto-medium mb-4'>List order</Text>
       <View className='mb-4' key='order-list'>
@@ -95,15 +105,20 @@ const ConfirmOrder = ({ isEdit, dataOrder, calculatedData, bookingId }) => {
         </Text>
       </View>
       <TouchableHighlight
+        disabled={isDisabledBooking}
         onPress={handleBookingOrder}
         style={{ borderRadius: 6, paddingTop: 10 }}
         underlayColor={'#fff'}>
         <View
           className={`${
-            true ? 'bg-primary1' : 'bg-slate-800'
+            !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
           }  h-10 rounded-md flex justify-center items-center`}>
           <Text className='font-roboto-black text-lg text-center text-white'>
-            {!isEdit ? 'Order' : 'Edit Order'}
+            {isDisabledBooking
+              ? 'Please update your phone & email'
+              : !isEdit && !isDisabledBooking
+              ? 'Order'
+              : 'Edit Order'}
           </Text>
         </View>
       </TouchableHighlight>

@@ -30,7 +30,7 @@ const HomeHeader = () => {
     <SafeAreaView className='pt-[25px] bg-colorDark1'>
       <View className='header px-2'>
         <Text className='font-roboto-bold text-xl py-1 text-primary2'>
-          Hello, {auth.userInfo.name}!
+          Hello, {auth.userInfo.customerInfo?.name}!
         </Text>
         <Text className='font-roboto-regular text-base py-1 text-primary2'>
           Let's reserved a table for you
