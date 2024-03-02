@@ -10,8 +10,10 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalComponent from '../ModalComponent';
 
 const AuthForm = () => {
+  const [isShowModal, setIsShowModal] = useState(false);
   const [email, setEmail] = useState('admin');
   const [password, setPassword] = useState('admin');
 
@@ -31,6 +33,12 @@ const AuthForm = () => {
     checkUserInfo();
   });
 
+  useEffect(() => {
+    if (auth.loginFailed) {
+      setIsShowModal(true);
+    }
+  }, [auth.loginFailed]);
+
   const handleLogin = () => {
     auth.login(email, password);
   };
@@ -43,6 +51,12 @@ const AuthForm = () => {
           style={{ width: 200, height: 130, marginBottom: 20 }}
         />
       </View>
+
+      {isShowModal && (
+        <View className=''>
+          <Text className='text-center text-md text-red-600 font-roboto-bold'>{`Incorrect account, please try again`}</Text>
+        </View>
+      )}
 
       <TextInput
         className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'

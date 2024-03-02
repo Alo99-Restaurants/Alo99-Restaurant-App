@@ -13,8 +13,9 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
-  const [isUpdateUserInfo, setIsUpdateUserInfo] = useState(false); // New state for updating user info
+  const [isUpdateUserInfo, setIsUpdateUserInfo] = useState(false);
 
   const register = (name, email, password) => {
     setIsLoading(true);
@@ -42,6 +43,13 @@ export const AuthProvider = ({ children }) => {
       username,
       password
     });
+
+    if (!userInfoResponse) {
+      // login failed
+      setLoginFailed(true);
+      setLoginFailed(false);
+      return;
+    }
 
     const userInformation = {
       id: userInfoResponse?.data?.userInfor?.id,
@@ -74,6 +82,14 @@ export const AuthProvider = ({ children }) => {
 
   const loginWithGG = async (userInfoResponse) => {
     setIsLoading(true);
+
+    if (!userInfoResponse) {
+      // login failed
+      setLoginFailed(true);
+      setLoginFailed(false);
+      return;
+    }
+
     const userInformation = {
       id: userInfoResponse?.userInfor?.id,
       name: userInfoResponse?.userInfor?.name,
@@ -161,13 +177,14 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isLoading,
+        loginFailed,
         userInfo,
         splashLoading,
         register,
         login,
         loginWithGG,
         logout,
-        updateUserInformation // Exporting the function to update user information state
+        updateUserInformation
       }}>
       {children}
     </AuthContext.Provider>

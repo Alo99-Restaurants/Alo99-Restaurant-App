@@ -1,16 +1,28 @@
 import React from 'react';
-import { Keyboard, KeyboardAvoidingView, Modal, Pressable, Text, View } from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Modal,
+  Pressable,
+  Text,
+  View
+} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Color from '../constants/Color';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { LogBox } from 'react-native';
 
 // Hide warning notifications on front-end
-LogBox.ignoreLogs([
-  /Warning: */
-]);
+LogBox.ignoreLogs([/Warning: */]);
 
-const ModalComponent = ({ isOpen = false, onClose, children, height }) => {
+const ModalComponent = ({
+  isOpen = false,
+  onClose,
+  children,
+  height,
+  type
+}) => {
+
   return (
     <Modal
       animationType='slide'
@@ -41,5 +53,3 @@ const ModalComponent = ({ isOpen = false, onClose, children, height }) => {
 };
 
 export default ModalComponent;
-
-

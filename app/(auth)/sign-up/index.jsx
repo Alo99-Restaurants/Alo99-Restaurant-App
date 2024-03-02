@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image, SafeAreaView, Text, TextInput, View } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import Alo99Logo from '../../../assets/Alo99.png';
 import { registerService } from '../../../services/auth.service';
 import { router } from 'expo-router';
@@ -58,7 +58,6 @@ const RegisterPage = () => {
     }
 
     setErrorMessage(null);
-    console.log('userData', userData);
 
     const response = await registerService({
       ...userData,
@@ -145,6 +144,17 @@ const RegisterPage = () => {
               </Text>
             </View>
           </TouchableHighlight>
+        </View>
+
+        <View className='mt-5 flex flex-row justify-center'>
+          <Text className='font-roboto-regular text-md text-white'>
+            {`Already have an account?  `}
+          </Text>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Text className='font-roboto-regular text-md text-center text-primary1'>
+              Sign in
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

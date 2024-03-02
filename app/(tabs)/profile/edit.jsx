@@ -19,7 +19,6 @@ const EditProfile = () => {
     { label: 'Male', value: 0, disable: true },
     { label: 'Female', value: 1 }
   ];
-  // console.log('userInfo', userInfo);
 
   const [customerInfo, setCustomerInfo] = useState({
     email: customerData?.email,
@@ -30,9 +29,6 @@ const EditProfile = () => {
     picture: customerData?.picture
   });
 
-    console.log('customerData', customerData);
-
-
   const handleEditCustomerInfo = async () => {
     try {
       const response = await editCustomerInfoByIdService(
@@ -40,7 +36,6 @@ const EditProfile = () => {
         customerInfo
       );
 
-      console.log('response edit', response.data);
       if (response?.data?.data) {
         const updatedUserInfo = {
           ...userInfo,

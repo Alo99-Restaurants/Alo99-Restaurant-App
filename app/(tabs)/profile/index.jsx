@@ -10,7 +10,6 @@ import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
 const Profile = () => {
   const { isLoading, userInfo, logout } = useContext(AuthContext);
-  // console.log('userInfo', userInfo);
   const handleLogout = () => logout();
 
   return (
