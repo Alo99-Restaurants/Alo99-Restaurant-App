@@ -25,8 +25,8 @@ const Reserved = () => {
   };
 
   const bookingStatus = menuActive
-    ? ['Completed', ' Cancelled']
-    : ['New', ' Confirm', 'Using'];
+    ? ['Completed', 'Cancelled']
+    : ['New', ' Confirm', 'Using', 'Completed'];
 
   const handleOnClickBookTable = () => {
     if (activeStoreBranchId) {

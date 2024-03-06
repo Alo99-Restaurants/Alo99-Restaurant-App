@@ -2,9 +2,10 @@ import { View, Text, FlatList, RefreshControl, Pressable } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import ReservedItem from './ReservedItem';
 import { AuthContext } from '../../context/AuthContext';
-import { getBookingService } from '../../services/restaurant.booking.service';
+import { getBookingService, updateStatusBookingService } from '../../services/restaurant.booking.service';
 import { useSelector } from 'react-redux';
 import ModalComponent from '../ModalComponent';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const ReservedList = ({ bookingStatus, restaurants }) => {
   const auth = useContext(AuthContext);
@@ -12,6 +13,8 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
   const [listBooking, setListBooking] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeBookingId, setActiveBookingId] = useState({})
+  const isHistoryStatus = bookingStatus.includes('Cancelled');
 
   const fetchReservedList = async () => {
     try {
@@ -21,34 +24,95 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
         BookingStatus: bookingStatus
       };
       const response = await getBookingService(payload);
-      setListBooking(response.data.items ? response.data.items.reverse() : []);
-    } catch (error) {}
-    finally {
+      let data = response.data.items;
+      const today = new Date();
+
+      if (isHistoryStatus) {
+        data = data.filter((item) => {
+          if (item.bookingStatusId === 'Completed') {
+            const bookingDate = new Date(item.bookingDate);
+            return bookingDate < today;
+          }
+          return true;
+        });
+      } else {
+        data = data.filter((item) => {
+          if (item.bookingStatusId === 'Completed') {
+            const bookingDate = new Date(item.bookingDate);
+            return bookingDate >= today;
+          }
+          return true;
+        });
+      }
+
+      setListBooking(data ? data.reverse() : []);
+    } catch (error) {
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handleCloseModal = () => {
     setIsOpenModal(false);
+    setActiveBookingId({});
   };
 
   useEffect(() => {
     if (auth?.userInfo?.id) fetchReservedList();
   }, [bookingStatus, isAddNewBookingSuccess]);
 
+  const handleCancelBooking = (bookingId) => {
+    setIsOpenModal(true);
+    setActiveBookingId(bookingId);
+  }
+
+  const handleUpdateBookingService = async (newStatus) => {
+    const payload = {
+      bookingIds: [activeBookingId],
+      bookingStatus: newStatus
+    };
+    try {
+      await updateStatusBookingService(payload);
+      fetchReservedList();
+      setIsOpenModal(false);
+    } catch (error) {
+      console.log('Error Update Booking Status Service', error);
+    }
+  };
+
   return (
     <View className='flex-[1] bg-colorDark1'>
       <ModalComponent onClose={handleCloseModal} isOpen={isOpenModal}>
-        <View className='h-[600px] bg-white' />
+        <View className='flex justify-center items-center pb-10'>
+          <View className='w-full'>
+            <Text className='pb-1 font-roboto-black text-lg text-center text-colorDark2'>
+              Do you want to cancel this booking?
+            </Text>
+          </View>
+          <View className='w-full'>
+            <TouchableHighlight
+              onPress={() => handleUpdateBookingService('Cancelled')}
+              style={{ borderRadius: 6, paddingTop: 10 }}
+              underlayColor={'#fff'}>
+              <View
+                className={`bg-primary1 h-10 rounded-md flex justify-center items-center`}>
+                <Text className='font-roboto-black text-lg text-center text-white'>
+                  Confirm
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
       </ModalComponent>
       <FlatList
         data={listBooking}
         initialNumToRender={6}
         renderItem={({ item }) => (
           <ReservedItem
+            isHistoryStatus={isHistoryStatus}
             data={item}
             restaurants={restaurants}
-            onCancelClick={setIsOpenModal}
+            onCancelClick={handleCancelBooking}
           />
         )}
         keyExtractor={(item) => item.id}
@@ -67,4 +131,3 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
 };
 
 export default ReservedList;
-

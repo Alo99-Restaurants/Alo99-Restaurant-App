@@ -59,3 +59,12 @@ export async function getBookingMenuService(payload) {
     console.log('Get Booking Menu Service Error', error);
   }
 }
+
+export async function updateStatusBookingService(payload) {
+  try {
+    const response = await baseAPI.post(`/api/Booking/update-status`, payload);
+    return response;
+  } catch (error) {
+    console.log('Update Booking Status Service Error', error);
+  }
+}

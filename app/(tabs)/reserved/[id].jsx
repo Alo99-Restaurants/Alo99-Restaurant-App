@@ -20,6 +20,7 @@ import ConfirmOrder from '../../../components/OrderMenu/ConfirmOrder';
 import ModalComponent from '../../../components/ModalComponent';
 import Color from '../../../constants/Color';
 import { clearAddNewBookingOrderStatus } from '../../../redux/bookingSlice';
+import { getStatusVNPay } from '../../../services/payment.service';
 
 const convertDataAPIToObjectLocal = (array) => {
   const result = {};
@@ -38,21 +39,40 @@ const convertDataAPIToObjectLocal = (array) => {
 };
 
 const Reserved = () => {
-  const { id } = useLocalSearchParams();
+  const localParams = useLocalSearchParams();
+  const { id, paid, pay } = localParams;
   const dispatch = useDispatch();
   const { storeBranches } = useSelector((state) => state.storeBranches);
   const [bookingDetail, setBookingDetail] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [isPay, setIsPay] = useState(false);
   const [categorySelected, setCategorySelected] = useState();
   const [dataOrder, setDataOrder] = useState([]);
 
+  const bookingStatus = bookingDetail?.bookingStatusId;
   const restaurantInfo = bookingDetail?.restaurant;
   const dateParsed = convertDateString(bookingDetail?.bookingDate);
   const restaurantSelected = storeBranches?.find(
     (res) => res.id === bookingDetail?.restaurant.id
   );
   const { isAddNewBookingOrderSuccess } = useSelector((state) => state.booking);
+
+  useEffect(() => {
+    if (paid) {
+      // Close the Confirm modal when payment is successful
+      const getStatusVNPayService = async () => {
+        const responseGetStatusVNPay = await getStatusVNPay(localParams);
+        console.log('responseGetStatusVNPay', responseGetStatusVNPay.data);
+      };
+      setIsModalOpen(false);
+      getStatusVNPayService();
+    }
+    if (pay) {
+      // Open modal pay
+      console.log('new pay');
+    }
+  }, [localParams]);
 
   useEffect(() => {
     const fetchBookingDetail = async (id) => {
@@ -101,6 +121,11 @@ const Reserved = () => {
     setIsModalOpen(false);
     if (isAddNewBookingOrderSuccess) router.back();
     dispatch(clearAddNewBookingOrderStatus());
+  };
+
+  const handlePayOrder = () => {
+    setIsPay(true);
+    setIsModalOpen(true);
   };
 
   if (!bookingDetail) return <></>;
@@ -157,7 +182,12 @@ const Reserved = () => {
             />
           </View>
         </View>
-        <View className='flex-[1.2]'>
+        <View
+          className={`flex-[1.2] ${
+            bookingStatus == 'Using' || bookingStatus === 'Confirm'
+              ? ''
+              : 'flex justify-center'
+          }`}>
           <View className='p-2 pt-4 flex flex-row justify-start items-center gap-2'>
             <View className='relative flex items-center justify-center'>
               <FontAwesome5
@@ -173,43 +203,47 @@ const Reserved = () => {
               {`Total Price: ${calculatedData.totalPrice}`}
             </Text>
           </View>
+
+          {/* Button action */}
           <View className='absolute px-2 bottom-5 left-0 w-full flex flex-row'>
-            <View className='flex-[1] pr-1'>
-              <TouchableHighlight
-                disabled={Object.keys(dataOrder).length === 0} // disable if dataOrder empty
-                style={{ borderRadius: 6 }}
-                underlayColor={'#fff'}
-                onPress={() => setIsModalOpen(true)}>
-                <View
-                  className={`${
-                    Object.keys(dataOrder).length === 0
-                      ? 'bg-slate-800'
-                      : 'bg-primary1'
-                  } h-10 rounded-md flex justify-center items-center flex-[1]`}>
-                  <Text className=' font-roboto-black text-lg text-center text-white'>
-                    Pay
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            </View>
-            <View className='flex-[1] pl-1'>
-              <TouchableHighlight
-                disabled={Object.keys(dataOrder).length === 0} // disable if dataOrder empty
-                style={{ borderRadius: 6 }}
-                underlayColor={'#fff'}
-                onPress={() => setIsModalOpen(true)}>
-                <View
-                  className={`${
-                    Object.keys(dataOrder).length === 0
-                      ? 'bg-slate-800'
-                      : 'bg-primary1'
-                  } h-10 rounded-md flex justify-center items-center flex-[1]`}>
-                  <Text className=' font-roboto-black text-lg text-center text-white'>
-                    Next
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            </View>
+            {bookingStatus === 'Using' && (
+              <View className='flex-[1]'>
+                <TouchableHighlight
+                  disabled={!isEdit}
+                  style={{ borderRadius: 6 }}
+                  underlayColor={'#fff'}
+                  onPress={handlePayOrder}>
+                  <View
+                    className={`${
+                      !isEdit ? 'bg-slate-800' : 'bg-primary1'
+                    } h-10 rounded-md flex justify-center items-center`}>
+                    <Text className=' font-roboto-black text-lg text-center text-white'>
+                      Pay
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            )}
+            {bookingStatus === 'Confirm' && (
+              <View className='flex-[1]'>
+                <TouchableHighlight
+                  disabled={Object.keys(dataOrder).length === 0}
+                  style={{ borderRadius: 6 }}
+                  underlayColor={'#fff'}
+                  onPress={() => setIsModalOpen(true)}>
+                  <View
+                    className={`${
+                      Object.keys(dataOrder).length === 0
+                        ? 'bg-slate-800'
+                        : 'bg-primary1'
+                    } h-10 rounded-md flex justify-center items-center`}>
+                    <Text className=' font-roboto-black text-lg text-center text-white'>
+                      {!isEdit ? 'Order' : 'Edit order'}
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -217,6 +251,7 @@ const Reserved = () => {
       {/* Modal confirm Order */}
       <ModalComponent onClose={handleCloseModal} isOpen={isModalOpen}>
         <ConfirmOrder
+          isPay={isPay}
           isEdit={isEdit}
           bookingId={id}
           calculatedData={calculatedData}

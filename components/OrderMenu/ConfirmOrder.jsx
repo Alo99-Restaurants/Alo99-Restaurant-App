@@ -1,16 +1,31 @@
-import { View, Text, Image } from 'react-native';
-import React, { useCallback, useContext, useEffect } from 'react';
+import { View, Text, Image, Linking } from 'react-native';
+import React, { useCallback, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { convertPrice } from '../../helper';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { createBookingOrder } from '../../redux/bookingSlice';
+import { createPaymentService } from '../../services/payment.service';
+import { router, useLocalSearchParams } from 'expo-router';
 
-const ConfirmOrder = ({ isEdit, dataOrder, calculatedData, bookingId }) => {
+// Ngân hàng: NCB
+// Số thẻ: 9704198526191432198
+// Tên chủ thẻ: NGUYEN VAN A
+// Ngày phát hành: 07/15
+// Mật khẩu OTP: 123456
+
+const ConfirmOrder = ({
+  isEdit,
+  dataOrder,
+  calculatedData,
+  bookingId,
+  isPay
+}) => {
   const { isAddNewBookingOrderSuccess } = useSelector((state) => state.booking);
   const auth = useContext(AuthContext);
   const dispatch = useDispatch();
-  const isDisabledBooking = !auth.userInfo.customerInfo?.phoneNumber || !auth.userInfo.customerInfo?.email;
+  const isDisabledBooking =
+    !auth.userInfo.customerInfo?.phoneNumber
 
   const dataOrderToPayload = useCallback(() => {
     return Object.keys(dataOrder).map((key) => ({
@@ -39,14 +54,55 @@ const ConfirmOrder = ({ isEdit, dataOrder, calculatedData, bookingId }) => {
     );
   };
 
+  // Alo99Restaurant://reserved/08dc3cfb-69f7-458b-8586-a76705a734b9?paid=success
+  const handlePayBookingOrder = async () => {
+    // const editResponse = await dispatch(
+    //   createBookingOrder({
+    //     bookingId,
+    //     menuRequests: isEdit ? dataOrderEditToPayload() : dataOrderToPayload()
+    //   })
+    // );
+
+    // console.log('editResponse', editResponse);
+
+    const response = await createPaymentService({
+      bookingId: bookingId,
+      returnUrl: `Alo99Restaurant://reserved/${bookingId}?paid=success`
+    });
+    const paymentURL = response?.data?.data;
+    if (paymentURL) {
+      Linking.openURL(paymentURL);
+    }
+
+    console.log('response', response?.data);
+  };
+
   if (isAddNewBookingOrderSuccess)
     return (
-      <View className='flex-[1] h-[400px] flex-row justify-between items-center pb-20'>
-        <Text className='flex-[1] pb-1 font-roboto-black text-2xl text-center text-colorDark2'>
-          {isEdit
-            ? 'Đã cập nhật thông tin món ăn!!'
-            : 'Đặt món ăn thành công!!'}
-        </Text>
+      <View className='flex-[1] h-[400px] flex justify-center items-center pb-20'>
+        <View className='w-full'>
+          <Text className='pb-1 font-roboto-black text-2xl text-center text-colorDark2'>
+            {isEdit
+              ? 'Đã cập nhật thông tin món ăn!!'
+              : 'Đặt món ăn thành công!!'}
+          </Text>
+        </View>
+        {/* <View className='w-full'>
+          <TouchableHighlight
+            disabled={isDisabledBooking}
+            onPress={handlePayBookingOrder}
+            style={{ borderRadius: 6, paddingTop: 10 }}
+            underlayColor={'#fff'}>
+            <View
+              className={`${
+                !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
+              }  h-10 rounded-md flex justify-center items-center`}>
+              <Text className='font-roboto-black text-lg text-center text-white'>
+                Pay now
+              </Text>
+            </View>
+          </TouchableHighlight>
+        </View> */}
       </View>
     );
 
@@ -104,26 +160,47 @@ const ConfirmOrder = ({ isEdit, dataOrder, calculatedData, bookingId }) => {
           {`Total Price: ${calculatedData.totalPrice}`}
         </Text>
       </View>
-      <TouchableHighlight
-        disabled={isDisabledBooking}
-        onPress={handleBookingOrder}
-        style={{ borderRadius: 6, paddingTop: 10 }}
-        underlayColor={'#fff'}>
-        <View
-          className={`${
-            !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
-          }  h-10 rounded-md flex justify-center items-center`}>
-          <Text className='font-roboto-black text-lg text-center text-white'>
-            {isDisabledBooking
-              ? 'Please update your phone & email'
-              : !isEdit && !isDisabledBooking
-              ? 'Order'
-              : 'Edit Order'}
-          </Text>
-        </View>
-      </TouchableHighlight>
+
+      {isPay && (
+        <TouchableHighlight
+          disabled={isDisabledBooking}
+          onPress={handlePayBookingOrder}
+          style={{ borderRadius: 6, paddingTop: 10 }}
+          underlayColor={'#fff'}>
+          <View
+            className={`${
+              !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
+            }  h-10 rounded-md flex justify-center items-center`}>
+            <Text className='font-roboto-black text-lg text-center text-white'>
+              Pay
+            </Text>
+          </View>
+        </TouchableHighlight>
+      )}
+
+      {!isPay && (
+        <TouchableHighlight
+          disabled={isDisabledBooking}
+          onPress={handleBookingOrder}
+          style={{ borderRadius: 6, paddingTop: 10 }}
+          underlayColor={'#fff'}>
+          <View
+            className={`${
+              !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
+            }  h-10 rounded-md flex justify-center items-center`}>
+            <Text className='font-roboto-black text-lg text-center text-white'>
+              {isDisabledBooking
+                ? 'Please update your phone number'
+                : !isEdit && !isDisabledBooking
+                ? 'Confirm Order'
+                : 'Save'}
+            </Text>
+          </View>
+        </TouchableHighlight>
+      )}
     </View>
   );
 };
 
 export default ConfirmOrder;
+

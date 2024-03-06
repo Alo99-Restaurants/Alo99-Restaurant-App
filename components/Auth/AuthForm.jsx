@@ -88,7 +88,7 @@ const AuthForm = () => {
         </TouchableHighlight>
       </View>
 
-      <View className='mt-5 flex flex-row'>
+      <View className='mt-5 flex flex-row justify-center'>
         <Text className='font-roboto-regular text-md text-white'>
           {`Don't have an account?  `}
         </Text>

@@ -1,5 +1,5 @@
-import { Dimensions, Pressable, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { Dimensions, Image, Pressable, Text, View } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Color from '../../constants/Color';
 import data from './mockdata/data';
@@ -11,6 +11,88 @@ import { convertDateTime } from '../../helper';
 const windowWidth = Dimensions.get('window').width - 16;
 const scale = windowWidth / data.width;
 
+export const TABLE_ICONS = [
+  {
+    type: '2',
+    url: require('../../assets/table_icon/Table2.png'),
+    url_activate: require('../../assets/table_icon/Table2_activate.png'),
+    url_disabled: require('../../assets/table_icon/Table2_disabled.png')
+  },
+  {
+    type: '4',
+    url: require('../../assets/table_icon/Table4.png'),
+    url_activate: require('../../assets/table_icon/Table4_activate.png'),
+    url_disabled: require('../../assets/table_icon/Table4_disabled.png')
+  },
+  {
+    type: '6',
+    url: require('../../assets/table_icon/Table6.png'),
+    url_activate: require('../../assets/table_icon/Table6_activate.png'),
+    url_disabled: require('../../assets/table_icon/Table6_disabled.png')
+  },
+  {
+    type: '8',
+    url: require('../../assets/table_icon/Table8.png'),
+    url_activate: require('../../assets/table_icon/Table8_activate.png'),
+    url_disabled: require('../../assets/table_icon/Table8_disabled.png')
+  },
+  {
+    type: '10',
+    url: require('../../assets/table_icon/Table10.png'),
+    url_activate: require('../../assets/table_icon/Table10_activate.png'),
+    url_disabled: require('../../assets/table_icon/Table10_disabled.png')
+  },
+  {
+    type: '12',
+    url: require('../../assets/table_icon/Table12.png'),
+    url_activate: require('../../assets/table_icon/Table12_activate.png'),
+    url_disabled: require('../../assets/table_icon/Table12_disabled.png')
+  }
+];
+
+const TableIcon = React.memo(({ w, h, x, y, scale, type, id, direction, handleBoxSelection, isBooked, tableIds, timeBookingSelected }) => {
+  const textStyle = isBooked ? 'text-gray-200 border' : 'text-black';
+
+  return (
+    <Pressable onPress={() => handleBoxSelection(id)} disabled={isBooked}>
+      <View
+        className={`${direction === 'horizontal' ? 'rotate-90' : ''}`}
+        style={{
+          position: 'absolute',
+          width: w * scale,
+          height: h * scale,
+          top: y * scale,
+          left: x * scale
+        }}>
+        <Image
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: w * scale,
+            height: h * scale,
+            aspectRatio: Number(w) / Number(h)
+          }}
+          source={
+            isBooked
+              ? TABLE_ICONS.find((item) => item.type == type)?.url_disabled
+              : tableIds.some((tableId) => tableId === id)
+                ? TABLE_ICONS.find((item) => item.type == type)?.url_activate
+                : TABLE_ICONS.find((item) => item.type == type)?.url
+          }
+        />
+        <View className={`${direction === 'horizontal' ? '-rotate-90' : ''} absolute w-full h-full flex justify-center items-center`}>
+          <Text className={`${textStyle} font-roboto-black text-base`}>
+            {type}
+          </Text>
+        </View>
+      </View>
+    </Pressable>
+  );
+});
+
 const TableBooking = ({
   restaurantFloors,
   dataBooking,
@@ -21,9 +103,8 @@ const TableBooking = ({
   const dispatch = useDispatch();
   const { layout } = useSelector((state) => state.layout);
   const [menuActive, setMenuActive] = useState(
-    restaurantFloors[restaurantFloors.length - 1]?.id
+    restaurantFloors[0]?.id
   );
-
   const [allBookingsOnDay, setAllBookingsOnDay] = useState();
   const timeBookingSelected = dataBooking[1]?.data;
   const menu = restaurantFloors.map((floor) => {
@@ -47,27 +128,25 @@ const TableBooking = ({
       width: extensionData.width,
       height: extensionData.height,
       position: extensionData.position,
+      direction: extensionData.direction ?? 'horizontal',
       capacity: table.capacity,
       tableName: table.tableName
     };
   });
 
-  const handleBoxSelection = (id) => {
-    // const totalGuest =
-    //   Number(dataBooking[2]?.data?.adults ?? 0) +
-    //   Number(dataBooking[2]?.data?.children ?? 0);
+  const handleBoxSelection = useCallback((id) => {
     if (tableIds.some((tableId) => tableId === id)) {
       onChange(tableIds.filter((tableId) => tableId !== id));
-      // setSelectedTableIds(tableIds.filter((tableId) => tableId !== id));
     } else {
       onChange([...tableIds, id]);
-      // setSelectedTableIds([...tableIds, id]);
     }
+  }, [tableIds, onChange]);
+
+  const handlePressFloorMenu = (id) => {
+    setMenuActive(id);
   };
 
-
   useEffect(() => {
-    // Reset tables selected when change menu steps
     onChange([]);
   }, []);
 
@@ -118,63 +197,10 @@ const TableBooking = ({
 
   if(!allBookingsOnDay) return null;
 
-  const Box = ({ w, h, x, y, scale, type, id }) => {
-    // Check if a table is booked on the selected day and time
-    const isBooked = allBookingsOnDay.some((booking) => {
-      const bookingDateTime = new Date(booking.bookingDate);
-      const timeBookingSelectedMinus1Hour30Mins = new Date(
-        new Date().setHours(
-          parseInt(timeBookingSelected.split(':')[0]),
-          parseInt(timeBookingSelected.split(':')[1]) - 90
-        )
-      ); // Subtract 1 hour 30 minutes
-      return (
-        booking.tableId === id &&
-        bookingDateTime > timeBookingSelectedMinus1Hour30Mins
-      );
-    });
-    const isBookedStyle = isBooked
-      ? { backgroundColor: Color.colorDark1, pointerEvents: 'none' }
-      : { backgroundColor: '#F7BE20' };
-    const textStyle = isBooked ? 'text-gray-400 border' : 'text-white';
-    return (
-      <Pressable onPress={() => handleBoxSelection(id)} disabled={isBooked}>
-        <View
-          style={{
-            position: 'absolute',
-            width: w * scale,
-            height: h * scale,
-            ...isBookedStyle,
-            borderColor: tableIds.some((tableId) => tableId === id)
-              ? 'red'
-              : isBooked
-              ? 'black'
-              : 'transparent',
-            borderWidth:
-              tableIds.some((tableId) => tableId === id) || isBooked
-                ? 3
-                : 0,
-            top: y * scale,
-            left: x * scale
-          }}>
-          <View className='relative w-full h-full flex justify-center items-center'>
-            <Text className={`${textStyle} font-roboto-black text-base`}>
-              {type}
-            </Text>
-          </View>
-        </View>
-      </Pressable>
-    );
-  };
-
-  const handlePressFloorMenu = (id) => {
-    setMenuActive(id);
-  };
-
   return (
     <View>
       <View className='flex flex-row justify-around bg-colorDark2 rounded-xl p-2 mb-4'>
-        {menu.reverse().map((item, index) => (
+        {menu.map((item, index) => (
           <TouchableOpacity
             key={item.value}
             onPress={() => handlePressFloorMenu(item.value)}>
@@ -198,7 +224,7 @@ const TableBooking = ({
         }}>
         {mapDataTables.map((table, index) => {
           return (
-            <Box
+            <TableIcon
               key={index}
               id={table.id}
               w={table.width}
@@ -206,7 +232,24 @@ const TableBooking = ({
               x={table.position.x}
               y={table.position.y}
               type={table.type}
+              direction={table.direction}
               scale={scale}
+              handleBoxSelection={handleBoxSelection}
+              isBooked={allBookingsOnDay.some((booking) => {
+                const bookingDateTime = new Date(booking.bookingDate);
+                const timeBookingSelectedMinus1Hour30Mins = new Date(
+                  new Date().setHours(
+                    parseInt(timeBookingSelected.split(':')[0]),
+                    parseInt(timeBookingSelected.split(':')[1]) - 90
+                  )
+                ); // Subtract 1 hour 30 minutes
+                return (
+                  booking.tableId === table.id &&
+                  bookingDateTime > timeBookingSelectedMinus1Hour30Mins
+                );
+              })}
+              tableIds={tableIds}
+              timeBookingSelected={timeBookingSelected}
             />
           );
         })}
@@ -216,3 +259,4 @@ const TableBooking = ({
 };
 
 export default TableBooking;
+
