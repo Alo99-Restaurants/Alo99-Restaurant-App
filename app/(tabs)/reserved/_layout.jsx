@@ -9,7 +9,7 @@ const Layout = () => {
       <Stack.Screen
         name='index'
         options={{
-          title: 'Reserved',
+          title: 'Reservation',
           headerTintColor: Color.white,
           headerStyle: { backgroundColor: Color.colorDark1 }
         }}

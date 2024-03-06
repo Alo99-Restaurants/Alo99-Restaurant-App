@@ -5,7 +5,7 @@ import {
   MaterialCommunityIcons
 } from '@expo/vector-icons';
 import React, { useMemo } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Linking, Pressable, Text, View } from 'react-native';
 import {
   TouchableHighlight,
   TouchableOpacity
@@ -81,6 +81,9 @@ const DetailsMenu = ({ activeStoreBranch }) => {
           </View>
           <View className='flex-[1]'>
             <TouchableOpacity
+              onPress={() =>
+                Linking.openURL(`tel:${activeStoreBranch.phoneNumber}`)
+              }
               hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
               <View className='flex flex-row justify-between items-center'>
                 <Text className='font-roboto-regular text-xs text-left text-white ml-2'>
@@ -129,6 +132,7 @@ const DetailsMenu = ({ activeStoreBranch }) => {
           </View>
           <View className='flex-[1]'>
             <TouchableOpacity
+              onPress={() => Linking.openURL(`https://alo99.com`)}
               hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
               <View className='flex flex-row justify-between items-center'>
                 <Text className='font-roboto-regular text-xs text-left text-white ml-2'>

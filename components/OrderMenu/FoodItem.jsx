@@ -3,24 +3,33 @@ import React from 'react';
 import { convertPrice } from '../../helper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
-const FoodItem = ({ data, onClickImg, updateSelectedFoodItems, quantity }) => {
+const FoodItem = ({
+  data,
+  onClickImg,
+  updateSelectedFoodItems,
+  quantity,
+  ableToEdit
+}) => {
   const AmountCounter = ({ quantity, adjustAmount }) => (
     <View>
       <View className='flex flex-row justify-center items-center'>
-        <TouchableOpacity
-          className='bg-colorDark1 rounded-2xl'
-          onPress={() => adjustAmount(data.id, -1)}>
-          <Text className='font-roboto-bold text-xl text-white px-3'>-</Text>
-        </TouchableOpacity>
+        {ableToEdit && (
+          <TouchableOpacity
+            className='bg-colorDark1 rounded-2xl'
+            onPress={() => adjustAmount(data.id, -1)}>
+            <Text className='font-roboto-bold text-xl text-white px-3'>-</Text>
+          </TouchableOpacity>
+        )}
         <Text className='font-roboto-bold text-lg text-white px-2'>
           {quantity}
         </Text>
-        <TouchableOpacity
-          className='bg-colorDark1 rounded-2xl'
-          onPress={() => adjustAmount(data.id, 1)}>
-          <Text className='font-roboto-bold text-xl text-white px-3'>+</Text>
-        </TouchableOpacity>
+        {ableToEdit && (
+          <TouchableOpacity
+            className='bg-colorDark1 rounded-2xl'
+            onPress={() => adjustAmount(data.id, 1)}>
+            <Text className='font-roboto-bold text-xl text-white px-3'>+</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

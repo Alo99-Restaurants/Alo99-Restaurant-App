@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import RestaurantCard from '../../../components/RestaurantCard';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useLocalSearchParams } from 'expo-router';
+import { FontAwesome5 } from '@expo/vector-icons';
+import Color from '../../../constants/Color';
 
 const Explore = () => {
   const { restaurant: restaurantSearchId, random } = useLocalSearchParams();
@@ -99,8 +101,9 @@ const Explore = () => {
               key={index}
               coordinate={coordinate}
               title={restaurant?.name}
-              description={restaurant?.address}
-            />
+              description={restaurant?.address}>
+              <FontAwesome5 name='store' size={24} color={Color.colorDark2} />
+            </Marker>
           );
         })}
       </MapView>

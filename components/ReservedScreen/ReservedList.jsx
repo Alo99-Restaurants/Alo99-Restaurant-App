@@ -31,7 +31,9 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
         data = data.filter((item) => {
           if (item.bookingStatusId === 'Completed') {
             const bookingDate = new Date(item.bookingDate);
-            return bookingDate < today;
+            const bookingDateWithoutTime = new Date(bookingDate.getFullYear(), bookingDate.getMonth(), bookingDate.getDate());
+            const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            return bookingDateWithoutTime < todayWithoutTime;
           }
           return true;
         });
@@ -39,7 +41,9 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
         data = data.filter((item) => {
           if (item.bookingStatusId === 'Completed') {
             const bookingDate = new Date(item.bookingDate);
-            return bookingDate >= today;
+            const bookingDateWithoutTime = new Date(bookingDate.getFullYear(), bookingDate.getMonth(), bookingDate.getDate());
+            const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            return bookingDateWithoutTime >= todayWithoutTime;
           }
           return true;
         });
@@ -119,7 +123,7 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            refreshing={isLoading}
+            refreshing={false}
             color='white'
             tintColor={'white'}
             onRefresh={fetchReservedList}

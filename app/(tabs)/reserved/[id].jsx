@@ -47,6 +47,7 @@ const Reserved = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isPay, setIsPay] = useState(false);
+  const [isView, setIsView] = useState(false);
   const [categorySelected, setCategorySelected] = useState();
   const [dataOrder, setDataOrder] = useState([]);
 
@@ -128,6 +129,10 @@ const Reserved = () => {
     setIsModalOpen(true);
   };
 
+  const handleViewOrder = () => {
+    setIsModalOpen(true);
+  };
+
   if (!bookingDetail) return <></>;
 
   return (
@@ -136,7 +141,10 @@ const Reserved = () => {
         <View className='flex-row h-24 bg-colorDark1'>
           <View className='flex-[1] pr-1'>
             <Image
-              source={{ uri: restaurantSelected?.restaurantImages[0]?.url }}
+              source={{
+                uri: restaurantSelected?.restaurantImages[0]?.url,
+                cache: 'force-cache'
+              }}
               className='w-full h-24'
             />
           </View>
@@ -176,6 +184,7 @@ const Reserved = () => {
           </View>
           <View className='flex-[1]'>
             <ListOfFood
+              ableToEdit={bookingStatus === 'Confirm'}
               dataOrder={dataOrder}
               setDataOrder={setDataOrder}
               categoryId={categorySelected}
@@ -188,21 +197,26 @@ const Reserved = () => {
               ? ''
               : 'flex justify-center'
           }`}>
-          <View className='p-2 pt-4 flex flex-row justify-start items-center gap-2'>
-            <View className='relative flex items-center justify-center'>
-              <FontAwesome5
-                name='shopping-bag'
-                size={45}
-                color={Color.primary}
-              />
-              <Text className='absolute top-4 font-roboto-black text-lg text-white'>
-                {calculatedData.totalQuantity}
+          <TouchableHighlight
+            style={{ borderRadius: 6 }}
+            underlayColor={Color.colorDark2}
+            onPress={handleViewOrder}>
+            <View className='p-2 pt-4 flex flex-row justify-start items-center gap-2'>
+              <View className='relative flex items-center justify-center'>
+                <FontAwesome5
+                  name='shopping-bag'
+                  size={45}
+                  color={Color.primary}
+                />
+                <Text className='absolute top-4 font-roboto-black text-lg text-white'>
+                  {calculatedData.totalQuantity}
+                </Text>
+              </View>
+              <Text className='font-roboto-black text-base text-left text-white pt-4'>
+                {`Total Price: ${calculatedData.totalPrice}`}
               </Text>
             </View>
-            <Text className='font-roboto-black text-base text-left text-white pt-4'>
-              {`Total Price: ${calculatedData.totalPrice}`}
-            </Text>
-          </View>
+          </TouchableHighlight>
 
           {/* Button action */}
           <View className='absolute px-2 bottom-5 left-0 w-full flex flex-row'>
@@ -251,10 +265,12 @@ const Reserved = () => {
       {/* Modal confirm Order */}
       <ModalComponent onClose={handleCloseModal} isOpen={isModalOpen}>
         <ConfirmOrder
+          isView={isView}
           isPay={isPay}
           isEdit={isEdit}
           bookingId={id}
           calculatedData={calculatedData}
+          bookingStatus={bookingStatus}
           dataOrder={dataOrder}
         />
       </ModalComponent>

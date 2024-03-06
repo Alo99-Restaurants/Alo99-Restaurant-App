@@ -16,9 +16,11 @@ import { router, useLocalSearchParams } from 'expo-router';
 
 const ConfirmOrder = ({
   isEdit,
+  isView,
   dataOrder,
   calculatedData,
   bookingId,
+  bookingStatus,
   isPay
 }) => {
   const { isAddNewBookingOrderSuccess } = useSelector((state) => state.booking);
@@ -161,7 +163,7 @@ const ConfirmOrder = ({
         </Text>
       </View>
 
-      {isPay && (
+      {isPay && bookingStatus === 'Using' && (
         <TouchableHighlight
           disabled={isDisabledBooking}
           onPress={handlePayBookingOrder}
@@ -178,7 +180,7 @@ const ConfirmOrder = ({
         </TouchableHighlight>
       )}
 
-      {!isPay && (
+      {!isPay && bookingStatus === 'Confirm' && (
         <TouchableHighlight
           disabled={isDisabledBooking}
           onPress={handleBookingOrder}

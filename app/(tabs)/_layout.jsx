@@ -52,7 +52,7 @@ const Layout = () => {
         <Tabs.Screen
           name='reserved'
           options={{
-            tabBarLabel: 'Reserved',
+            tabBarLabel: 'Reservation',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name='md-fast-food' size={size} color={color} />
             ),

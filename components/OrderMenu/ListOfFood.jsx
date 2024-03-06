@@ -13,7 +13,7 @@ import { getRestaurantMenu } from '../../services/restaurant.menu.service';
 import ModalComponent from '../ModalComponent';
 import FoodItem from './FoodItem';
 
-const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
+const ListOfFood = ({ categoryId, dataOrder, setDataOrder, ableToEdit }) => {
   const [menu, setMenu] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [foodSelected, setFoodSelected] = useState({});
@@ -105,6 +105,7 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
           <FoodItem
             data={item}
             key={item}
+            ableToEdit={ableToEdit}
             onClickImg={() => toggleModal(item)}
             updateSelectedFoodItems={updateSelectedFoodItems}
             quantity={dataOrder[item.id] ? dataOrder[item.id].quantity : 0}
@@ -117,7 +118,7 @@ const ListOfFood = ({ categoryId, dataOrder, setDataOrder }) => {
         refreshControl={
           <RefreshControl
             color='white'
-            refreshing={isLoading}
+            refreshing={false}
             tintColor={'white'}
             onRefresh={handleRefresh}
           />

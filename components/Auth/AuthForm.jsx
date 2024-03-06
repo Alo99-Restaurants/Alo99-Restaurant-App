@@ -10,12 +10,11 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ModalComponent from '../ModalComponent';
 
 const AuthForm = () => {
   const [isShowModal, setIsShowModal] = useState(false);
-  const [email, setEmail] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const auth = useContext(AuthContext);
 
@@ -61,8 +60,8 @@ const AuthForm = () => {
       <TextInput
         className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'
         value={email}
-        placeholder='Enter email'
-        placeholderTextColor='#fff'
+        placeholder='Enter username'
+        placeholderTextColor='#6b6b6b'
         onChangeText={(text) => setEmail(text)}
       />
 
@@ -70,7 +69,7 @@ const AuthForm = () => {
         className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'
         value={password}
         placeholder='Enter password'
-        placeholderTextColor='#fff'
+        placeholderTextColor='#6b6b6b'
         onChangeText={(text) => setPassword(text)}
         secureTextEntry
       />

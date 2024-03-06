@@ -73,7 +73,7 @@ const EditProfile = () => {
           <TextInput
             className='text-white'
             placeholder='Full name'
-            placeholderTextColor={'gray'}
+            placeholderTextColor='#6b6b6b'
             value={customerInfo.name}
             onChangeText={(text) =>
               setCustomerInfo({ ...customerInfo, name: text })
@@ -84,7 +84,7 @@ const EditProfile = () => {
           <TextInput
             className='text-white'
             placeholder='Email'
-            placeholderTextColor={'gray'}
+            placeholderTextColor='#6b6b6b'
             value={customerInfo.email}
             onChangeText={(text) =>
               setCustomerInfo({ ...customerInfo, email: text })
@@ -112,7 +112,7 @@ const EditProfile = () => {
           <TextInput
             className='text-white'
             placeholder='Phone Number'
-            placeholderTextColor={'gray'}
+            placeholderTextColor='#6b6b6b'
             value={customerInfo.phoneNumber}
             onChangeText={(text) =>
               setCustomerInfo({ ...customerInfo, phoneNumber: text })
@@ -123,7 +123,7 @@ const EditProfile = () => {
           <TextInput
             className='text-white'
             placeholder='Date Of Birth'
-            placeholderTextColor={'gray'}
+            placeholderTextColor='#6b6b6b'
             value={customerInfo.dateOfBirth}
             onChangeText={(text) =>
               setCustomerInfo({ ...customerInfo, dateOfBirth: text })

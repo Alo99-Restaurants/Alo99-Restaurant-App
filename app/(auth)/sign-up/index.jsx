@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, View } from 'react-native';
 import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import Alo99Logo from '../../../assets/Alo99.png';
 import { registerService } from '../../../services/auth.service';
@@ -77,7 +77,10 @@ const RegisterPage = () => {
 
   return (
     <SafeAreaView className='flex-[1] bg-colorDark1 pt-[25px]'>
-      <View className='px-4 pt-2'>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={-120}
+        className='flex-[1] px-4 pt-2'
+        behavior={Platform.OS === 'ios' ? 'position' : 'height'}>
         <View className='flex justify-between items-center'>
           <Image
             source={Alo99Logo}
@@ -95,7 +98,7 @@ const RegisterPage = () => {
           className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'
           value={userData.name}
           placeholder='Enter full name'
-          placeholderTextColor='#fff'
+          placeholderTextColor='#6b6b6b'
           onChangeText={(text) => onChangeText('name', text)}
         />
 
@@ -103,7 +106,7 @@ const RegisterPage = () => {
           className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'
           value={userData.username}
           placeholder='Enter username'
-          placeholderTextColor='#fff'
+          placeholderTextColor='#6b6b6b'
           onChangeText={(text) => onChangeText('username', text)}
         />
 
@@ -111,7 +114,7 @@ const RegisterPage = () => {
           className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'
           value={userData.password}
           placeholder='Enter password'
-          placeholderTextColor='#fff'
+          placeholderTextColor='#6b6b6b'
           secureTextEntry
           onChangeText={(text) => onChangeText('password', text)}
         />
@@ -120,7 +123,7 @@ const RegisterPage = () => {
           className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'
           value={userData.email}
           placeholder='Enter email'
-          placeholderTextColor='#fff'
+          placeholderTextColor='#6b6b6b'
           onChangeText={(text) => onChangeText('email', text)}
         />
 
@@ -128,7 +131,7 @@ const RegisterPage = () => {
           className='bg-colorDark2 border border-primary1 text-white text-sm rounded-lg focus:ring-primary1 focus:border-primary1 block w-full p-2.5 my-2'
           value={userData.phoneNumber}
           placeholder='Enter phone number'
-          placeholderTextColor='#fff'
+          placeholderTextColor='#6b6b6b'
           onChangeText={(text) => onChangeText('phoneNumber', text)}
           keyboardType='numeric'
         />
@@ -156,7 +159,7 @@ const RegisterPage = () => {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

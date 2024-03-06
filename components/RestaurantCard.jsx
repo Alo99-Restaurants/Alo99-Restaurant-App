@@ -12,7 +12,9 @@ const RestaurantCard = ({ restaurant }) => {
       exiting={FadeOutLeft}>
       <Image
         className='rounded-t-lg w-full h-20'
-        source={{ uri: restaurant?.restaurantImages[0]?.url ?? '' }}
+        source={{
+          uri: restaurant?.restaurantImages[0]?.url ?? ''
+        }}
       />
       <View className='p-2'>
         <View className='flex flex-row justify-between items-center py-2'>
