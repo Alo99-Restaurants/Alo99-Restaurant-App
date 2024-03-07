@@ -9,6 +9,7 @@
     "web": "expo start --web",
     "postinstall": "node postinstall.js",
     "build-dev-ios": "eas build --profile development-simulator --platform ios",
+    "build-dev-android": "eas build --profile development-simulator --platform android",
     "dev-client": "expo start --dev-client"
   },
   "dependencies": {
@@ -41,7 +42,6 @@
     "react-native-calendars": "^1.1302.0",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-maps": "1.7.1",
-    "react-native-picker": "^4.3.7",
     "react-native-picker-select": "^9.0.1",
     "react-native-reanimated": "~3.3.0",
     "react-native-reanimated-carousel": "^3.5.1",

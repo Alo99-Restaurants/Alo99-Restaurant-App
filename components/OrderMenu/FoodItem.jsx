@@ -1,7 +1,6 @@
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { convertPrice } from '../../helper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const FoodItem = ({
   data,

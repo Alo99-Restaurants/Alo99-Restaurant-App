@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableHighlight } from 'react-native';
 import {
   AntDesign,
   Fontisto,
@@ -9,7 +9,6 @@ import {
 import ReservationStep from './ReservationStep';
 import CalendarScreen from './Calendar';
 import TableBooking from './TableBooking';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import moment from 'moment';
 import TimeSelect from './TimeSelect';
 import Guests from './Guests';

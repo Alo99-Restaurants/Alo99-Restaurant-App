@@ -5,10 +5,7 @@ import {
   FontAwesome
 } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
-import {
-  TouchableHighlight,
-} from 'react-native-gesture-handler';
+import { Text, TextInput, View, TouchableHighlight } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { convertDateTime } from '../../helper';
 import { createBooking } from '../../redux/bookingSlice';
@@ -40,7 +37,7 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
       numberOfPeople: totalGuest,
       note: notes
     };
-
+    console.log('createBooking');
     if (isAbleToSubmitBooking) dispatch(createBooking(payload));
   };
 

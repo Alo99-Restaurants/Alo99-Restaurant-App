@@ -1,10 +1,6 @@
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, TouchableHighlight } from 'react-native';
 import React, { useContext } from 'react';
 import { router } from 'expo-router';
-import {
-  TouchableHighlight,
-  TouchableOpacity
-} from 'react-native-gesture-handler';
 import { AuthContext } from '../../../context/AuthContext';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 

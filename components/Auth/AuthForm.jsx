@@ -1,10 +1,14 @@
-import { View, Text, TextInput, Button, Image } from 'react-native';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
 import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Image,
   TouchableHighlight,
   TouchableOpacity
-} from 'react-native-gesture-handler';
+} from 'react-native';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import Alo99Logo from '../../assets/Alo99.png';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';

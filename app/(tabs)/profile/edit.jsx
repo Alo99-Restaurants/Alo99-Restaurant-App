@@ -3,12 +3,12 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  TouchableHighlight
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import { editCustomerInfoByIdService } from '../../../services/customer.service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';

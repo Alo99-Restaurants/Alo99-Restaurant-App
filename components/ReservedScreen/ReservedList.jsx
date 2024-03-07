@@ -1,11 +1,17 @@
-import { View, Text, FlatList, RefreshControl, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  RefreshControl,
+  Pressable,
+  TouchableHighlight
+} from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import ReservedItem from './ReservedItem';
 import { AuthContext } from '../../context/AuthContext';
 import { getBookingService, updateStatusBookingService } from '../../services/restaurant.booking.service';
 import { useSelector } from 'react-redux';
 import ModalComponent from '../ModalComponent';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const ReservedList = ({ bookingStatus, restaurants }) => {
   const auth = useContext(AuthContext);

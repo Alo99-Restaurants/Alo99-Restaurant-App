@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, View } from 'react-native';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, TouchableHighlight,TouchableOpacity, View } from 'react-native';
 import Alo99Logo from '../../../assets/Alo99.png';
 import { registerService } from '../../../services/auth.service';
 import { router } from 'expo-router';

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, TouchableHighlight } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
   Entypo,

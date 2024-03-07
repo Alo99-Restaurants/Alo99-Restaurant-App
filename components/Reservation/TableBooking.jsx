@@ -1,6 +1,12 @@
-import { Dimensions, Image, Pressable, Text, View } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  Text,
+  View,
+  TouchableOpacity
+} from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Color from '../../constants/Color';
 import data from './mockdata/data';
 import { useDispatch, useSelector } from 'react-redux';

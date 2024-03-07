@@ -1,6 +1,5 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 import React from 'react';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import {
   Entypo,
   MaterialCommunityIcons,

@@ -5,15 +5,17 @@ import {
   MaterialCommunityIcons
 } from '@expo/vector-icons';
 import React, { useMemo } from 'react';
-import { Linking, Pressable, Text, View } from 'react-native';
 import {
+  Linking,
+  Pressable,
+  Text,
+  View,
   TouchableHighlight,
   TouchableOpacity
-} from 'react-native-gesture-handler';
+} from 'react-native';
 import Color from '../../constants/Color';
 import { router } from 'expo-router';
 import { formatTime, generateRandomString } from '../../helper';
-import { useSelector } from 'react-redux';
 
 const DetailsMenu = ({ activeStoreBranch }) => {
   const randomMixedCaseString = generateRandomString(5);

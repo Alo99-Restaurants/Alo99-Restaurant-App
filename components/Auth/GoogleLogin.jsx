@@ -18,7 +18,9 @@ const GoogleLogin = () => {
     iosClientId:
       '668304086077-g0fbj59svjg0gi2ldi6p26207i20tg7n.apps.googleusercontent.com',
     webClientId:
-      '668304086077-843hetfqhf9u60fcr5ddlk06uss37qvb.apps.googleusercontent.com'
+      '668304086077-843hetfqhf9u60fcr5ddlk06uss37qvb.apps.googleusercontent.com',
+    androidClientId:
+      '668304086077-c5mgo5aor9dj4gihd8ognffm0njt6d40.apps.googleusercontent.com'
   });
 
   async function handleEffect(response) {

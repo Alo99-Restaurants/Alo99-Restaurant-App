@@ -1,7 +1,5 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import DetailsMenu from './DetailsMenu';
 
 const TabMenu = ({ menu, onChange, className, itemClassName, children }) => {
   const [menuActive, setMenuActive] = useState(0);

@@ -1,8 +1,7 @@
-import { View, Text, Image, Linking } from 'react-native';
+import { View, Text, Image, Linking, TouchableHighlight } from 'react-native';
 import React, { useCallback, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { convertPrice } from '../../helper';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { createBookingOrder } from '../../redux/bookingSlice';
 import { createPaymentService } from '../../services/payment.service';

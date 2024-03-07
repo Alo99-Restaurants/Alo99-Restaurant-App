@@ -5,11 +5,11 @@ import {
   Modal,
   Pressable,
   Text,
-  View
+  View,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Color from '../constants/Color';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { LogBox } from 'react-native';
 
 // Hide warning notifications on front-end

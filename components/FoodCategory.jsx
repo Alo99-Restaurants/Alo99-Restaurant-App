@@ -1,6 +1,5 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { router } from 'expo-router';
 
 const FoodCategory = ({ classStyle, label, img, uri, id }) => {

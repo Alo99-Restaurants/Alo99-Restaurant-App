@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Linking, Pressable, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSelector } from 'react-redux';
 import RestaurantCard from '../../../components/RestaurantCard';
-import { ScrollView } from 'react-native-gesture-handler';
 import { useLocalSearchParams } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Color from '../../../constants/Color';

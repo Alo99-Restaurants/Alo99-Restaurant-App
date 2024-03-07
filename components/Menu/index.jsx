@@ -15,7 +15,6 @@ import {
   getMenuCategoryById
 } from '../../services/category.service';
 import ModalComponent from '../ModalComponent';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { convertPrice } from '../../helper';
 
 const Menu = ({ categoryId }) => {

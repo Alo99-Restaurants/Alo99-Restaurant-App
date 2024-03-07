@@ -1,6 +1,11 @@
-import { View, Text, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity
+} from 'react-native';
 import React, { useEffect, useState, useContext } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import Color from '../constants/Color';
 import FoodCategory from './FoodCategory';
