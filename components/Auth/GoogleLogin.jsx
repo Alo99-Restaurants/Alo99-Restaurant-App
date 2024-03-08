@@ -14,7 +14,6 @@ const GoogleLogin = () => {
   // shouldAutoExchangeCode: false
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: '',
     iosClientId:
       '668304086077-g0fbj59svjg0gi2ldi6p26207i20tg7n.apps.googleusercontent.com',
     webClientId:
@@ -25,6 +24,7 @@ const GoogleLogin = () => {
 
   async function handleEffect(response) {
     try {
+      console.log('response GG', response);
       const tokenGG = response?.authentication?.accessToken;
       if (response?.type === 'success' && tokenGG) {
         const responseGG = await loginWithGG(tokenGG);

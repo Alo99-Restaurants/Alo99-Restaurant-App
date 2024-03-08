@@ -27,6 +27,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDbUfHFqcRJtQbD_nH0q2YFi4e5b7cp4ds"
+        }
+      },
       "package": "com.kyphans.Alo99Restaurant"
     },
     "web": {
