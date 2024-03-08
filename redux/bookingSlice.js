@@ -19,7 +19,6 @@ export const createBooking = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const response = await createBookingService(payload);
-      console.log('res', response);
       if (!response) {
         throw response.error;
       }

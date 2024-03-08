@@ -9,8 +9,10 @@
       "ios": {
         "simulator": true
       },
-      "env": { 
-        "ANDROID_SDK_ROOT": "/Users/kyphan/Library/Android/sdk" 
+      "env": {
+        "ANDROID_SDK_ROOT": "/Users/kyphan/Library/Android/sdk",
+        "EXPO_PUBLIC_GG_API_KEY_IOS": "AIzaSyABXTtzt_Q54bZQNTDlgvwPbUIPIwGY49U",
+        "EXPO_PUBLIC_GG_API_KEY_AND": "AIzaSyDbUfHFqcRJtQbD_nH0q2YFi4e5b7cp4ds"
       }
     },
     "development": {

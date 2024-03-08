@@ -37,7 +37,6 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
       numberOfPeople: totalGuest,
       note: notes
     };
-    console.log('createBooking');
     if (isAbleToSubmitBooking) dispatch(createBooking(payload));
   };
 
