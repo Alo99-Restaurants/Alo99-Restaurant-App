@@ -16,23 +16,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.kyphans.Alo99Restaurant",
-      "config": {
-        "googleMapsApiKey": "AIzaSyABXTtzt_Q54bZQNTDlgvwPbUIPIwGY49U"
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyDbUfHFqcRJtQbD_nH0q2YFi4e5b7cp4ds"
-        }
-      },
-      "package": "com.kyphans.Alo99Restaurant"
+      }
     },
     "web": {
       "bundler": "metro",

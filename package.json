@@ -8,8 +8,11 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "postinstall": "node postinstall.js",
-    "build-dev-ios": "eas build --profile development-simulator --platform ios",
-    "build-dev-android": "eas build --profile development-simulator --platform android",
+    "build-ios": "eas build --profile development-simulator --platform ios",
+    "build-android": "eas build --profile development-simulator --platform android",
+    "build": "eas build --profile development-simulator --platform all",
+    "build-android-local": "eas build --profile development-simulator --platform android --local",
+    "build-ios-local": "eas build --profile development-simulator --platform ios --local",
     "dev-client": "expo start --dev-client"
   },
   "dependencies": {
