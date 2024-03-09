@@ -93,7 +93,7 @@ const TableIcon = React.memo(({ w, h, x, y, scale, name, type, id, direction, ha
           className={`${
             direction === 'horizontal' ? '-rotate-90' : ''
           } absolute w-full h-full flex justify-center items-center`}>
-          <Text className={`${textStyle} font-roboto-black text-sm`}>
+          <Text className={`${textStyle} font-roboto-black`}>
             {name}
           </Text>
         </View>

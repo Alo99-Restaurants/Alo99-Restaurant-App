@@ -49,8 +49,9 @@ const Reserved = () => {
   const [isView, setIsView] = useState(false);
   const [categorySelected, setCategorySelected] = useState();
   const [dataOrder, setDataOrder] = useState([]);
+  const [bookingStatus, setBookingStatus] = useState();
 
-  const bookingStatus = bookingDetail?.bookingStatusId;
+  // const bookingStatus = bookingDetail?.bookingStatusId;
   const restaurantInfo = bookingDetail?.restaurant;
   const dateParsed = convertDateString(bookingDetail?.bookingDate);
   const restaurantSelected = storeBranches?.find(
@@ -59,18 +60,27 @@ const Reserved = () => {
   const { isAddNewBookingOrderSuccess } = useSelector((state) => state.booking);
 
   useEffect(() => {
+    if (bookingDetail?.bookingStatusId) {
+      setBookingStatus(bookingDetail?.bookingStatusId);
+    }
+  }, [bookingDetail?.bookingStatusId]);
+
+  useEffect(() => {
     if (paid) {
       // Close the Confirm modal when payment is successful
+      const fetchBookingDetail = async (id) => {
+        try {
+          const responseBookingDetail = await getBookingDetailByIdService(id);
+          setBookingDetail(responseBookingDetail?.data?.data);
+        } catch (error) {}
+      };
       const getStatusVNPayService = async () => {
         const responseGetStatusVNPay = await getStatusVNPay(localParams);
+        await fetchBookingDetail(id);
         console.log('responseGetStatusVNPay', responseGetStatusVNPay.data);
       };
       setIsModalOpen(false);
       getStatusVNPayService();
-    }
-    if (pay) {
-      // Open modal pay
-      console.log('new pay');
     }
   }, [localParams]);
 

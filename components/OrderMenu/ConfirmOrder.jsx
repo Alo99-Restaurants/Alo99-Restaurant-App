@@ -57,15 +57,6 @@ const ConfirmOrder = ({
 
   // Alo99Restaurant://reserved/08dc3cfb-69f7-458b-8586-a76705a734b9?paid=success
   const handlePayBookingOrder = async () => {
-    // const editResponse = await dispatch(
-    //   createBookingOrder({
-    //     bookingId,
-    //     menuRequests: isEdit ? dataOrderEditToPayload() : dataOrderToPayload()
-    //   })
-    // );
-
-    // console.log('editResponse', editResponse);
-
     const response = await createPaymentService({
       bookingId: bookingId,
       returnUrl: `Alo99Restaurant://reserved/${bookingId}?paid=success`
@@ -88,22 +79,6 @@ const ConfirmOrder = ({
               : 'Đặt món ăn thành công!!'}
           </Text>
         </View>
-        {/* <View className='w-full'>
-          <TouchableHighlight
-            disabled={isDisabledBooking}
-            onPress={handlePayBookingOrder}
-            style={{ borderRadius: 6, paddingTop: 10 }}
-            underlayColor={'#fff'}>
-            <View
-              className={`${
-                !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
-              }  h-10 rounded-md flex justify-center items-center`}>
-              <Text className='font-roboto-black text-lg text-center text-white'>
-                Pay now
-              </Text>
-            </View>
-          </TouchableHighlight>
-        </View> */}
       </View>
     );
 

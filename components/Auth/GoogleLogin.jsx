@@ -5,9 +5,8 @@ import * as Google from 'expo-auth-session/providers/google';
 import { loginWithGG } from '../../services/auth.service';
 import { AuthContext } from '../../context/AuthContext';
 
-WebBrowser.maybeCompleteAuthSession();
-
 const GoogleLogin = () => {
+  WebBrowser.maybeCompleteAuthSession();
   const auth = useContext(AuthContext);
 
   // selectAccount: true,
