@@ -24,7 +24,6 @@ const GoogleLogin = () => {
 
   async function handleEffect(response) {
     try {
-      console.log('response GG', response);
       const tokenGG = response?.authentication?.accessToken;
       if (response?.type === 'success' && tokenGG) {
         const responseGG = await loginWithGG(tokenGG);

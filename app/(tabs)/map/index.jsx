@@ -84,7 +84,6 @@ const Explore = () => {
     <View>
       <MapView
         ref={mapRef}
-        provider={PROVIDER_GOOGLE}
         initialRegion={INIT_DATA}
         className='w-full h-full'
         showsUserLocation

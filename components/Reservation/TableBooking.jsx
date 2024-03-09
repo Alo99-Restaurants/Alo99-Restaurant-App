@@ -56,7 +56,7 @@ export const TABLE_ICONS = [
   }
 ];
 
-const TableIcon = React.memo(({ w, h, x, y, scale, type, id, direction, handleBoxSelection, isBooked, tableIds, timeBookingSelected }) => {
+const TableIcon = React.memo(({ w, h, x, y, scale, name, type, id, direction, handleBoxSelection, isBooked, tableIds, timeBookingSelected }) => {
   const textStyle = isBooked ? 'text-gray-200 border' : 'text-black';
 
   return (
@@ -85,13 +85,16 @@ const TableIcon = React.memo(({ w, h, x, y, scale, type, id, direction, handleBo
             isBooked
               ? TABLE_ICONS.find((item) => item.type == type)?.url_disabled
               : tableIds.some((tableId) => tableId === id)
-                ? TABLE_ICONS.find((item) => item.type == type)?.url_activate
-                : TABLE_ICONS.find((item) => item.type == type)?.url
+              ? TABLE_ICONS.find((item) => item.type == type)?.url_activate
+              : TABLE_ICONS.find((item) => item.type == type)?.url
           }
         />
-        <View className={`${direction === 'horizontal' ? '-rotate-90' : ''} absolute w-full h-full flex justify-center items-center`}>
-          <Text className={`${textStyle} font-roboto-black text-base`}>
-            {type}
+        <View
+          className={`${
+            direction === 'horizontal' ? '-rotate-90' : ''
+          } absolute w-full h-full flex justify-center items-center`}>
+          <Text className={`${textStyle} font-roboto-black text-sm`}>
+            {name}
           </Text>
         </View>
       </View>
@@ -237,6 +240,7 @@ const TableBooking = ({
               h={table.height}
               x={table.position.x}
               y={table.position.y}
+              name={table.tableName}
               type={table.type}
               direction={table.direction}
               scale={scale}
