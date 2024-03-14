@@ -75,6 +75,7 @@ const Reservation = ({ data, restaurant }) => {
         component = (
           <TimeSelect
             time={time}
+            dataBooking={dataBooking}
             onChange={setTime}
             openHours={data.openHours}
             closeHours={data.closeHours}

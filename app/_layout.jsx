@@ -5,6 +5,8 @@ import { NativeWindStyleSheet } from 'nativewind';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
 import { AuthContext, AuthProvider } from '../context/AuthContext';
+import { StatusBar } from 'expo-status-bar';
+
 
 NativeWindStyleSheet.setOutput({
   default: 'native'
@@ -52,6 +54,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <AuthProvider>
+        <StatusBar style='light' />
         <Slot />
         {/* <RootLayoutNav /> */}
       </AuthProvider>
