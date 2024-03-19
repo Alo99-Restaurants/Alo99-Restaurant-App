@@ -22,12 +22,13 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
   const [activeBookingId, setActiveBookingId] = useState({})
   const isHistoryStatus = bookingStatus.includes('Cancelled');
 
-  const fetchReservedList = async () => {
+  const fetchReservedList = useCallback(async () => {
     try {
       setIsLoading(true);
       const payload = {
         UserId: auth?.userInfo?.id,
-        BookingStatus: bookingStatus
+        BookingStatus: bookingStatus,
+        TotalRows: 50
       };
       const response = await getBookingService(payload);
       let data = response.data.items;
@@ -60,7 +61,7 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [auth, bookingStatus]);
 
   const handleCloseModal = () => {
     setIsOpenModal(false);
@@ -116,7 +117,7 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
       </ModalComponent>
       <FlatList
         data={listBooking}
-        initialNumToRender={6}
+        initialNumToRender={5}
         renderItem={({ item }) => (
           <ReservedItem
             isHistoryStatus={isHistoryStatus}
@@ -129,7 +130,7 @@ const ReservedList = ({ bookingStatus, restaurants }) => {
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            refreshing={false}
+            refreshing={isLoading}
             color='white'
             tintColor={'white'}
             onRefresh={fetchReservedList}

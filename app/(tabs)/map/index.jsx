@@ -15,8 +15,8 @@ const Explore = () => {
   const mapRef = useRef();
 
   const INIT_DATA = {
-    latitude: 10.732921877008966,
-    longitude: 106.69963012115724,
+    latitude: 10.745479,
+    longitude: 106.695556,
     latitudeDelta: 0.03,
     longitudeDelta: 0.03
   };

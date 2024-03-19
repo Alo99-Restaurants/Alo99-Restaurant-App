@@ -125,6 +125,7 @@ const Reserved = () => {
     );
     return { totalQuantity, totalPrice: convertPrice(totalPrice) };
   };
+
   const calculatedData = calculateTotal();
 
   const handleCloseModal = () => {
@@ -143,6 +144,8 @@ const Reserved = () => {
   };
 
   if (!bookingDetail) return <></>;
+
+  console.log('bookingDetail', bookingDetail);
 
   return (
     <>
@@ -183,6 +186,16 @@ const Reserved = () => {
               <FontAwesome name='users' size={14} color='white' />
               <Text className='pl-3 font-roboto-medium text-md text-left text-white'>
                 {bookingDetail.numberOfPeople}
+              </Text>
+            </View>
+            <View className='flex-[1] flex-row'>
+              <MaterialCommunityIcons
+                name='table-chair'
+                size={14}
+                color='white'
+              />
+              <Text className='pl-3 font-roboto-medium text-md text-left text-white'>
+                {bookingDetail.tables?.map(item => item.tableName).join(', ')}
               </Text>
             </View>
           </View>

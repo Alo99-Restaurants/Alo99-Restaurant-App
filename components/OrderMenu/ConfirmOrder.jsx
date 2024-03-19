@@ -65,7 +65,6 @@ const ConfirmOrder = ({
     if (paymentURL) {
       Linking.openURL(paymentURL);
     }
-
     console.log('response', response?.data);
   };
 
