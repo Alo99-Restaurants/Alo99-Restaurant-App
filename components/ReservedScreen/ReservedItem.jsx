@@ -4,11 +4,11 @@ import {
   Entypo,
   MaterialCommunityIcons,
   FontAwesome,
-  Ionicons
+  Ionicons,
+  MaterialIcons
 } from '@expo/vector-icons';
 import { convertDateString } from '../../helper';
 import { router } from 'expo-router';
-import { updateStatusBookingService } from '../../services/restaurant.booking.service';
 import Color from '../../constants/Color';
 
 const ReservedItem = ({
@@ -71,7 +71,7 @@ const ReservedItem = ({
       case 'Cancelled':
         return (
           <View className='flex-[1] flex-row'>
-            <FontAwesome name='money' size={14} color='white' />
+            <MaterialIcons name='cancel' size={14} color='white' />
             <Text className='pl-3 font-roboto-medium text-md text-left text-white'>
               Cancelled
             </Text>
@@ -87,7 +87,7 @@ const ReservedItem = ({
       <TouchableHighlight
         underlayColor={Color.colorDark2}
         style={{ borderRadius: 6 }}
-        onPress={() => data.bookingStatusId !== 'New' && router.push(`/(tabs)/reserved/${data.id}`)}>
+        onPress={() => router.push(`/(tabs)/reserved/${data.id}`)}>
         <View className='flex-row h-28'>
           <View className='flex-[1] pr-1'>
             <Image
@@ -129,7 +129,6 @@ const ReservedItem = ({
           data.bookingStatusId === 'Using') && (
           <View className='mt-2'>
             <View className='flex-row gap-3'>
-              {data.bookingStatusId !== 'New' && (
                 <View className='flex-[1]'>
                   <TouchableHighlight
                     style={{ borderRadius: 6 }}
@@ -138,12 +137,11 @@ const ReservedItem = ({
                     }>
                     <View className='border border-primary1 h-10 rounded-md flex justify-center items-center'>
                       <Text className='font-roboto-black text-md text-center text-white'>
-                        {data.bookingStatusId === 'Confirm' ? 'Order' : 'Pay'}
+                        {data.bookingStatusId !== 'Using' ? 'Order' : 'Pay'}
                       </Text>
                     </View>
                   </TouchableHighlight>
                 </View>
-              )}
               {data.bookingStatusId !== 'Cancelled' &&
                 data.bookingStatusId !== 'Using' && (
                   <View className='flex-[1]'>

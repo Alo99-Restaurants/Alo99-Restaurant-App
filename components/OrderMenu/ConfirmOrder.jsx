@@ -153,26 +153,27 @@ const ConfirmOrder = ({
         </TouchableHighlight>
       )}
 
-      {!isPay && bookingStatus === 'Confirm' && (
-        <TouchableHighlight
-          disabled={isDisabledBooking}
-          onPress={handleBookingOrder}
-          style={{ borderRadius: 6, paddingTop: 10 }}
-          underlayColor={'#fff'}>
-          <View
-            className={`${
-              !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
-            }  h-10 rounded-md flex justify-center items-center`}>
-            <Text className='font-roboto-black text-lg text-center text-white'>
-              {isDisabledBooking
-                ? 'Please update your phone number'
-                : !isEdit && !isDisabledBooking
-                ? 'Confirm Order'
-                : 'Save'}
-            </Text>
-          </View>
-        </TouchableHighlight>
-      )}
+      {!isPay &&
+        (bookingStatus === 'New' || bookingStatus === 'Confirm') && (
+          <TouchableHighlight
+            disabled={isDisabledBooking}
+            onPress={handleBookingOrder}
+            style={{ borderRadius: 6, paddingTop: 10 }}
+            underlayColor={'#fff'}>
+            <View
+              className={`${
+                !isDisabledBooking ? 'bg-primary1' : 'bg-slate-400'
+              }  h-10 rounded-md flex justify-center items-center`}>
+              <Text className='font-roboto-black text-lg text-center text-white'>
+                {isDisabledBooking
+                  ? 'Please update your phone number'
+                  : !isEdit && !isDisabledBooking
+                  ? 'Confirm Order'
+                  : 'Save'}
+              </Text>
+            </View>
+          </TouchableHighlight>
+        )}
     </View>
   );
 };

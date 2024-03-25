@@ -4,14 +4,19 @@ import {
   MaterialCommunityIcons,
   FontAwesome
 } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, TextInput, View, TouchableHighlight } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { convertDateTime } from '../../helper';
 import { createBooking } from '../../redux/bookingSlice';
+import { AuthContext } from '../../context/AuthContext';
 
 const ConfirmBooking = ({ bookingData, restaurant }) => {
   const dispatch = useDispatch();
+  const { userInfo } = useContext(AuthContext);
+  const customerInfo = userInfo.customerInfo;
+
+  console.log('customerInfo', customerInfo);
   const { isAddNewBookingSuccess } = useSelector(
     (state) => state.booking
   );
@@ -104,16 +109,18 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
           </View>
         </View>
         <TouchableHighlight
-          disabled={!isAbleToSubmitBooking}
+          disabled={!isAbleToSubmitBooking || !customerInfo.emailConfirmed}
           onPress={handleBooking}
           style={{ borderRadius: 6, paddingTop: 10 }}
           underlayColor={'#fff'}>
           <View
             className={`${
-              isAbleToSubmitBooking ? 'bg-primary1' : 'bg-gray-300'
+              isAbleToSubmitBooking && customerInfo.emailConfirmed
+                ? 'bg-primary1'
+                : 'bg-gray-300'
             }  h-10 rounded-md flex justify-center items-center`}>
             <Text className='font-roboto-black text-lg text-center text-white'>
-              Book
+              {!customerInfo.emailConfirmed ? 'Please verify your email' : 'Book'}
             </Text>
           </View>
         </TouchableHighlight>

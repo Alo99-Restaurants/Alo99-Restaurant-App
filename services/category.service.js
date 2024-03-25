@@ -11,7 +11,7 @@ export async function getMenuCategory() {
 
 export async function getMenuCategoryById(id) {
   try {
-    const response = await baseAPI.get(`/api/MenuCategory/${id}`);
+    const response = await baseAPI.get(`/api/MenuCategory/${id}?TotalRows=10`);
     return response;
   } catch (error) {
     console.log('Get MenuCategory Service Error', error);

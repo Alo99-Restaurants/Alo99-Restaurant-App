@@ -61,7 +61,7 @@ const RegisterPage = () => {
     const response = await registerService({
       ...userData,
       role: 'Customer',
-      clientUrl: ''
+      clientUrl: 'https://booking-api.vietmap.io/api/Customer/confirm-email'
     });
 
     if (response.data?.data) {

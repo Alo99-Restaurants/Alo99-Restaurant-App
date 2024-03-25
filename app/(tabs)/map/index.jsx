@@ -1,11 +1,19 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import {
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableHighlight,
+  View
+} from 'react-native';
+import MapView, { Callout, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSelector } from 'react-redux';
 import RestaurantCard from '../../../components/RestaurantCard';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Color from '../../../constants/Color';
+import { generateRandomString } from '../../../helper';
 
 const Explore = () => {
   const { restaurant: restaurantSearchId, random } = useLocalSearchParams();
@@ -84,10 +92,10 @@ const Explore = () => {
     <View>
       <MapView
         ref={mapRef}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
         initialRegion={INIT_DATA}
-        className='w-full h-full'
-        showsUserLocation
-        showsMyLocationButton>
+        className='w-full h-full'>
         {storeBranches?.map((restaurant, index) => {
           const [latitude, longitude] = restaurant.location.split(',');
           const coordinate = {
@@ -101,6 +109,35 @@ const Explore = () => {
               title={restaurant?.name}
               description={restaurant?.address}>
               <FontAwesome5 name='store' size={24} color={Color.colorDark2} />
+              <Callout>
+                <View className='w-60 p-2'>
+                  <Text className='text-lg font-roboto-black'>
+                    {restaurant?.name}
+                  </Text>
+                  <Text className='text-xs'>{restaurant?.address}</Text>
+
+                  {/* <Pressable onPress={() => console.log('Booking')}>
+                      <Text className=''>Booking</Text>
+                    </Pressable> */}
+
+                  <TouchableHighlight
+                    style={{ borderRadius: 6 }}
+                    underlayColor={'#fff'}
+                    onPress={() =>
+                      router.push(
+                        `/(tabs)/reserved?storeId=${
+                          restaurant.id
+                        }&random=${generateRandomString(5)}`
+                      )
+                    }>
+                    <View className='mt-4 bg-primary1 h-8 rounded-md flex justify-center items-center'>
+                      <Text className=' font-roboto-black text-md text-center text-white'>
+                        Book Table
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              </Callout>
             </Marker>
           );
         })}

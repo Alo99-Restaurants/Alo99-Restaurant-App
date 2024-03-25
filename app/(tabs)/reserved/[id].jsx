@@ -145,8 +145,6 @@ const Reserved = () => {
 
   if (!bookingDetail) return <></>;
 
-  console.log('bookingDetail', bookingDetail);
-
   return (
     <>
       <View className='flex-[1] bg-colorDark1'>
@@ -195,7 +193,7 @@ const Reserved = () => {
                 color='white'
               />
               <Text className='pl-3 font-roboto-medium text-md text-left text-white'>
-                {bookingDetail.tables?.map(item => item.tableName).join(', ')}
+                {bookingDetail.tables?.map((item) => item.tableName).join(', ')}
               </Text>
             </View>
           </View>
@@ -206,7 +204,9 @@ const Reserved = () => {
           </View>
           <View className='flex-[1]'>
             <ListOfFood
-              ableToEdit={bookingStatus === 'Confirm'}
+              ableToEdit={
+                bookingStatus === 'New' || bookingStatus === 'Confirm'
+              }
               dataOrder={dataOrder}
               setDataOrder={setDataOrder}
               categoryId={categorySelected}
@@ -215,7 +215,9 @@ const Reserved = () => {
         </View>
         <View
           className={`flex-[1.2] ${
-            bookingStatus == 'Using' || bookingStatus === 'Confirm'
+            bookingStatus == 'Using' ||
+            bookingStatus === 'Confirm' ||
+            bookingStatus === 'New'
               ? ''
               : 'flex justify-center'
           }`}>
@@ -260,26 +262,27 @@ const Reserved = () => {
                 </TouchableHighlight>
               </View>
             )}
-            {bookingStatus === 'Confirm' && (
-              <View className='flex-[1]'>
-                <TouchableHighlight
-                  disabled={Object.keys(dataOrder).length === 0}
-                  style={{ borderRadius: 6 }}
-                  underlayColor={'#fff'}
-                  onPress={() => setIsModalOpen(true)}>
-                  <View
-                    className={`${
-                      Object.keys(dataOrder).length === 0
-                        ? 'bg-slate-800'
-                        : 'bg-primary1'
-                    } h-10 rounded-md flex justify-center items-center`}>
-                    <Text className=' font-roboto-black text-lg text-center text-white'>
-                      {!isEdit ? 'Order' : 'Edit order'}
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-              </View>
-            )}
+            {bookingStatus === 'Confirm' ||
+              (bookingStatus === 'New' && (
+                <View className='flex-[1]'>
+                  <TouchableHighlight
+                    disabled={Object.keys(dataOrder).length === 0}
+                    style={{ borderRadius: 6 }}
+                    underlayColor={'#fff'}
+                    onPress={() => setIsModalOpen(true)}>
+                    <View
+                      className={`${
+                        Object.keys(dataOrder).length === 0
+                          ? 'bg-slate-800'
+                          : 'bg-primary1'
+                      } h-10 rounded-md flex justify-center items-center`}>
+                      <Text className=' font-roboto-black text-lg text-center text-white'>
+                        {!isEdit ? 'Order' : 'Edit order'}
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              ))}
           </View>
         </View>
       </View>

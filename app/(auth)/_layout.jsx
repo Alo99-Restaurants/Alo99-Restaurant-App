@@ -20,6 +20,14 @@ const Layout = () => {
           headerStyle: { backgroundColor: Color.colorDark1 }
         }}
       />
+      <Stack.Screen
+        name='forgot-password/index'
+        options={{
+          title: 'Forgot password',
+          headerTintColor: Color.white,
+          headerStyle: { backgroundColor: Color.colorDark1 }
+        }}
+      />
     </Stack>
   );
 };

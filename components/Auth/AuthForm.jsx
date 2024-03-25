@@ -101,6 +101,11 @@ const AuthForm = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={() => router.push('/(auth)/forgot-password')}>
+        <Text className='pt-2 font-roboto-regular text-md text-center text-primary1'>
+          Forgot password?
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
