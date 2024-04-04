@@ -245,19 +245,24 @@ const TableBooking = ({
               direction={table.direction}
               scale={scale}
               handleBoxSelection={handleBoxSelection}
-              isBooked={allBookingsOnDay.some((booking) => {
-                const bookingDateTime = new Date(booking.bookingDate);
-                const timeBookingSelectedMinus1Hour30Mins = new Date(
-                  new Date().setHours(
-                    parseInt(timeBookingSelected.split(':')[0]),
-                    parseInt(timeBookingSelected.split(':')[1]) - 90
-                  )
-                ); // Subtract 1 hour 30 minutes
-                return (
-                  booking.tableId === table.id &&
-                  bookingDateTime > timeBookingSelectedMinus1Hour30Mins
-                );
-              })}
+              isBooked={allBookingsOnDay
+                .filter((booking) => booking.bookingStatusId !== 'Completed' && booking.bookingStatusId !== 'Cancelled')
+                .some((booking) => {
+                  const bookingDateTime = new Date(booking.bookingDate);
+                  
+                  const timeBookingSelectedMinus1Hour30Mins = new Date(
+                    new Date(booking.bookingDate).setHours(
+                      parseInt(timeBookingSelected.split(':')[0]),
+                      parseInt(timeBookingSelected.split(':')[1]) - 90
+                    )
+                  ); // Subtract 1 hour 30 minutes
+                  return (
+                    // Filter bookings has time >= timeBookingSelected + 1 hour 30 minutes (exclude "Completed | Cancelled" bookings)
+                    // Meaning that use can't book a table if the table is booked (booking status = New | Confirm | Using) by another customer within 1 hour 30 minutes
+                    booking.tableId === table.id &&
+                    bookingDateTime > timeBookingSelectedMinus1Hour30Mins
+                  );
+                })}
               tableIds={tableIds}
               timeBookingSelected={timeBookingSelected}
             />

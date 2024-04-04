@@ -262,27 +262,26 @@ const Reserved = () => {
                 </TouchableHighlight>
               </View>
             )}
-            {bookingStatus === 'Confirm' ||
-              (bookingStatus === 'New' && (
-                <View className='flex-[1]'>
-                  <TouchableHighlight
-                    disabled={Object.keys(dataOrder).length === 0}
-                    style={{ borderRadius: 6 }}
-                    underlayColor={'#fff'}
-                    onPress={() => setIsModalOpen(true)}>
-                    <View
-                      className={`${
-                        Object.keys(dataOrder).length === 0
-                          ? 'bg-slate-800'
-                          : 'bg-primary1'
-                      } h-10 rounded-md flex justify-center items-center`}>
-                      <Text className=' font-roboto-black text-lg text-center text-white'>
-                        {!isEdit ? 'Order' : 'Edit order'}
-                      </Text>
-                    </View>
-                  </TouchableHighlight>
-                </View>
-              ))}
+            {(bookingStatus === 'Confirm' || bookingStatus === 'New') && (
+              <View className='flex-[1]'>
+                <TouchableHighlight
+                  disabled={Object.keys(dataOrder).length === 0}
+                  style={{ borderRadius: 6 }}
+                  underlayColor={'#fff'}
+                  onPress={() => setIsModalOpen(true)}>
+                  <View
+                    className={`${
+                      Object.keys(dataOrder).length === 0
+                        ? 'bg-slate-800'
+                        : 'bg-primary1'
+                    } h-10 rounded-md flex justify-center items-center`}>
+                    <Text className=' font-roboto-black text-lg text-center text-white'>
+                      {!isEdit ? 'Order' : 'Edit order'}
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            )}
           </View>
         </View>
       </View>

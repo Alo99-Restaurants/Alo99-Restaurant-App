@@ -16,7 +16,6 @@ const ConfirmBooking = ({ bookingData, restaurant }) => {
   const { userInfo } = useContext(AuthContext);
   const customerInfo = userInfo.customerInfo;
 
-  console.log('customerInfo', customerInfo);
   const { isAddNewBookingSuccess } = useSelector(
     (state) => state.booking
   );
